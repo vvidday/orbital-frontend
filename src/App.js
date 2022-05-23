@@ -5,7 +5,8 @@ function App() {
 
   const accounts = [
     {name: "Celeb 1"},
-    {name: "Celeb 2"}
+    {name: "Celeb 2"},
+    {name: "Celeb 3"}
   ];
 
 
