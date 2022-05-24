@@ -1,5 +1,6 @@
 import {Nav} from "./components/nav";
 import {Game} from "./components/game";
+import {ApiTest} from "./components/apitesting";
 
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
     <div className="App">
       <Nav />
       <Game accounts={accounts} />
+      <ApiTest />
     </div>
   );
 }
