@@ -5,9 +5,13 @@ import {ApiTest} from "./components/apitesting";
 function App() {
 
   const accounts = [
-    {name: "Celeb 1"},
-    {name: "Celeb 2"},
-    {name: "Celeb 3"}
+    {username: "justinbieber"},
+    {username: "BarackObama"},
+    {username: "katyperry"},
+    {username: "Cristiano"},
+    {username: "narendramodi"},
+    {username: "KimKardashian"},
+    {username: "BillGates"},
   ];
 
 
