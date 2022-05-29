@@ -1,70 +1,83 @@
-# Getting Started with Create React App
+# Who Tweeted That?
+Team Name: SigmaMindset | 5253
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**Level of Achievement: Apollo 11**
 
-## Available Scripts
+## About
+Who Tweeted That? is an interactive web-based game where players guess the author of tweets from their favourite celebrities.
 
-In the project directory, you can run:
+Many of us follow our favourite celebrities and internet personalities on social media, where they share part of their lives, interests and opinions with their followers. But just how well do we know them? Can we recognize these celebrities when the handle is separated from the content?
 
-### `npm start`
+Compete against your friends and other superfans in this web game - it’s time to find out who’s truly the biggest fan.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Milestone 1
+### Motivation
+In our current digital age, the use of social media platforms like Twitter is steadily increasing. The idea of a game revolving around guessing the author of a tweet isn’t new, a quick google search reveals many examples - e.g. [website](https://edition.cnn.com/interactive/2016/02/politics/trump-kanye-who-tweeted/) and [video](https://www.youtube.com/watch?v=1nikltRn1m0). However, these implementations revolve around fixed, pre-selected tweets from specific individuals, which greatly diminishes replayability value. Hence, we wanted to create a similar concept where the game is programmatically generated, enabling greater user enjoyment and replayability.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The project seemed like a good fit for our goals, which were learning and gaining familiarity with modern web frameworks. This is because a game is a bit more involved than a static website, requiring more work on the frontend. Furthermore, we planned to incorporate a highscore system, which would allow us to gain experience in some backend development and linking the two together. It would also allow us to work with real-world data in the form of the Twitter API.
 
-### `npm test`
+### User Stories
+1. As a superfan who religiously follows my favourite internet personality, I want to be able to show everyone how well I know my idols.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. As a person whose friend group follows similar creators, I want to compete against my friends and find out who knows the creators the best.
 
-### `npm run build`
+3. As a statistically minded person, I want to be able to see global user statistics in order to find the current trends.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Core Features
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+|                                                                               Features                                                                               | Classification | Status |
+|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:--------------:|:------:|
+| Integration with twitter API - Fetching random tweet from username                                                                                                     |      Data / Backend      |  Done  |
+| Randomly fetch a tweet from one of the specified accounts  |      Game Logic   (Basic)   |  Done  |
+| Generate options for the player  |      Game  Logic  (Basic)  |  Done  |
+|Correct behaviour on player choice (Add to score/Restart)  |      Game Logic (Basic)    |  Done  |
+| Allow ability for user to choose twitter accounts                                                                                                                    |  Customization |   WIP  |
+| Sanitization of tweets - Deal with images,  special characters	                                                                                                  |      Game      |   WIP  |
+| Further integration with twitter API Support pagination to retrieve older tweets (currently only page 1, which is 10 most recent tweets)                             |      Data / Backend      |   WIP  |
+| Full game logic Pagination of timeline to retrieve older tweets  Implement duplicate checking		                                                                        |      Game Logic (Full)     | Undone |
+| Highscore page for tracking user statistics                                                                                                                          |       Data / Backend    | Undone |
+| Preset groups of accounts based on interests (e.g. politics, MMA)                                                                                                    |  Customization | Undone |
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Design
+#### Twitter API
+The original plan was to just send requests to the Twitter API directly from the frontend. However, it turned out that the Twitter API [does not have support for CORS headers](https://twittercommunity.com/t/will-twitter-api-support-cors-headers-soon/28276), resulting in all requests made from the browser to be rejected.
+This introduced the need for some form of a server, which will be responsible for retrieving the data from the Twitter API. The frontend will then retrieve the data from this server via a REST API.
 
-### `npm run eject`
+After some learning, we settled on using [serverless functions](https://vercel.com/docs/concepts/functions/serverless-functions) hosted by Vercel. This seemed to be the best free option for deployment, as it is extremely fast and has 24/7 uptime, unlike other free alternatives like hosting an express server on a free Heroku dyno.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+The API is deployed at https://orbital-api-eta.vercel.app/api, with sample calls as shown:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+https://orbital-api-eta.vercel.app/api/userbyusername?username=barackobama
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+https://orbital-api-eta.vercel.app/api/usertimeline?id=813286&exclude=retweets%2Creplies
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+#### Game Logic
+The current game loop is a simplified version used for a technical proof of concept. It takes in an array of accounts, and on each turn, it: 
 
-## Learn More
+1) Randomly selects the account from which the tweet will be chosen from
+2) Queries the twitter API (through the process above) for a random tweet from that account
+3) Displays the tweet for the player
+4) Generates options for the player to choose, one of which will be the account in (1)
+5) Increment the score if correct, else score will be set to 0
+6) Repeat from (1)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+![Game Logic Basic](public/readme/gameloop1.jpg)
+*Figure 1: Current Game Loop*
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+The planned game loop involves storing previously chosen tweets in a hash table in order to prevent duplicates, as well as integration with a database to display and update highscores.
+This will be worked on in future milestones.
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+![Game Logic Full](public/readme/gameloop2.jpg)
+*Figure 2: Planned Game Loop*
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Development Plan
+- 1st week of June: Work on feature to allow users to select the twitter accounts, work on sanitizing posts e.g. exclude image only posts
+- 2nd week of June: Work on pagination (API and integration), Pick up and learn backend technologies for highscore page and statistics (planned: Firebase/Supabase)
+- 3rd week of June: Work on integration with backend
+- 4th week of June: Testing, debugging, styling with either CSS or a library (planned: Material-UI/Chakra)
+- 5th week of June: Finalize core features as outlined in the planned game loop above
+- 1st week of July: Polish user interface, evaluate feasibility of certain optional features e.g. search feature, oAuth login, port to mobile etc
+- 2nd/3rd week of July: Follow up on optional features
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
