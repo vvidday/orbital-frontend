@@ -7,17 +7,14 @@ import {
     FormControl,
     FormLabel,
     Switch,
+    Button,
+    useColorMode,
 } from "@chakra-ui/react";
 
 export const Nav = ({ testing, setTesting }) => {
+    const { colorMode, toggleColorMode } = useColorMode();
     return (
-        <Flex
-            bg="#0c0c0fff"
-            h="100px"
-            color="#ffffffff"
-            padding="10px 30px"
-            align="center"
-        >
+        <Flex h="100px" padding="10px 30px" align="center">
             <Flex as="nav" id="navbar" basis="100%" justify="space-between">
                 <Heading as="h2">
                     Who{" "}
@@ -26,7 +23,9 @@ export const Nav = ({ testing, setTesting }) => {
                     </Text>{" "}
                     That?
                 </Heading>
-
+                <Box>
+                    <Button onClick={toggleColorMode}>Toggle Mode</Button>
+                </Box>
                 <Box>
                     <FormControl>
                         <FormLabel htmlFor="testing">

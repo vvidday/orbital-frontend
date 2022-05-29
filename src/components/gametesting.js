@@ -4,6 +4,16 @@ import { setChoices } from "../logic/setChoices";
 import { data } from "../logic/sampleData";
 import { buttonLogic } from "../logic/button";
 import { setDefault, score } from "./score";
+import {
+    Box,
+    Button,
+    ButtonGroup,
+    Center,
+    Text,
+    Flex,
+    useDisclosure,
+    Fade,
+} from "@chakra-ui/react";
 
 // Modified Game Component that uses hardcoded values instead of pulling from the API.
 export const GameTest = (
@@ -110,35 +120,58 @@ export const GameTest = (
         userInfo().then(postInfo());
         allChoices(setChoices(index, accounts));
     }, [reload]);
+
+    // Chakra specific hook for fade transition.
+    const { isOpen, onToggle } = useDisclosure();
+
     return (
-        <div>
-            <div>Score: {score}</div>
-            {
-                // Code for testing purpose
-                <div> Answer: {result.name}</div>
-            }
-            <div className="tweet">
-                {JSON.stringify(post).replace(/^"(.*)"$/, "$1")}
-            </div>
-            <div className="options">
+        <Box>
+            <Flex padding="10px" direction="column">
+                <Center fontSize="20px">Score: {score}</Center>
                 {
-                    // Reformat once we determine how accounts are stored
-                    choices.map((acc, key) => {
-                        return (
-                            <button
-                                className="option"
-                                key={key}
-                                onClick={(e) => {
-                                    setReload(!reload);
-                                    buttonLogic(result, e, accounts);
-                                }}
-                            >
-                                {acc.name}
-                            </button>
-                        );
-                    })
+                    // Code for testing purpose
                 }
-            </div>
-        </div>
+
+                <Text className="tweet" margin="30px 30px">
+                    {JSON.stringify(post).replace(/^"(.*)"$/, "$1")}
+                </Text>
+                <Center className="options">
+                    <ButtonGroup
+                        gap="4"
+                        display={"flex"}
+                        flexWrap={"wrap"}
+                        justifyContent={"center"}
+                    >
+                        {
+                            // Reformat once we determine how accounts are stored
+
+                            choices.map((acc, key) => {
+                                return (
+                                    <Button
+                                        variant="custom"
+                                        className="option"
+                                        key={key}
+                                        onClick={(e) => {
+                                            setReload(!reload);
+                                            buttonLogic(result, e, accounts);
+                                        }}
+                                    >
+                                        {acc.name}
+                                    </Button>
+                                );
+                            })
+                        }
+                    </ButtonGroup>
+                </Center>
+            </Flex>
+
+            <Center marginTop={"50px"}>
+                <Button onClick={onToggle}>Show Answer (Dev)</Button>
+            </Center>
+
+            <Fade in={isOpen}>
+                <Center p="40px">{result.name}</Center>
+            </Fade>
+        </Box>
     );
 };

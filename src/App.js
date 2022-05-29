@@ -3,6 +3,7 @@ import { Game } from "./components/game";
 import { ApiTest } from "./components/apitesting";
 import { useState } from "react";
 import { GameTest } from "./components/gametesting";
+import { Box } from "@chakra-ui/react";
 
 function App() {
     const accounts = [
@@ -18,15 +19,14 @@ function App() {
     const [testing, setTesting] = useState(true);
 
     return (
-        <div className="App">
+        <Box className="App">
             <Nav testing={testing} setTesting={setTesting} />
             {testing ? (
                 <GameTest accounts={accounts} />
             ) : (
                 <Game accounts={accounts} />
             )}
-            <ApiTest />
-        </div>
+        </Box>
     );
 }
 
