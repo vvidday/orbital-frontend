@@ -40,11 +40,5 @@ export const data = {
             "id": "1526312677521428480",
             "text": "This weekend’s shootings in Buffalo offer a tragic reminder of the price we pay for refusing to curb the easy access to guns. It should also serve as a wakeup call for all Americans of goodwill, regardless of party."
         }
-    ],
-    "meta": {
-        "result_count": 10,
-        "newest_id": "1529264965168898048",
-        "oldest_id": "1526312677521428480",
-        "next_token": "7140dibdnow9c7btw421e7h6n0nd19wy6zqvveclrzvao"
-    }
+    ]
 }

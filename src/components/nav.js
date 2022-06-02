@@ -13,6 +13,7 @@ import {
 
 export const Nav = ({ testing, setTesting }) => {
     const { colorMode, toggleColorMode } = useColorMode();
+
     return (
         <Flex h="100px" padding="10px 30px" align="center">
             <Flex as="nav" id="navbar" basis="100%" justify="space-between">

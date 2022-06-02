@@ -3,7 +3,7 @@ import { useState } from "react";
 import { setChoices } from "../logic/setChoices";
 import { getUserByUsername } from "../api/twitter";
 import { getTimeline } from "../api/twitter";
-import { buttonLogic } from "../logic/button";
+import buttonLogic from "../logic/button";
 import { score, setDefault } from "./score";
 import {
     Box,
@@ -66,6 +66,7 @@ export const Game = (
         setDefault();
     }, []);
 
+
     // Main game loop, called on render and each time reload is modified
     useEffect(() => {
         // Pick a random account from {accounts} array
@@ -111,7 +112,6 @@ export const Game = (
 
     // Chakra specific hook for fade transition.
     const { isOpen, onToggle } = useDisclosure();
-
     return (
         <Box>
             <Flex padding="10px" direction="column">

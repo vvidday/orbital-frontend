@@ -1,7 +1,7 @@
 import { setDefault } from "../components/score";
 import { incrementScore } from "../components/score";
 
-export function buttonLogic(answer, choice, accounts) {
+function buttonLogic(answer, choice, accounts) {
     const buttonValue = choice.target.innerHTML;
     if (buttonValue === answer.name) {
         incrementScore();
@@ -9,3 +9,5 @@ export function buttonLogic(answer, choice, accounts) {
         setDefault();
     }
 }
+
+export default buttonLogic;
