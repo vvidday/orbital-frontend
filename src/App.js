@@ -1,9 +1,14 @@
 import { Nav } from "./components/nav";
 import { Game } from "./components/game";
 import { ApiTest } from "./components/apitesting";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GameTest } from "./components/gametesting";
 import { Box } from "@chakra-ui/react";
+
+import { GameImproved } from "./components/game-improved";
+import bufferData from "./logic/buffer";
+
+import {Loading} from "./components/loading_screen";
 
 function App() {
     const accounts = [
@@ -17,14 +22,25 @@ function App() {
     ];
 
     const [testing, setTesting] = useState(true);
+    //setSize(data.length == 0);
+    /* 
+        Buffers the data.
 
+        -------> WARNING!!! <-------
+        Before editing this file, please comment out the useEffect.
+        Or else the array will grow in size until refresh.
+    */
+    //useEffect(() => {
+       //bufferData(accounts, 5);
+    //},[]);
+   
     return (
         <Box className="App">
-            <Nav testing={testing} setTesting={setTesting} />
+            <Nav testing={testing} setTesting={setTesting}/>
             {testing ? (
                 <GameTest accounts={accounts} />
             ) : (
-                <Game accounts={accounts} />
+                <Loading accounts={accounts} />
             )}
         </Box>
     );
