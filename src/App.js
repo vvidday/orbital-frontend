@@ -1,8 +1,8 @@
 import { Nav } from "./components/nav";
 import { useState } from "react";
-import { GameTest } from "./components/gametesting";
+import { GameTest } from "./components/gameTesting";
 import { Box } from "@chakra-ui/react";
-import {Loading} from "./components/loading_screen";
+import { Loading } from "./components/loadingScreen";
 
 function App() {
     const accounts = [

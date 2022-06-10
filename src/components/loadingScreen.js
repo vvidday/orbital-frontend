@@ -4,7 +4,7 @@ import { data } from "../data/bufferData";
 import {
     Box,
     Text} from "@chakra-ui/react";
-import { GameImproved } from "./game-improved";
+import { GameImproved } from "./gameImproved";
 import bufferData from "../logic/buffer";
 
 export const Loading = (

@@ -25,7 +25,9 @@ export const Nav = ({ testing, setTesting }) => {
                     That?
                 </Heading>
                 <Box>
-                    <Button onClick={toggleColorMode}>Toggle Mode</Button>
+                    <Button onClick={() => {
+                        toggleColorMode()
+                        }}>Toggle Mode</Button>
                 </Box>
                 <Box>
                     <FormControl>
