@@ -3,12 +3,9 @@ import { useState } from "react";
 import { data } from "../data/bufferData";
 import {
     Box,
-    Text,
-    Code
-} from "@chakra-ui/react";
+    Text} from "@chakra-ui/react";
 import { GameImproved } from "./game-improved";
 import bufferData from "../logic/buffer";
-
 
 export const Loading = (
     {accounts}
@@ -16,7 +13,6 @@ export const Loading = (
         const [reload, setReload] = useState();
         const [length, setLength] = useState(0);
         const BUFFER_SIZE = 5;
-
 
         useEffect(()=>{
             bufferData(accounts, BUFFER_SIZE);

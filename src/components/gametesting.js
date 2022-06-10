@@ -15,6 +15,10 @@ import {
     Fade,
 } from "@chakra-ui/react";
 
+import { 
+    TwitterTweetEmbed
+} from 'react-twitter-embed';
+
 // Modified Game Component that uses hardcoded values instead of pulling from the API.
 export const GameTest = (
     // Twitter accounts selected by the player is passed in as props (hardcode for now)
@@ -24,6 +28,8 @@ export const GameTest = (
     const [post, setPost] = useState({});
     const [choices, allChoices] = useState([]);
     const [reload, setReload] = useState();
+
+    const [ID, setID] = useState();
     /*
             Game logic -> Depends how we can retrieve tweets. Tentatively:
                 Each Round:
@@ -49,14 +55,6 @@ export const GameTest = (
                         - Correct = repeat from top (new round), score +1
                         - Wrong = end round, reset state,
         */
-
-    /* 
-            Uncomment for full implementation.
-            Commented out to prevent reaching tweet api request limit
-        */
-    //const index = Math.floor(Math.random() * accounts.length);
-    //const randomAccount = accounts[index].username;
-
     /* 
             Comment out for full implementation.
             Testing code below
@@ -72,16 +70,9 @@ export const GameTest = (
         async function userInfo() {
             try {
                 /* 
-                        Uncomment for full implementation.
-                        Commented out to prevent reaching tweet api request limit
-                    */
-                //const response = await getUserByUsername(randomAccount);
-                //setResult(response.data);
-
-                /* 
-                        Comment out for full implementation.
-                        Testing code below
-                    */
+                    Comment out for full implementation.
+                    Testing code below
+                */
                 setResult({
                     id: "813286",
                     name: "Barack Obama",
@@ -94,31 +85,23 @@ export const GameTest = (
         async function postInfo() {
             try {
                 /* 
-                        Uncomment for full implementation.
-                        Commented out to prevent reaching tweet api request limit
-                    */
-                //const response = await getTimeline(result.id, true, true);
-                //const recentPosts = response.data;
-                //console.log(recentPosts);
-                //const randomRecentPost = recentPosts.data[Math.floor(Math.random() * recentPosts.data.length)];
-                //setPost(randomRecentPost.text);
-
-                /* 
-                        Comment out for full implementation.
-                        Testing code below
-                    */
+                    Comment out for full implementation.
+                    Testing code below
+                */
                 const recentPosts = data;
                 const randomRecentPost =
                     recentPosts.data[
                         Math.floor(Math.random() * recentPosts.data.length)
                     ];
-                setPost(randomRecentPost.text);
+                //setPost(randomRecentPost.text);
+                setID(randomRecentPost.id)
             } catch (error) {
                 console.log(error);
             }
         }
         userInfo().then(postInfo());
         allChoices(setChoices(index, accounts));
+        console.log(ID)
     }, [reload]);
 
     // Chakra specific hook for fade transition.
@@ -130,11 +113,14 @@ export const GameTest = (
                 <Center fontSize="20px">Score: {score}</Center>
                 {
                     // Code for testing purpose
+                    /*
+                        <Text className="tweet" margin="30px 30px">
+                            {JSON.stringify(post).replace(/^"(.*)"$/, "$1")}
+                        </Text>
+                    */
                 }
-
-                <Text className="tweet" margin="30px 30px">
-                    {JSON.stringify(post).replace(/^"(.*)"$/, "$1")}
-                </Text>
+                <TwitterTweetEmbed key = {ID} tweetId={ID}/>
+                
                 <Center className="options">
                     <ButtonGroup
                         gap="4"

@@ -15,9 +15,12 @@ import {
     useDisclosure,
     Fade,
 } from "@chakra-ui/react";
+import { 
+    TwitterTweetEmbed
+} from 'react-twitter-embed';
 
 import { data } from "../data/bufferData";
-import { bufferData } from "../logic/buffer";
+
 
 export const GameImproved = (
     // Twitter accounts selected by the player is passed in as props (hardcode for now)
@@ -26,7 +29,7 @@ export const GameImproved = (
     /* States */
     // Result - Object containing the object data of the correct user. E.g. {id:"813286",name:"Barack Obama",username:"BarackObama"}
     const [result, setResult] = useState({});
-    // Post - String, the text content of the selected twitter post.
+    // Post - String, the ID content of the selected twitter post.
     const [post, setPost] = useState("");
     // Choices - Array of objects. length 4. contains 4 user objects : the correct user (i.e. result) and 3 other random users from {accounts}.
     const [choices, allChoices] = useState([]);
@@ -78,9 +81,9 @@ export const GameImproved = (
         let result1 = {};
         let post1 = "";
         /* 
-                userInfo - Asynchronously fetches the user data of the randomly selected account, and stores it in {result}
-                @return Promise containing the user id of the randomly selected account
-            */
+            userInfo - Asynchronously fetches the user data of the randomly selected account, and stores it in {result}
+            @return Promise containing the user id of the randomly selected account
+        */
         async function userInfo() {
             try {
                 const response = await getUserByUsername(randomAccount);
@@ -91,11 +94,11 @@ export const GameImproved = (
             }
         }
         /*
-                postInfo - Asynchronously fetches the timeline of the given user id, chooses a random tweet from the timeline,
-                stores it in {post}.
-                @params id - user id 
-                @return Implicitly wrapped promise
-            */
+            postInfo - Asynchronously fetches the timeline of the given user id, chooses a random tweet from the timeline,
+            stores it in {post}.
+            @params id - user id 
+            @return Implicitly wrapped promise
+        */
         async function postInfo(id) {
             try {
                 const response = await getTimeline(id, true, true);
@@ -104,7 +107,7 @@ export const GameImproved = (
                     recentPosts.data[
                         Math.floor(Math.random() * recentPosts.data.length)
                     ];
-                post1 = randomRecentPost.text;
+                post1 = randomRecentPost.id;
             } catch (error) {
                 console.log(error);
             }
@@ -116,7 +119,7 @@ export const GameImproved = (
             .then((id) => postInfo(id))
             .then(() => {
                 data.push({"account": result1, "post": post1, "choices": setChoices(index, accounts)});
-            });
+            })
 
         //Takes the top post from buffer array and sets the useState
         //should run asynchronously with the above part
@@ -124,23 +127,25 @@ export const GameImproved = (
         setResult(topData.account);
         setPost(topData.post);
         allChoices(topData.choices);
-        console.log(data);
-        console.log(topData);
     }, [reload]);
+
     // Chakra specific hook for fade transition.
     const { isOpen, onToggle } = useDisclosure();
-
     return (
         <Box>
             <Flex padding="10px" direction="column">
                 <Center fontSize="20px">Score: {score}</Center>
                 {
-                    // Code for testing purpose
+                    // Original post code
+                    /*
+                        <Text className="tweet" margin="30px 30px">
+                            {
+                                JSON.stringify(post).replace(/^"(.*)"$/, "$1")
+                            }
+                        </Text>
+                    */
                 }
-
-                <Text className="tweet" margin="30px 30px">
-                    {JSON.stringify(post).replace(/^"(.*)"$/, "$1")}
-                </Text>
+                <TwitterTweetEmbed key = {post} tweetId={post} />
                 <Center className="options">
                     <ButtonGroup
                         gap="4"
@@ -158,7 +163,7 @@ export const GameImproved = (
                                         className="option"
                                         key={key}
                                         onClick={(e) => {
-                                            setReload(!reload);
+                                            setReload(!reload); 
                                             buttonLogic(result, e, accounts);
                                         }}
                                     >
