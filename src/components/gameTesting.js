@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { setChoices } from "../logic/setChoices";
 import { data } from "../data/sampleData";
-import buttonLogic from "../logic/button";
+import { buttonLogic } from "../logic/button";
+import { resetColor } from "../logic/button";
 import { setDefault, score } from "./score";
 import {
     Box,
@@ -19,6 +20,7 @@ import {
     TwitterTweetEmbed
 } from 'react-twitter-embed';
 import { ShowAnswer } from "./answer";
+import { isDisabled } from "@chakra-ui/utils";
 
 
 // Modified Game Component that uses hardcoded values instead of pulling from the API.
@@ -30,6 +32,12 @@ export const GameTest = (
     const [choices, allChoices] = useState([]);
     const [reload, setReload] = useState();
     const [ID, setID] = useState();
+    const [disable, setDisable] = useState(true);
+    const [reloadDisable, setReloadDisable] = useState();
+    //const [userChoice, setUserChoice] = useState();
+
+
+
     /*
             Game logic -> Depends how we can retrieve tweets. Tentatively:
                 Each Round:
@@ -105,9 +113,11 @@ export const GameTest = (
         console.log(ID)
     }, [reload]);
 
+    useEffect(() => {
+        setDisable(!disable);
+    }, [reloadDisable]);
     // Chakra specific hook for fade transition.
     const { isOpen, onToggle } = useDisclosure();
-
 
     return (
         <Box>
@@ -122,16 +132,16 @@ export const GameTest = (
                     */
                 }
                 <TwitterTweetEmbed 
-                key = {ID} 
-                tweetId = {ID}
-                options= {
-                    {
-                        theme:"light", 
-                        align:"center",
-                        conversation: "none",
-                        cards:"hidden"
+                    key = {ID} 
+                    tweetId = {ID}
+                    options= {
+                        {
+                            theme:"light", 
+                            align:"center",
+                            conversation: "none",
+                            cards:"hidden"
+                        }
                     }
-                }
                 />
                 
                 <Center className="options">
@@ -150,9 +160,12 @@ export const GameTest = (
                                         variant="custom"
                                         className="option"
                                         key={key}
+                                        isDisabled = {disable}
                                         onClick={(e) => {
-                                            setReload(!reload);
-                                            buttonLogic(result, e, accounts);
+                                            buttonLogic(result, e);
+                                            onToggle();
+                                            setReloadDisable(!reloadDisable);
+                                            //setUserChoice(e);
                                         }}
                                     >
                                         {acc.name}
@@ -163,6 +176,23 @@ export const GameTest = (
                     </ButtonGroup>
                 </Center>
             </Flex>
+            <Center className="answer">
+                <Fade in={isOpen}>
+                    <Button
+                        className="answer"
+                        colorScheme="twitter"
+                        variant="solid"
+                        onClick={() => {
+                            //resetColor(userChoice);
+                            resetColor()
+                            onToggle();
+                            setReloadDisable(!reloadDisable);
+                            setReload(!reload);
+                        }}
+                    >Next
+                    </Button>
+                </Fade>
+            </Center>
             <ShowAnswer answer={result.name} />
         </Box>
     );

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { setChoices } from "../logic/setChoices";
 import { getUserByUsername } from "../api/twitter";
 import { getTimeline } from "../api/twitter";
-import buttonLogic from "../logic/button";
+import {buttonLogic} from "../logic/button";
 import { score, setDefault } from "./score";
 import {
     Box,
