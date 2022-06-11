@@ -7,8 +7,8 @@ export function setChoices(index, accounts) {
 
         Shuffles the array in place.
     */
-    const accountsCopy = structuredClone(accounts);
-    const accountArray= [accountsCopy[index]];
+    const accountsCopy = [...accounts];
+    const accountArray = [accountsCopy[index]];
     accountsCopy.splice(index, 1);
     while (accountArray.length < 4) {
         const randomIndex = Math.floor(Math.random() * accountsCopy.length);
@@ -17,4 +17,4 @@ export function setChoices(index, accounts) {
     }
     shuffleArray(accountArray);
     return accountArray;
-};
+}
