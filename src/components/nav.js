@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
     Box,
     Flex,
@@ -11,9 +11,11 @@ import {
     useColorMode,
 } from "@chakra-ui/react";
 
-export const Nav = ({ testing, setTesting }) => {
+export const Nav = ({ testing, setTesting, toggle, setToggle}) => {
     const { colorMode, toggleColorMode } = useColorMode();
-
+    useEffect(() =>{
+        setToggle(colorMode);
+    },[colorMode]);
     return (
         <Flex h="100px" padding="10px 30px" align="center">
             <Flex as="nav" id="navbar" basis="100%" justify="space-between">
@@ -27,6 +29,7 @@ export const Nav = ({ testing, setTesting }) => {
                 <Box>
                     <Button onClick={() => {
                         toggleColorMode()
+                        setToggle(colorMode)
                         }}>Toggle Mode</Button>
                 </Box>
                 <Box>

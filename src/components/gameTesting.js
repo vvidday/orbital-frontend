@@ -14,6 +14,7 @@ import {
     Flex,
     useDisclosure,
     Fade,
+    background,
 } from "@chakra-ui/react";
 
 import { 
@@ -21,23 +22,24 @@ import {
 } from 'react-twitter-embed';
 import { ShowAnswer } from "./answer";
 import { isDisabled } from "@chakra-ui/utils";
-
+import { MainDisplay } from "./mainDisplay";
 
 // Modified Game Component that uses hardcoded values instead of pulling from the API.
 export const GameTest = (
     // Twitter accounts selected by the player is passed in as props (hardcode for now)
-    { accounts }
+    { accounts, colorToggle }
 ) => {
     const [result, setResult] = useState({});
     const [choices, allChoices] = useState([]);
     const [reload, setReload] = useState();
     const [ID, setID] = useState();
+    const [post, setPost] = useState("");
     const [disable, setDisable] = useState(true);
-    const [reloadDisable, setReloadDisable] = useState();
-    //const [userChoice, setUserChoice] = useState();
+    const [reloadDisable, setReloadDisable] = useState(false);
 
-
-
+    const [embed, setEmbed] = useState();
+    const [reloadEmbed, setReloadEmbed] = useState(false);
+    const [showAnswer, setShowAnswer] = useState();
     /*
             Game logic -> Depends how we can retrieve tweets. Tentatively:
                 Each Round:
@@ -101,13 +103,13 @@ export const GameTest = (
                     recentPosts.data[
                         Math.floor(Math.random() * recentPosts.data.length)
                     ];
-                //setPost(randomRecentPost.text);
-                setID(randomRecentPost.id)
+                setPost(randomRecentPost.text);
+                setID(randomRecentPost.id);
+                setReloadEmbed(!reloadEmbed);
             } catch (error) {
                 console.log(error);
             }
         }
-
         userInfo().then(postInfo());
         allChoices(setChoices(index, accounts));
         console.log(ID)
@@ -116,6 +118,17 @@ export const GameTest = (
     useEffect(() => {
         setDisable(!disable);
     }, [reloadDisable]);
+
+    useEffect(() => {
+        if (colorToggle == "dark") {
+            setEmbed("dark");
+        } else {
+            setEmbed("light");
+        }
+        setReloadEmbed(!reloadEmbed);
+    }, [colorToggle]);
+    console.log(reloadDisable);
+
     // Chakra specific hook for fade transition.
     const { isOpen, onToggle } = useDisclosure();
 
@@ -129,21 +142,28 @@ export const GameTest = (
                         <Text className="tweet" margin="30px 30px">
                             {JSON.stringify(post).replace(/^"(.*)"$/, "$1")}
                         </Text>
+                        <TwitterTweetEmbed 
+                            key = {reloadEmbed} 
+                            tweetId = {ID}
+                            options= {
+                                {
+                                    theme:embed,
+                                    align:"center",
+                                    conversation: "none",
+                                    cards:"hidden"
+                                }
+                            }
+                        />
                     */
                 }
-                <TwitterTweetEmbed 
-                    key = {ID} 
-                    tweetId = {ID}
-                    options= {
-                        {
-                            theme:"light", 
-                            align:"center",
-                            conversation: "none",
-                            cards:"hidden"
-                        }
-                    }
+
+                <MainDisplay 
+                    reloadEmbed = {reloadEmbed} 
+                    embed = {embed} 
+                    post = {post} 
+                    ID = {ID} showAnswer = {reloadDisable} 
                 />
-                
+
                 <Center className="options">
                     <ButtonGroup
                         gap="4"

@@ -16,12 +16,16 @@ function App() {
     ];
 
     const [testing, setTesting] = useState(true);
+    const [toggle, setToggle] = useState();
 
     return (
         <Box className="App">
-            <Nav testing={testing} setTesting={setTesting}/>
+            <Nav 
+                testing={testing} setTesting={setTesting}
+                toggle={toggle} setToggle={setToggle}
+            />
             {testing ? (
-                <GameTest accounts={accounts} />
+                <GameTest accounts={accounts} colorToggle = {toggle} />
             ) : (
                 <Loading accounts={accounts} />
             )}
