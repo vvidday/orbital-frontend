@@ -8,7 +8,7 @@ import { Box } from "@chakra-ui/react";
 import { GameImproved } from "./components/game-improved";
 import bufferData from "./logic/buffer";
 
-import {Loading} from "./components/loading_screen";
+import { Loading } from "./components/loading_screen";
 
 function App() {
     const accounts = [
@@ -31,12 +31,12 @@ function App() {
         Or else the array will grow in size until refresh.
     */
     //useEffect(() => {
-       //bufferData(accounts, 5);
+    //bufferData(accounts, 5);
     //},[]);
-   
+
     return (
         <Box className="App">
-            <Nav testing={testing} setTesting={setTesting}/>
+            <Nav testing={testing} setTesting={setTesting} />
             {testing ? (
                 <GameTest accounts={accounts} />
             ) : (
