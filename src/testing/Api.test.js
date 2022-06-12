@@ -10,7 +10,6 @@ test("correctly fetches user info from twitter API", () => {
 
 test("correctly fetches user timeline from twitter API", () => {
     return getTimeline("813286", true, true).then((response) => {
-        console.log(response.data);
         expect(response.data.data.length).toBe(10);
     });
 });
