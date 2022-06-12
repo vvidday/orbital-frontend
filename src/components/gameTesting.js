@@ -32,8 +32,9 @@ export const GameTest = (
     const [result, setResult] = useState({});
     const [choices, allChoices] = useState([]);
     const [reload, setReload] = useState();
-    const [ID, setID] = useState();
     const [post, setPost] = useState("");
+
+    const [ID, setID] = useState();
     const [disable, setDisable] = useState(true);
     const [reloadDisable, setReloadDisable] = useState(false);
 

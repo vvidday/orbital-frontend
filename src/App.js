@@ -27,7 +27,7 @@ function App() {
             {testing ? (
                 <GameTest accounts={accounts} colorToggle = {toggle} />
             ) : (
-                <Loading accounts={accounts} />
+                <Loading accounts={accounts} colorToggle = {toggle}/>
             )}
         </Box>
     );

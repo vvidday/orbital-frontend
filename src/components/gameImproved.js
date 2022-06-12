@@ -4,6 +4,7 @@ import { setChoices } from "../logic/setChoices";
 import { getUserByUsername } from "../api/twitter";
 import { getTimeline } from "../api/twitter";
 import {buttonLogic} from "../logic/button";
+import { resetColor } from "../logic/button";
 import { score, setDefault } from "./score";
 import {
     Box,
@@ -24,7 +25,7 @@ import { ShowAnswer } from "./answer";
 
 export const GameImproved = (
     // Twitter accounts selected by the player is passed in as props (hardcode for now)
-    { accounts }
+    { accounts, colorToggle }
 ) => {
     /* States */
     // Result - Object containing the object data of the correct user. E.g. {id:"813286",name:"Barack Obama",username:"BarackObama"}
@@ -35,7 +36,14 @@ export const GameImproved = (
     const [choices, allChoices] = useState([]);
     // Boolean - Placeholder variable to trigger useEffect() - used to reset round of the game
     const [reload, setReload] = useState(false);
+    
+    const [ID, setID] = useState();
+    const [disable, setDisable] = useState(true);
+    const [reloadDisable, setReloadDisable] = useState(false);
 
+    const [embed, setEmbed] = useState();
+    const [reloadEmbed, setReloadEmbed] = useState(false);
+    const [showAnswer, setShowAnswer] = useState();
     /*
             Game logic -> Depends how we can retrieve tweets. Tentatively:
                 Each Round:
@@ -107,7 +115,7 @@ export const GameImproved = (
                     recentPosts.data[
                         Math.floor(Math.random() * recentPosts.data.length)
                     ];
-                post1 = randomRecentPost.id;
+                post1 = randomRecentPost.text;
             } catch (error) {
                 console.log(error);
             }
@@ -129,6 +137,19 @@ export const GameImproved = (
         allChoices(topData.choices);
     }, [reload]);
 
+    useEffect(() => {
+        setDisable(!disable);
+    }, [reloadDisable]);
+
+    useEffect(() => {
+        if (colorToggle == "dark") {
+            setEmbed("dark");
+        } else {
+            setEmbed("light");
+        }
+        setReloadEmbed(!reloadEmbed);
+    }, [colorToggle]);
+
     // Chakra specific hook for fade transition.
     const { isOpen, onToggle } = useDisclosure();
     return (
@@ -145,7 +166,11 @@ export const GameImproved = (
                         </Text>
                     */
                 }
-                <TwitterTweetEmbed key = {post} tweetId={post} />
+                <Text className="tweet" margin="30px 30px">
+                    {
+                        JSON.stringify(post).replace(/^"(.*)"$/, "$1")
+                    }
+                </Text>
                 <Center className="options">
                     <ButtonGroup
                         gap="4"
@@ -162,9 +187,12 @@ export const GameImproved = (
                                         variant="custom"
                                         className="option"
                                         key={key}
+                                        isDisabled = {disable}
                                         onClick={(e) => {
-                                            setReload(!reload); 
-                                            buttonLogic(result, e, accounts);
+                                            buttonLogic(result, e);
+                                            onToggle();
+                                            setReloadDisable(!reloadDisable);
+                                            //setUserChoice(e);
                                         }}
                                     >
                                         {acc.name}
@@ -175,6 +203,23 @@ export const GameImproved = (
                     </ButtonGroup>
                 </Center>
             </Flex>
+            <Center className="answer">
+                <Fade in={isOpen}>
+                    <Button
+                        className="answer"
+                        colorScheme="twitter"
+                        variant="solid"
+                        onClick={() => {
+                            //resetColor(userChoice);
+                            resetColor()
+                            onToggle();
+                            setReloadDisable(!reloadDisable);
+                            setReload(!reload);
+                        }}
+                    >Next
+                    </Button>
+                </Fade>
+            </Center>
             <ShowAnswer answer={result.name} />
         </Box>
     );
