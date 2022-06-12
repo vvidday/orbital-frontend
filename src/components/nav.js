@@ -29,22 +29,6 @@ export const Nav = ({ testing, setTesting }) => {
                         Toggle Mode
                     </Button>
                 </Box>
-                <Box>
-                    <FormControl>
-                        <FormLabel htmlFor="testing">
-                            Testing Mode (ON = dummy data, OFF = query API){" "}
-                        </FormLabel>
-                        <Switch
-                            type="checkbox"
-                            id="testing"
-                            defaultChecked
-                            value={testing}
-                            onChange={() => {
-                                setTesting(!testing);
-                            }}
-                        ></Switch>
-                    </FormControl>
-                </Box>
             </Flex>
         </Flex>
     );
