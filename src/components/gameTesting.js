@@ -10,18 +10,15 @@ import {
     Button,
     ButtonGroup,
     Center,
-    Text,
     Flex,
     useDisclosure,
     Fade,
-    background,
 } from "@chakra-ui/react";
 
 import { 
     TwitterTweetEmbed
 } from 'react-twitter-embed';
 import { ShowAnswer } from "./answer";
-import { isDisabled } from "@chakra-ui/utils";
 import { MainDisplay } from "./mainDisplay";
 
 // Modified Game Component that uses hardcoded values instead of pulling from the API.
@@ -137,27 +134,7 @@ export const GameTest = (
         <Box>
             <Flex padding="10px" direction="column">
                 <Center fontSize="20px">Score: {score}</Center>
-                {
-                    // Code for testing purpose
-                    /*
-                        <Text className="tweet" margin="30px 30px">
-                            {JSON.stringify(post).replace(/^"(.*)"$/, "$1")}
-                        </Text>
-                        <TwitterTweetEmbed 
-                            key = {reloadEmbed} 
-                            tweetId = {ID}
-                            options= {
-                                {
-                                    theme:embed,
-                                    align:"center",
-                                    conversation: "none",
-                                    cards:"hidden"
-                                }
-                            }
-                        />
-                    */
-                }
-
+                
                 <MainDisplay 
                     reloadEmbed = {reloadEmbed} 
                     embed = {embed} 
@@ -165,7 +142,7 @@ export const GameTest = (
                     ID = {ID} showAnswer = {reloadDisable} 
                 />
 
-                <Center className="options">
+                <Center className="options" marginTop="15px">
                     <ButtonGroup
                         gap="4"
                         display={"flex"}

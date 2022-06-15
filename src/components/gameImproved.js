@@ -22,6 +22,7 @@ import {
 
 import { data } from "../data/bufferData";
 import { ShowAnswer } from "./answer";
+import { MainDisplay } from "./mainDisplay";
 
 export const GameImproved = (
     // Twitter accounts selected by the player is passed in as props (hardcode for now)
@@ -86,8 +87,9 @@ export const GameImproved = (
         const index = Math.floor(Math.random() * accounts.length);
         const randomAccount = accounts[index].username;
 
-        let result1 = {};
-        let post1 = "";
+        let tempResult = {};
+        let tempPost = "";
+        let tempID = "";
         /* 
             userInfo - Asynchronously fetches the user data of the randomly selected account, and stores it in {result}
             @return Promise containing the user id of the randomly selected account
@@ -95,7 +97,7 @@ export const GameImproved = (
         async function userInfo() {
             try {
                 const response = await getUserByUsername(randomAccount);
-                result1 = response.data;
+                tempResult = response.data;
                 return response.data.id;
             } catch (error) {
                 console.log(error);
@@ -115,7 +117,8 @@ export const GameImproved = (
                     recentPosts.data[
                         Math.floor(Math.random() * recentPosts.data.length)
                     ];
-                post1 = randomRecentPost.text;
+                tempPost = randomRecentPost.text;
+                tempID = randomRecentPost.id;
             } catch (error) {
                 console.log(error);
             }
@@ -126,7 +129,7 @@ export const GameImproved = (
         userInfo()
             .then((id) => postInfo(id))
             .then(() => {
-                data.push({"account": result1, "post": post1, "choices": setChoices(index, accounts)});
+                data.push({"account": tempResult, "post": tempPost, "id": tempID, "choices": setChoices(index, accounts)});
             })
 
         //Takes the top post from buffer array and sets the useState
@@ -134,6 +137,7 @@ export const GameImproved = (
         const topData = data.shift();
         setResult(topData.account);
         setPost(topData.post);
+        setID(topData.id);
         allChoices(topData.choices);
     }, [reload]);
 
@@ -166,12 +170,13 @@ export const GameImproved = (
                         </Text>
                     */
                 }
-                <Text className="tweet" margin="30px 30px">
-                    {
-                        JSON.stringify(post).replace(/^"(.*)"$/, "$1")
-                    }
-                </Text>
-                <Center className="options">
+                <MainDisplay 
+                    reloadEmbed = {reloadEmbed} 
+                    embed = {embed} 
+                    post = {post} 
+                    ID = {ID} showAnswer = {reloadDisable} 
+                />
+                <Center className="options" marginTop="15px">
                     <ButtonGroup
                         gap="4"
                         display={"flex"}

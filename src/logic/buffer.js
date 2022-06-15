@@ -33,6 +33,7 @@ function bufferData(accounts, bufferSize) {
             //dictionary["post"] = randomRecentPost.text;
             //return randomRecentPost.text;
             dictionary["post"] = randomRecentPost.text;
+            dictionary["id"] = randomRecentPost.id;
             return randomRecentPost.text;
         } catch (error) {
             console.log(error);
