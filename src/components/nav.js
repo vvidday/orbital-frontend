@@ -9,6 +9,7 @@ import {
     Switch,
     Button,
     useColorMode,
+    LightMode,
 } from "@chakra-ui/react";
 
 export const Nav = ({ testing, setTesting, toggle, setToggle}) => {
@@ -16,6 +17,7 @@ export const Nav = ({ testing, setTesting, toggle, setToggle}) => {
     useEffect(() =>{
         setToggle(colorMode);
     },[colorMode]);
+    
     return (
         <Flex h="100px" padding="10px 30px" align="center">
             <Flex as="nav" id="navbar" basis="100%" justify="space-between">
@@ -30,7 +32,8 @@ export const Nav = ({ testing, setTesting, toggle, setToggle}) => {
                     <Button onClick={() => {
                         toggleColorMode()
                         setToggle(colorMode)
-                        }}>Toggle Mode</Button>
+                        }}>Toggle Mode
+                    </Button>     
                 </Box>
                 <Box>
                     <FormControl>

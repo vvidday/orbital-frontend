@@ -134,14 +134,12 @@ export const GameTest = (
         <Box>
             <Flex padding="10px" direction="column">
                 <Center fontSize="20px">Score: {score}</Center>
-                
                 <MainDisplay 
                     reloadEmbed = {reloadEmbed} 
                     embed = {embed} 
                     post = {post} 
                     ID = {ID} showAnswer = {reloadDisable} 
                 />
-
                 <Center className="options" marginTop="15px">
                     <ButtonGroup
                         gap="4"
@@ -163,7 +161,6 @@ export const GameTest = (
                                             buttonLogic(result, e);
                                             onToggle();
                                             setReloadDisable(!reloadDisable);
-                                            //setUserChoice(e);
                                         }}
                                     >
                                         {acc.name}
@@ -182,7 +179,7 @@ export const GameTest = (
                         variant="solid"
                         onClick={() => {
                             //resetColor(userChoice);
-                            resetColor()
+                            resetColor();
                             onToggle();
                             setReloadDisable(!reloadDisable);
                             setReload(!reload);

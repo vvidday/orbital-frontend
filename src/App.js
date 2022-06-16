@@ -1,7 +1,7 @@
 import { Nav } from "./components/nav";
 import { useState } from "react";
 import { GameTest } from "./components/gameTesting";
-import { Box } from "@chakra-ui/react";
+import { Box, ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { Loading } from "./components/loadingScreen";
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
 
     const [testing, setTesting] = useState(true);
     const [toggle, setToggle] = useState();
-
+    
     return (
         <Box className="App">
             <Nav 
@@ -29,7 +29,7 @@ function App() {
             ) : (
                 <Loading accounts={accounts} colorToggle = {toggle}/>
             )}
-        </Box>
+        </Box>   
     );
 }
 

@@ -3,10 +3,8 @@ import {
     Box,
     Center,
     Text,
-    Skeleton, 
     SkeletonCircle, 
     SkeletonText,
-    Stack
 } from "@chakra-ui/react";
 import { 
     TwitterTweetEmbed
@@ -18,7 +16,10 @@ export const MainDisplay = (
     { reloadEmbed, embed, post, ID, showAnswer }
 ) => {
     return (
-        <Box>
+        <Box 
+            borderWidth="1px" 
+            minHeight="400px"
+        >
             {!showAnswer ? (
                 <Center display={"flex"}>
                     <Box 
@@ -35,8 +36,9 @@ export const MainDisplay = (
                         >
                             <SkeletonCircle 
                                 size='10'
-                                startColor='blue.500' 
+                                startColor='blue.500'
                                 endColor='pink.500'
+                                speed="1.5"
                             />
                             <Box paddingLeft="5px">
                                 <SkeletonText
@@ -44,7 +46,8 @@ export const MainDisplay = (
                                     noOfLines={2} 
                                     spacing='2'
                                     startColor='blue.500' 
-                                    endColor='pink.500'>
+                                    endColor='pink.500'
+                                    speed="1.5">
                                     This is an Easter Egg
                                 </SkeletonText>
                             </Box>
@@ -59,16 +62,14 @@ export const MainDisplay = (
                             {post.replace(/^"(.*)"$/, "$1")}
                         </Text>
                     </Box>
-                    
                 </Center>
             ) : (
-                <TwitterTweetEmbed 
-                    
+                <TwitterTweetEmbed
                     key = {reloadEmbed} 
                     tweetId = {ID}
                     options= {
                         {
-                            theme:{embed},
+                            theme:embed,
                             align:"center",
                             conversation: "none",
                             cards:"hidden"
