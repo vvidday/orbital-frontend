@@ -15,9 +15,6 @@ import {
     Fade,
 } from "@chakra-ui/react";
 
-import { 
-    TwitterTweetEmbed
-} from 'react-twitter-embed';
 import { ShowAnswer } from "./answer";
 import { MainDisplay } from "./mainDisplay";
 

@@ -20,15 +20,8 @@ function App() {
     
     return (
         <Box className="App">
-            <Nav 
-                testing={testing} setTesting={setTesting}
-                toggle={toggle} setToggle={setToggle}
-            />
-            {testing ? (
-                <GameTest accounts={accounts} colorToggle = {toggle} />
-            ) : (
-                <Loading accounts={accounts} colorToggle = {toggle}/>
-            )}
+            <Nav setToggle={setToggle}/>
+            <Loading accounts={accounts} colorToggle = {toggle}/>
         </Box>   
     );
 }

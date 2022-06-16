@@ -3,7 +3,7 @@ import { useState } from "react";
 import { setChoices } from "../logic/setChoices";
 import { getUserByUsername } from "../api/twitter";
 import { getTimeline } from "../api/twitter";
-import {buttonLogic} from "../logic/button";
+import { buttonLogic } from "../logic/button";
 import { resetColor } from "../logic/button";
 import { score, setDefault } from "./score";
 import {
@@ -11,15 +11,10 @@ import {
     Button,
     ButtonGroup,
     Center,
-    Text,
     Flex,
     useDisclosure,
     Fade,
 } from "@chakra-ui/react";
-import { 
-    TwitterTweetEmbed
-} from 'react-twitter-embed';
-
 import { data } from "../data/bufferData";
 import { ShowAnswer } from "./answer";
 import { MainDisplay } from "./mainDisplay";
@@ -44,7 +39,6 @@ export const GameImproved = (
 
     const [embed, setEmbed] = useState();
     const [reloadEmbed, setReloadEmbed] = useState(false);
-    const [showAnswer, setShowAnswer] = useState();
     /*
             Game logic -> Depends how we can retrieve tweets. Tentatively:
                 Each Round:
@@ -160,32 +154,24 @@ export const GameImproved = (
         <Box>
             <Flex padding="10px" direction="column">
                 <Center fontSize="20px">Score: {score}</Center>
-                {
-                    // Original post code
-                    /*
-                        <Text className="tweet" margin="30px 30px">
-                            {
-                                JSON.stringify(post).replace(/^"(.*)"$/, "$1")
-                            }
-                        </Text>
-                    */
-                }
+
                 <MainDisplay 
                     reloadEmbed = {reloadEmbed} 
                     embed = {embed} 
                     post = {post} 
                     ID = {ID} showAnswer = {reloadDisable} 
                 />
+                
                 <Center className="options" marginTop="15px">
                     <ButtonGroup
                         gap="4"
-                        display={"flex"}
+                        display={"grid"}
+                        gridTemplateColumns="auto auto"
                         flexWrap={"wrap"}
                         justifyContent={"center"}
                     >
                         {
                             // Reformat once we determine how accounts are stored
-
                             choices.map((acc, key) => {
                                 return (
                                     <Button
@@ -197,7 +183,6 @@ export const GameImproved = (
                                             buttonLogic(result, e);
                                             onToggle();
                                             setReloadDisable(!reloadDisable);
-                                            //setUserChoice(e);
                                         }}
                                     >
                                         {acc.name}

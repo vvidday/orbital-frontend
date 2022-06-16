@@ -16,28 +16,19 @@ export const MainDisplay = (
     { reloadEmbed, embed, post, ID, showAnswer }
 ) => {
     return (
-        <Box 
-            borderWidth="1px" 
-            minHeight="400px"
-        >
+        <Box minHeight="250px">
             {!showAnswer ? (
-                <Center display={"flex"}>
+                <Center display="flex">
                     <Box 
-                        border='2px'
-                        borderColor='grey'
+                        border='2px' 
+                        borderColor='grey' 
                         borderRadius="10px"
-                        display={"flex"}
-                        flexDirection="column"
+                        minWidth="516px"
                     >
-                        <Box 
-                            display={"flex"}
-                            paddingLeft="16px"
-                            marginTop="5px"
-                        >
+                        <Box display="flex" paddingLeft="16px" marginTop="5px">
                             <SkeletonCircle 
                                 size='10'
-                                startColor='blue.500'
-                                endColor='pink.500'
+                                startColor='blue.500' endColor='pink.500'
                                 speed="1.5"
                             />
                             <Box paddingLeft="5px">
@@ -45,9 +36,9 @@ export const MainDisplay = (
                                     mt='2' 
                                     noOfLines={2} 
                                     spacing='2'
-                                    startColor='blue.500' 
-                                    endColor='pink.500'
-                                    speed="1.5">
+                                    startColor='blue.500' endColor='pink.500'
+                                    speed="1.5"
+                                >
                                     This is an Easter Egg
                                 </SkeletonText>
                             </Box>
@@ -55,8 +46,7 @@ export const MainDisplay = (
                         <Text 
                             className="tweet"
                             padding="12px 16px 4px 16px"
-                            maxWidth="516px"
-                            maxHeight="255px"
+                            maxWidth="516px" maxHeight="255px"
                             minWidth="250px"
                         >
                             {post.replace(/^"(.*)"$/, "$1")}
