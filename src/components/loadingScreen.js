@@ -3,20 +3,16 @@ import { useState } from "react";
 import { data } from "../data/bufferData";
 import {
     Box,
-    Text,
-    Code
-} from "@chakra-ui/react";
-import { GameImproved } from "./game-improved";
+    Text} from "@chakra-ui/react";
+import { GameImproved } from "./gameImproved";
 import bufferData from "../logic/buffer";
 
-
 export const Loading = (
-    {accounts}
+    {accounts, colorToggle}
     ) => {
         const [reload, setReload] = useState();
         const [length, setLength] = useState(0);
         const BUFFER_SIZE = 5;
-
 
         useEffect(()=>{
             bufferData(accounts, BUFFER_SIZE);
@@ -34,15 +30,15 @@ export const Loading = (
         
         */
         if (length == 0) {
-            return <Box>
-            <Text margin="30px 30px">
-                 {JSON.stringify(setTimeout(() => {
-                    setReload(!reload);
-                }, 1000)).replace(new RegExp('.*'),"Loading...")}
-            </Text>
-            
-        </Box>
-        } else {
-            return <GameImproved accounts={accounts} />
+            return (
+            <Box>
+                <Text margin="30px 30px">
+                    {JSON.stringify(setTimeout(() => {
+                        setReload(!reload);
+                    }, 1000)).replace(new RegExp('.*'),"Loading...")}
+                </Text>
+            </Box>
+        )} else {
+            return <GameImproved accounts={accounts} colorToggle = {colorToggle}/>
         }
 }

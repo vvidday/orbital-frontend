@@ -5,8 +5,9 @@ export const theme = extendTheme({
     styles: {
         global: (props) => ({
             body: {
-                bg: mode("white", "#212224ff")(props),
+                backgroundColor: mode("white", "#212224ff")(props),
                 color: mode("black", "white")(props),
+                colorScheme: "transparent",
             },
         }),
     },
@@ -25,3 +26,4 @@ export const theme = extendTheme({
         },
     },
 });
+//#212224ff

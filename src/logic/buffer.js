@@ -30,12 +30,22 @@ function bufferData(accounts, bufferSize) {
             recentPosts.data[
                 Math.floor(Math.random() * recentPosts.data.length)
             ];
+            //dictionary["post"] = randomRecentPost.text;
+            //return randomRecentPost.text;
             dictionary["post"] = randomRecentPost.text;
+            dictionary["id"] = randomRecentPost.id;
             return randomRecentPost.text;
         } catch (error) {
             console.log(error);
         }
     }
+
+    /*
+        If data length is less than BUFFER, set buffer to the difference
+
+        Then iterate BUFFER number of times, and add BUFFER amount of data
+        into result and push to data array for buffering.
+    */
 
     if (data.length < BUFFER) {
         BUFFER = BUFFER - data.length;
@@ -53,7 +63,10 @@ function bufferData(accounts, bufferSize) {
                 data.push(result);
             });
     }
-    console.log(data);
+
+    /* below is for debugging purposes */
+
+    //console.log(data);
 }
 
 export default bufferData;
