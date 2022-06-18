@@ -1,17 +1,12 @@
 import { Nav } from "./components/nav";
-import { Game } from "./components/game";
-import { ApiTest } from "./components/apitesting";
 import { useEffect, useState } from "react";
-import { GameTest } from "./components/gametesting";
 import { Box } from "@chakra-ui/react";
-
-import { GameImproved } from "./components/game-improved";
-import bufferData from "./logic/buffer";
 
 import { Highscores } from "./components/highscores";
 import { Loading } from "./components/loading_screen";
 import { SubmitScore } from "./components/submitscore";
 import { supabase } from "./supabase/supabaseClient";
+import { getFollowing } from "./api/twitter";
 
 function App() {
     const accounts = [
@@ -61,6 +56,9 @@ function App() {
         supabase.auth.onAuthStateChange((_event, session) => {
             setSession(session);
         });
+        getFollowing("391651600").then((accs) => {
+            console.log(accs.length);
+        });
     }, []);
 
     let displayComponent;
@@ -68,6 +66,7 @@ function App() {
     if (gameState === 1)
         displayComponent = (
             <div>{JSON.stringify(session)}</div>
+
             //<Loading accounts={accs} setGameState={setGameState} />
         );
     if (gameState === 2)
