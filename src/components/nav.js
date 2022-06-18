@@ -10,9 +10,21 @@ import {
     Button,
     useColorMode,
 } from "@chakra-ui/react";
+import { supabase } from "../supabase/supabaseClient";
 
-export const Nav = ({ testing, setTesting }) => {
+export const Nav = ({ session, setSession }) => {
     const { colorMode, toggleColorMode } = useColorMode();
+
+    async function signInWithTwitter() {
+        const { user, session, error } = await supabase.auth.signIn({
+            provider: "twitter",
+        });
+        console.log(error);
+    }
+
+    async function signOut() {
+        const { error } = await supabase.auth.signOut();
+    }
 
     return (
         <Flex h="100px" padding="10px 30px" align="center">
@@ -28,6 +40,13 @@ export const Nav = ({ testing, setTesting }) => {
                     <Button id="toggle" onClick={toggleColorMode}>
                         Toggle Mode
                     </Button>
+                </Box>
+                <Box>
+                    {session ? (
+                        <Button onClick={signOut}>Sign Out</Button>
+                    ) : (
+                        <Button onClick={signInWithTwitter}>Sign In</Button>
+                    )}
                 </Box>
             </Flex>
         </Flex>

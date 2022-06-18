@@ -11,6 +11,7 @@ import bufferData from "./logic/buffer";
 import { Highscores } from "./components/highscores";
 import { Loading } from "./components/loading_screen";
 import { SubmitScore } from "./components/submitscore";
+import { supabase } from "./supabase/supabaseClient";
 
 function App() {
     const accounts = [
@@ -38,6 +39,9 @@ function App() {
     */
     const [gameState, setGameState] = useState(1);
 
+    // State to store session data
+    const [session, setSession] = useState(null);
+
     const [testing, setTesting] = useState(true);
     //setSize(data.length == 0);
     /* 
@@ -51,11 +55,20 @@ function App() {
     //bufferData(accounts, 5);
     //},[]);
 
+    // useEffect that updates session everytime auth updates
+    useEffect(() => {
+        setSession(supabase.auth.session());
+        supabase.auth.onAuthStateChange((_event, session) => {
+            setSession(session);
+        });
+    }, []);
+
     let displayComponent;
 
     if (gameState === 1)
         displayComponent = (
-            <Loading accounts={accs} setGameState={setGameState} />
+            <div>{JSON.stringify(session)}</div>
+            //<Loading accounts={accs} setGameState={setGameState} />
         );
     if (gameState === 2)
         displayComponent = (
@@ -68,7 +81,7 @@ function App() {
 
     return (
         <Box className="App">
-            <Nav testing={testing} setTesting={setTesting} />
+            <Nav session={session} setSession={setSession} />
             {displayComponent}
         </Box>
     );
