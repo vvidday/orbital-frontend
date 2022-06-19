@@ -10,21 +10,11 @@ import {
     Button,
     useColorMode,
 } from "@chakra-ui/react";
-import { supabase } from "../supabase/supabaseClient";
 
-export const Nav = ({ session, setSession }) => {
+import { signInWithTwitter, signOut } from "../logic/auth";
+
+export const Nav = ({ session }) => {
     const { colorMode, toggleColorMode } = useColorMode();
-
-    async function signInWithTwitter() {
-        const { user, session, error } = await supabase.auth.signIn({
-            provider: "twitter",
-        });
-        console.log(error);
-    }
-
-    async function signOut() {
-        const { error } = await supabase.auth.signOut();
-    }
 
     return (
         <Flex h="100px" padding="10px 30px" align="center">

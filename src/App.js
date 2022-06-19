@@ -56,9 +56,6 @@ function App() {
         supabase.auth.onAuthStateChange((_event, session) => {
             setSession(session);
         });
-        getFollowing("391651600").then((accs) => {
-            console.log(accs.length);
-        });
     }, []);
 
     let displayComponent;
