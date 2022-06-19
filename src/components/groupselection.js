@@ -1,7 +1,8 @@
 import { Box, Flex, Textarea } from "@chakra-ui/react";
 import { Group } from "./group";
 import { CustomGroup } from "./customgroup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { resetData } from "../data/bufferData";
 
 const DEFAULT_GROUPS = [
     {
@@ -17,6 +18,11 @@ const DEFAULT_GROUPS = [
 export const Selection = ({ setGameState, setAccs }) => {
     // Loading state to disable buttons / clickables when loading the async calls.
     const [loading, setLoading] = useState(false);
+
+    // Reset data on load... change to state!!!
+    useEffect(() => {
+        resetData();
+    });
 
     return (
         <Box>
