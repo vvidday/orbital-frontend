@@ -44,11 +44,13 @@ export const isDuplicate = async (handles) => {
         return false;
     }
     const id = generateGroupID(handles);
+
     // Selecting row where id == id.  If row exists, data will be of length 1, else it will be an empty array.
     const { data, error } = await supabase
         .from("Group")
         .select("*")
         .eq("id", id);
+    console.log(error);
     if (data.length === 1) return true;
     return false;
 };
@@ -59,5 +61,8 @@ export const isDuplicate = async (handles) => {
     @return String representing the unique group ID
 */
 export const generateGroupID = (handles) => {
+    for (let i = 0; i < handles.length; i++) {
+        handles[i] = handles[i].toLowerCase();
+    }
     return handles.sort().join("");
 };

@@ -59,8 +59,11 @@ export const Highscores = ({ accs, setGameState }) => {
                 })}
             </Box>
             <Box paddingTop="30px" align="center">
-                <Button margin="auto" onClick={() => setGameState(1)}>
+                <Button margin="10px" onClick={() => setGameState(1)}>
                     Play Again
+                </Button>
+                <Button margin="10px" onClick={() => setGameState(0)}>
+                    Choose Different Group
                 </Button>
             </Box>
         </Box>
