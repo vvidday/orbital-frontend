@@ -7,6 +7,7 @@ import { Loading } from "./components/loading_screen";
 import { SubmitScore } from "./components/submitscore";
 import { supabase } from "./supabase/supabaseClient";
 import { getFollowing } from "./api/twitter";
+import { handleProfileOnLogin } from "./supabase/profileFunctions";
 
 function App() {
     const accounts = [
@@ -50,11 +51,16 @@ function App() {
     //bufferData(accounts, 5);
     //},[]);
 
-    // useEffect that updates session everytime auth updates
+    // useEffect that sets up supabase to update session everytime auth updates
     useEffect(() => {
+        // Taken from supabase docs - sets session
         setSession(supabase.auth.session());
         supabase.auth.onAuthStateChange((_event, session) => {
             setSession(session);
+            // If session is not null, it means someone just logged in. Hence, handle profile.
+            if (session != null) {
+                return handleProfileOnLogin(session);
+            }
         });
     }, []);
 

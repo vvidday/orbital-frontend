@@ -40,12 +40,13 @@ export const deleteProfile = async (session) => {
 
 /*
     handleProfileOnLogin - Checks if current session is a new user, and creates a new entry in "profiles" table if so.
+    @params session - Session of current user.
     @return Boolean value representing success/failure of operation.
 */
-export const handleProfileOnLogin = async () => {
-    const doesExist = await doesProfileExist(supabase.auth.session());
+export const handleProfileOnLogin = async (session) => {
+    const doesExist = await doesProfileExist(session);
     if (!doesExist) {
-        const success = await newProfile(supabase.auth.session());
+        const success = await newProfile(session);
         return success;
     }
     return true;

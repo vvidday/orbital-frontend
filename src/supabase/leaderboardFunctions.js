@@ -1,21 +1,37 @@
 import { supabase } from "./supabaseClient";
 
-export const newLBEntry = async (groupID, playerID, score) => {};
+// Local Function that creates a new (logged in) entry in leaderboard table (Exported only for testing)
+export const newLBEntry = async (groupID, playerID, playerName, score) => {
+    const row = {
+        playerID: playerID,
+        playerName: playerName,
+        score: score,
+        groupID: groupID,
+    };
+    const { data, error } = await supabase.from("Leaderboard").insert(row);
+    if (error != null) {
+        console.log(error);
+        return error;
+    }
+    return data;
+};
 
-// Local Function that handles the actual updating of a leaderboard entry
-const updateLBEntry = async (groupID, playerID, score) => {
+// Local Function that handles the actual updating of a leaderboard entry (Exported only for testing)
+export const updateLBEntry = async (groupID, playerID, score) => {
     const { data, error } = await supabase
         .from("Leaderboard")
         .update([{ score: score }])
         .eq("groupID", groupID)
         .eq("playerID", playerID);
+    return error === null;
 };
 
-// Local Function to get score of a player for a specific group
-const getPlayerScore = async (groupID, playerID) => {
+// Local Function to determine if leaderboard entry exists for a player for a specific group. (Exported only for testing)
+// Returns the row if it exists.
+export const dataIfExists = async (groupID, playerID) => {
     const { data, error } = await supabase
         .from("Leaderboard")
-        .select("score")
+        .select("*")
         .eq("groupID", groupID)
         .eq("playerID", playerID);
     if (error != null) {
@@ -25,6 +41,16 @@ const getPlayerScore = async (groupID, playerID) => {
     return data;
 };
 
+// Local, test-only function to delete LB entry. Exported only for testing
+export const deleteLBEntry = async (groupID, playerID) => {
+    const { data, error } = await supabase
+        .from("Leaderboard")
+        .delete()
+        .eq("groupID", groupID)
+        .eq("playerID", playerID);
+    return error === null;
+};
+
 /*
     updateLB - Updates leaderboard entry of a specific player on a specific group if it is the player's personal best.
     @param groupID - ID of group that the game was played on
@@ -32,13 +58,19 @@ const getPlayerScore = async (groupID, playerID) => {
     @param score - integer representing score of this round
     @return Boolean value indicating success/failure of operation
 */
-export const updateLB = async (groupID, playerID, score) => {
-    // TODO: Check if entry exists -> If exists:
-    if (getPlayerScore < score) {
-        updateLBEntry(groupID, playerID, score);
-        return true;
+export const updateLB = async (groupID, playerID, playerName, score) => {
+    // Check if entry exists
+    const data = await dataIfExists(groupID, playerID);
+    // Entry exists, check current score
+    if (data.length === 1) {
+        // If current score is less than new score, update LB entry.
+        if (data[0]["score"] < score) {
+            return updateLBEntry(groupID, playerID, score);
+        }
+        // Entry doesn't exist -> Create new entry
+    } else {
+        return newLBEntry(groupID, playerID, playerName, score);
     }
-    // TODO: Else -> create new entry
     return false;
 };
 
@@ -91,7 +123,5 @@ export const deleteLBEntryAnon = async (groupID, playerNameAnon, score) => {
         .eq("groupID", groupID)
         .eq("playerNameAnon", playerNameAnon)
         .eq("score", score);
-    console.log(data);
-    console.log(error);
     return data;
 };
