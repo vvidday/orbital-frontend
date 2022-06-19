@@ -74,7 +74,11 @@ function App() {
         );
     if (gameState === 2)
         displayComponent = (
-            <SubmitScore setGameState={setGameState} accs={accs} />
+            <SubmitScore
+                setGameState={setGameState}
+                accs={accs}
+                session={session}
+            />
         );
     if (gameState === 3)
         displayComponent = (
