@@ -1,4 +1,4 @@
-import { data } from "../data/bufferData"; 
+import { data } from "../data/bufferData";
 import { getUserByUsername } from "../api/twitter";
 import { getTimeline } from "../api/twitter";
 import { setChoices } from "../logic/setChoices";
@@ -27,9 +27,9 @@ function bufferData(accounts, bufferSize) {
             const response = await getTimeline(id, true, true);
             const recentPosts = response.data;
             const randomRecentPost =
-            recentPosts.data[
-                Math.floor(Math.random() * recentPosts.data.length)
-            ];
+                recentPosts.data[
+                    Math.floor(Math.random() * recentPosts.data.length)
+                ];
             //dictionary["post"] = randomRecentPost.text;
             //return randomRecentPost.text;
             dictionary["post"] = randomRecentPost.text;
@@ -55,7 +55,7 @@ function bufferData(accounts, bufferSize) {
         let result = {};
         const index = Math.floor(Math.random() * accounts.length);
         const randomAccount = accounts[index].username;
-        console.log(randomAccount);
+        //console.log(randomAccount);
         userInfo(randomAccount, result)
             .then((id) => postInfo(id, result))
             .then(() => {

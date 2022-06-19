@@ -3,45 +3,36 @@ import { useState } from "react";
 import { setChoices } from "../logic/setChoices";
 import { getUserByUsername } from "../api/twitter";
 import { getTimeline } from "../api/twitter";
-import { buttonLogic } from "../logic/button";
-import { resetColor } from "../logic/button";
+import buttonLogic from "../logic/button";
 import { score, setDefault } from "./score";
 import {
     Box,
     Button,
     ButtonGroup,
     Center,
+    Text,
     Flex,
     useDisclosure,
     Fade,
 } from "@chakra-ui/react";
+
 import { data } from "../data/bufferData";
-import { ShowAnswer } from "./answer";
-import { MainDisplay } from "./mainDisplay";
+import { bufferData } from "../logic/buffer";
 
 export const GameImproved = (
     // Twitter accounts selected by the player is passed in as props (hardcode for now)
-    { accounts, colorToggle, setGameState }
+    { accounts, setGameState }
 ) => {
     /* States */
     // Result - Object containing the object data of the correct user. E.g. {id:"813286",name:"Barack Obama",username:"BarackObama"}
     const [result, setResult] = useState({});
-    // Post - String, the ID content of the selected twitter post.
+    // Post - String, the text content of the selected twitter post.
     const [post, setPost] = useState("");
     // Choices - Array of objects. length 4. contains 4 user objects : the correct user (i.e. result) and 3 other random users from {accounts}.
     const [choices, allChoices] = useState([]);
     // Boolean - Placeholder variable to trigger useEffect() - used to reset round of the game
     const [reload, setReload] = useState(false);
 
-    // wrong=true when player selects wrong answer, used to change next button.
-    const [wrong, setWrong] = useState(false);
-
-    const [ID, setID] = useState();
-    const [disable, setDisable] = useState(true);
-    const [reloadDisable, setReloadDisable] = useState(false);
-
-    const [embed, setEmbed] = useState();
-    const [reloadEmbed, setReloadEmbed] = useState(false);
     /*
             Game logic -> Depends how we can retrieve tweets. Tentatively:
                 Each Round:
@@ -84,28 +75,27 @@ export const GameImproved = (
         const index = Math.floor(Math.random() * accounts.length);
         const randomAccount = accounts[index].username;
 
-        let tempResult = {};
-        let tempPost = "";
-        let tempID = "";
+        let result1 = {};
+        let post1 = "";
         /* 
-            userInfo - Asynchronously fetches the user data of the randomly selected account, and stores it in {result}
-            @return Promise containing the user id of the randomly selected account
-        */
+                userInfo - Asynchronously fetches the user data of the randomly selected account, and stores it in {result}
+                @return Promise containing the user id of the randomly selected account
+            */
         async function userInfo() {
             try {
                 const response = await getUserByUsername(randomAccount);
-                tempResult = response.data;
+                result1 = response.data;
                 return response.data.id;
             } catch (error) {
                 console.log(error);
             }
         }
         /*
-            postInfo - Asynchronously fetches the timeline of the given user id, chooses a random tweet from the timeline,
-            stores it in {post}.
-            @params id - user id 
-            @return Implicitly wrapped promise
-        */
+                postInfo - Asynchronously fetches the timeline of the given user id, chooses a random tweet from the timeline,
+                stores it in {post}.
+                @params id - user id 
+                @return Implicitly wrapped promise
+            */
         async function postInfo(id) {
             try {
                 const response = await getTimeline(id, true, true);
@@ -114,8 +104,7 @@ export const GameImproved = (
                     recentPosts.data[
                         Math.floor(Math.random() * recentPosts.data.length)
                     ];
-                tempPost = randomRecentPost.text;
-                tempID = randomRecentPost.id;
+                post1 = randomRecentPost.text;
             } catch (error) {
                 console.log(error);
             }
@@ -127,9 +116,8 @@ export const GameImproved = (
             .then((id) => postInfo(id))
             .then(() => {
                 data.push({
-                    account: tempResult,
-                    post: tempPost,
-                    id: tempID,
+                    account: result1,
+                    post: post1,
                     choices: setChoices(index, accounts),
                 });
             });
@@ -139,69 +127,54 @@ export const GameImproved = (
         const topData = data.shift();
         setResult(topData.account);
         setPost(topData.post);
-        setID(topData.id);
         allChoices(topData.choices);
+        // console.log(data);
+        // console.log(topData);
     }, [reload]);
-
-    useEffect(() => {
-        setDisable(!disable);
-    }, [reloadDisable]);
-
-    useEffect(() => {
-        if (colorToggle == "dark") {
-            setEmbed("dark");
-        } else {
-            setEmbed("light");
-        }
-        setReloadEmbed(!reloadEmbed);
-    }, [colorToggle]);
-
     // Chakra specific hook for fade transition.
     const { isOpen, onToggle } = useDisclosure();
+
     return (
         <Box>
             <Flex padding="10px" direction="column">
                 <Center fontSize="20px">Score: {score}</Center>
+                {
+                    // Code for testing purpose
+                }
 
-                <MainDisplay
-                    reloadEmbed={reloadEmbed}
-                    embed={embed}
-                    post={post}
-                    ID={ID}
-                    showAnswer={reloadDisable}
-                />
-
-                <Center className="options" marginTop="15px">
+                <Text className="tweet" margin="30px 30px">
+                    {JSON.stringify(post).replace(/^"(.*)"$/, "$1")}
+                </Text>
+                <Center className="options">
                     <ButtonGroup
                         gap="4"
-                        display={"grid"}
-                        gridTemplateColumns="auto auto"
+                        display={"flex"}
                         flexWrap={"wrap"}
                         justifyContent={"center"}
                     >
                         {
                             // Reformat once we determine how accounts are stored
+
                             choices.map((acc, key) => {
                                 return (
                                     <Button
                                         variant="custom"
                                         className="option"
                                         key={key}
-                                        isDisabled={disable}
                                         onClick={(e) => {
                                             const res = buttonLogic(
                                                 result,
                                                 e,
                                                 accounts
                                             );
-
-                                            // Wrong answer
                                             if (res === false) {
-                                                setWrong(true);
                                                 // Clean up
+
+                                                // Go to submit score page
+                                                setGameState(2);
+                                            } else {
+                                                setReload(!reload);
                                             }
-                                            onToggle();
-                                            setReloadDisable(!reloadDisable);
                                         }}
                                     >
                                         {acc.name}
@@ -212,42 +185,14 @@ export const GameImproved = (
                     </ButtonGroup>
                 </Center>
             </Flex>
-            <Center className="answer">
-                <Fade in={isOpen}>
-                    {wrong ? (
-                        <Button
-                            className="answer"
-                            colorScheme="twitter"
-                            variant="solid"
-                            onClick={() => {
-                                resetColor();
-                                onToggle();
-                                setReloadDisable(!reloadDisable);
-                                setReload(!reload);
-                                setGameState(2);
-                            }}
-                        >
-                            Next
-                        </Button>
-                    ) : (
-                        <Button
-                            className="answer"
-                            colorScheme="twitter"
-                            variant="solid"
-                            onClick={() => {
-                                //resetColor(userChoice);
-                                resetColor();
-                                onToggle();
-                                setReloadDisable(!reloadDisable);
-                                setReload(!reload);
-                            }}
-                        >
-                            Next
-                        </Button>
-                    )}
-                </Fade>
+
+            <Center marginTop={"50px"}>
+                <Button onClick={onToggle}>Show Answer (Dev)</Button>
             </Center>
-            <ShowAnswer answer={result.name} />
+
+            <Fade in={isOpen}>
+                <Center p="40px">{result.name}</Center>
+            </Fade>
         </Box>
     );
 };

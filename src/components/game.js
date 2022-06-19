@@ -66,7 +66,6 @@ export const Game = (
         setDefault();
     }, []);
 
-
     // Main game loop, called on render and each time reload is modified
     useEffect(() => {
         // Pick a random account from {accounts} array

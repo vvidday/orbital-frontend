@@ -12,12 +12,14 @@ import {
     LightMode,
 } from "@chakra-ui/react";
 
-export const Nav = ({setToggle}) => {
+import { signInWithTwitter, signOut } from "../logic/auth";
+
+export const Nav = ({ setToggle, session }) => {
     const { colorMode, toggleColorMode } = useColorMode();
-    useEffect(() =>{
+    useEffect(() => {
         setToggle(colorMode);
-    },[colorMode]);
-    
+    }, [colorMode]);
+
     return (
         <Flex h="100px" padding="10px 30px" align="center">
             <Flex as="nav" id="navbar" basis="100%" justify="space-between">
@@ -29,14 +31,24 @@ export const Nav = ({setToggle}) => {
                     That?
                 </Heading>
                 <Box>
-                    <Button onClick={() => {
-                        toggleColorMode()
-                        setToggle(colorMode)
-                        }}>Toggle Mode
-                    </Button>     
+                    <Button
+                        id="toggle"
+                        onClick={() => {
+                            toggleColorMode();
+                            setToggle(colorMode);
+                        }}
+                    >
+                        Toggle Mode
+                    </Button>
                 </Box>
-                {
-                    /*
+                <Box>
+                    {session ? (
+                        <Button onClick={signOut}>Sign Out</Button>
+                    ) : (
+                        <Button onClick={signInWithTwitter}>Sign In</Button>
+                    )}
+                </Box>
+                {/*
                     <Box>
                         <FormControl>
                             <FormLabel htmlFor="testing">
@@ -53,8 +65,7 @@ export const Nav = ({setToggle}) => {
                             ></Switch>
                         </FormControl>
                     </Box>
-                    */
-                }
+                    */}
             </Flex>
         </Flex>
     );
