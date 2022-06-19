@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
     Box,
     Flex,
@@ -9,12 +9,16 @@ import {
     Switch,
     Button,
     useColorMode,
+    LightMode,
 } from "@chakra-ui/react";
 
 import { signInWithTwitter, signOut } from "../logic/auth";
 
-export const Nav = ({ session }) => {
+export const Nav = ({ setToggle, session }) => {
     const { colorMode, toggleColorMode } = useColorMode();
+    useEffect(() => {
+        setToggle(colorMode);
+    }, [colorMode]);
 
     return (
         <Flex h="100px" padding="10px 30px" align="center">
@@ -27,7 +31,13 @@ export const Nav = ({ session }) => {
                     That?
                 </Heading>
                 <Box>
-                    <Button id="toggle" onClick={toggleColorMode}>
+                    <Button
+                        id="toggle"
+                        onClick={() => {
+                            toggleColorMode();
+                            setToggle(colorMode);
+                        }}
+                    >
                         Toggle Mode
                     </Button>
                 </Box>
@@ -38,6 +48,24 @@ export const Nav = ({ session }) => {
                         <Button onClick={signInWithTwitter}>Sign In</Button>
                     )}
                 </Box>
+                {/*
+                    <Box>
+                        <FormControl>
+                            <FormLabel htmlFor="testing">
+                                Testing Mode (ON = dummy data, OFF = query API){" "}
+                            </FormLabel>
+                            <Switch
+                                type="checkbox"
+                                id="testing"
+                                defaultChecked
+                                value={testing}
+                                onChange={() => {
+                                    setTesting(!testing);
+                                }}
+                            ></Switch>
+                        </FormControl>
+                    </Box>
+                    */}
             </Flex>
         </Flex>
     );

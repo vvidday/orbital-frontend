@@ -1,38 +1,40 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { setChoices } from "../logic/setChoices";
-import { getUserByUsername } from "../api/twitter";
-import { getTimeline } from "../api/twitter";
-import buttonLogic from "../logic/button";
-import { score, setDefault } from "./score";
+import { data } from "../data/sampleData";
+import { buttonLogic } from "../logic/button";
+import { resetColor } from "../logic/button";
+import { setDefault, score } from "./score";
 import {
     Box,
     Button,
     ButtonGroup,
     Center,
-    Text,
     Flex,
     useDisclosure,
     Fade,
 } from "@chakra-ui/react";
 
-import { data } from "../data/bufferData";
-import { bufferData } from "../logic/buffer";
+import { ShowAnswer } from "./answer";
+import { MainDisplay } from "./mainDisplay";
 
-export const GameImproved = (
+// Modified Game Component that uses hardcoded values instead of pulling from the API.
+export const GameTest = (
     // Twitter accounts selected by the player is passed in as props (hardcode for now)
-    { accounts }
+    { accounts, colorToggle }
 ) => {
-    /* States */
-    // Result - Object containing the object data of the correct user. E.g. {id:"813286",name:"Barack Obama",username:"BarackObama"}
     const [result, setResult] = useState({});
-    // Post - String, the text content of the selected twitter post.
-    const [post, setPost] = useState("");
-    // Choices - Array of objects. length 4. contains 4 user objects : the correct user (i.e. result) and 3 other random users from {accounts}.
     const [choices, allChoices] = useState([]);
-    // Boolean - Placeholder variable to trigger useEffect() - used to reset round of the game
-    const [reload, setReload] = useState(false);
+    const [reload, setReload] = useState();
+    const [post, setPost] = useState("");
 
+    const [ID, setID] = useState();
+    const [disable, setDisable] = useState(true);
+    const [reloadDisable, setReloadDisable] = useState(false);
+
+    const [embed, setEmbed] = useState();
+    const [reloadEmbed, setReloadEmbed] = useState(false);
+    const [showAnswer, setShowAnswer] = useState();
     /*
             Game logic -> Depends how we can retrieve tweets. Tentatively:
                 Each Round:
@@ -42,7 +44,6 @@ export const GameImproved = (
                         - Correct = repeat from top (new round), score +1, store tweet somewhere so we don't dupe
                             - How to store? Tweet IDs in hash table? <- is this possible to get?
                         - Wrong = end round, reset state, go to highscores page (KIV)
-
         */
 
     /*
@@ -51,7 +52,6 @@ export const GameImproved = (
                     - Correct = store tweet somewhere so we don't dupe
                             - How to store? Tweet IDs in hash table? <- is this possible to get?
                     - Wrong = go to highscores page (KIV)
-                    
                 DONE:
                     - Randomly select an account
                     - Randomly get a tweet from that account
@@ -59,74 +59,71 @@ export const GameImproved = (
                     - Display that tweet, and write some logic for the buttons 
                         - Correct = repeat from top (new round), score +1
                         - Wrong = end round, reset state,
-                TODO:
-                    - Some way to handle images
-                    - Hide buttons temporarily after each round so people don't double click
         */
+    /* 
+            Comment out for full implementation.
+            Testing code below
+        */
+    const index = 1;
 
     // Set score to 0 on component render (Just for toggling between modes)
     useEffect(() => {
         setDefault();
     }, []);
 
-    // Main game loop, called on render and each time reload is modified
     useEffect(() => {
-        // Pick a random account from {accounts} array
-        const index = Math.floor(Math.random() * accounts.length);
-        const randomAccount = accounts[index].username;
-
-        let result1 = {};
-        let post1 = "";
-        /* 
-                userInfo - Asynchronously fetches the user data of the randomly selected account, and stores it in {result}
-                @return Promise containing the user id of the randomly selected account
-            */
         async function userInfo() {
             try {
-                const response = await getUserByUsername(randomAccount);
-                result1 = response.data;
-                return response.data.id;
+                /* 
+                    Comment out for full implementation.
+                    Testing code below
+                */
+                setResult({
+                    id: "813286",
+                    name: "Barack Obama",
+                    username: "BarackObama",
+                });
             } catch (error) {
                 console.log(error);
             }
         }
-        /*
-                postInfo - Asynchronously fetches the timeline of the given user id, chooses a random tweet from the timeline,
-                stores it in {post}.
-                @params id - user id 
-                @return Implicitly wrapped promise
-            */
-        async function postInfo(id) {
+        async function postInfo() {
             try {
-                const response = await getTimeline(id, true, true);
-                const recentPosts = response.data;
+                /* 
+                    Comment out for full implementation.
+                    Testing code below
+                */
+                const recentPosts = data;
                 const randomRecentPost =
                     recentPosts.data[
                         Math.floor(Math.random() * recentPosts.data.length)
                     ];
-                post1 = randomRecentPost.text;
+                setPost(randomRecentPost.text);
+                setID(randomRecentPost.id);
+                setReloadEmbed(!reloadEmbed);
             } catch (error) {
                 console.log(error);
             }
         }
-        
-        // After userInfo() and postInfo(), change {choices} to the array returned by setChoices.
-        // Then appends to buffer data to maintain buffer size
-        userInfo()
-            .then((id) => postInfo(id))
-            .then(() => {
-                data.push({"account": result1, "post": post1, "choices": setChoices(index, accounts)});
-            });
-
-        //Takes the top post from buffer array and sets the useState
-        //should run asynchronously with the above part
-        const topData = data.shift();
-        setResult(topData.account);
-        setPost(topData.post);
-        allChoices(topData.choices);
-        console.log(data);
-        console.log(topData);
+        userInfo().then(postInfo());
+        allChoices(setChoices(index, accounts));
+        console.log(ID)
     }, [reload]);
+
+    useEffect(() => {
+        setDisable(!disable);
+    }, [reloadDisable]);
+
+    useEffect(() => {
+        if (colorToggle == "dark") {
+            setEmbed("dark");
+        } else {
+            setEmbed("light");
+        }
+        setReloadEmbed(!reloadEmbed);
+    }, [colorToggle]);
+    console.log(reloadDisable);
+
     // Chakra specific hook for fade transition.
     const { isOpen, onToggle } = useDisclosure();
 
@@ -134,14 +131,13 @@ export const GameImproved = (
         <Box>
             <Flex padding="10px" direction="column">
                 <Center fontSize="20px">Score: {score}</Center>
-                {
-                    // Code for testing purpose
-                }
-
-                <Text className="tweet" margin="30px 30px">
-                    {JSON.stringify(post).replace(/^"(.*)"$/, "$1")}
-                </Text>
-                <Center className="options">
+                <MainDisplay 
+                    reloadEmbed = {reloadEmbed} 
+                    embed = {embed} 
+                    post = {post} 
+                    ID = {ID} showAnswer = {reloadDisable} 
+                />
+                <Center className="options" marginTop="15px">
                     <ButtonGroup
                         gap="4"
                         display={"flex"}
@@ -157,9 +153,11 @@ export const GameImproved = (
                                         variant="custom"
                                         className="option"
                                         key={key}
+                                        isDisabled = {disable}
                                         onClick={(e) => {
-                                            setReload(!reload);
-                                            buttonLogic(result, e, accounts);
+                                            buttonLogic(result, e);
+                                            onToggle();
+                                            setReloadDisable(!reloadDisable);
                                         }}
                                     >
                                         {acc.name}
@@ -170,14 +168,24 @@ export const GameImproved = (
                     </ButtonGroup>
                 </Center>
             </Flex>
-
-            <Center marginTop={"50px"}>
-                <Button onClick={onToggle}>Show Answer (Dev)</Button>
+            <Center className="answer">
+                <Fade in={isOpen}>
+                    <Button
+                        className="answer"
+                        colorScheme="twitter"
+                        variant="solid"
+                        onClick={() => {
+                            //resetColor(userChoice);
+                            resetColor();
+                            onToggle();
+                            setReloadDisable(!reloadDisable);
+                            setReload(!reload);
+                        }}
+                    >Next
+                    </Button>
+                </Fade>
             </Center>
-
-            <Fade in={isOpen}>
-                <Center p="40px">{result.name}</Center>
-            </Fade>
+            <ShowAnswer answer={result.name} />
         </Box>
     );
 };

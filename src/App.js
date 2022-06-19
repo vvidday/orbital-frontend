@@ -1,13 +1,13 @@
 import { Nav } from "./components/nav";
 import { useEffect, useState } from "react";
-import { Box } from "@chakra-ui/react";
-
 import { Highscores } from "./components/highscores";
-import { Loading } from "./components/loading_screen";
 import { SubmitScore } from "./components/submitscore";
 import { supabase } from "./supabase/supabaseClient";
 import { getFollowing } from "./api/twitter";
 import { handleProfileOnLogin } from "./supabase/profileFunctions";
+import { GameTest } from "./components/gameTesting";
+import { Box, ChakraProvider, extendTheme } from "@chakra-ui/react";
+import { Loading } from "./components/loadingScreen";
 
 function App() {
     const accounts = [
@@ -38,18 +38,8 @@ function App() {
     // State to store session data
     const [session, setSession] = useState(null);
 
-    const [testing, setTesting] = useState(true);
-    //setSize(data.length == 0);
-    /* 
-        Buffers the data.
-
-        -------> WARNING!!! <-------
-        Before editing this file, please comment out the useEffect.
-        Or else the array will grow in size until refresh.
-    */
-    //useEffect(() => {
-    //bufferData(accounts, 5);
-    //},[]);
+    // Referring to color toggle(?) to be controlled in nav for now
+    const [toggle, setToggle] = useState();
 
     // useEffect that sets up supabase to update session everytime auth updates
     useEffect(() => {
@@ -68,9 +58,13 @@ function App() {
 
     if (gameState === 1)
         displayComponent = (
-            <div>{JSON.stringify(session)}</div>
+            //<div>{JSON.stringify(session)}</div>
 
-            //<Loading accounts={accs} setGameState={setGameState} />
+            <Loading
+                accounts={accs}
+                setGameState={setGameState}
+                colorToggle={toggle}
+            />
         );
     if (gameState === 2)
         displayComponent = (
@@ -87,7 +81,11 @@ function App() {
 
     return (
         <Box className="App">
-            <Nav session={session} setSession={setSession} />
+            <Nav
+                session={session}
+                setSession={setSession}
+                setToggle={setToggle}
+            />
             {displayComponent}
         </Box>
     );

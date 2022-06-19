@@ -1,18 +1,16 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { data } from "../data/bufferData";
-import { Box, Text, Code } from "@chakra-ui/react";
-import { GameImproved } from "./game-improved copy";
+import { Box, Text } from "@chakra-ui/react";
+import { GameImproved } from "./gameImproved";
 import bufferData from "../logic/buffer";
 
-export const Loading = ({ accounts, setGameState }) => {
+export const Loading = ({ accounts, colorToggle, setGameState }) => {
     const [reload, setReload] = useState();
     const [length, setLength] = useState(0);
     const BUFFER_SIZE = 5;
 
     useEffect(() => {
-        // reset buffer (CHANGE TO STATE)
-        data.splice(0, data.length);
         bufferData(accounts, BUFFER_SIZE);
     }, []);
 
@@ -40,6 +38,12 @@ export const Loading = ({ accounts, setGameState }) => {
             </Box>
         );
     } else {
-        return <GameImproved accounts={accounts} setGameState={setGameState} />;
+        return (
+            <GameImproved
+                accounts={accounts}
+                colorToggle={colorToggle}
+                setGameState={setGameState}
+            />
+        );
     }
 };
