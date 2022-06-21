@@ -5,14 +5,16 @@ import { Box, Text } from "@chakra-ui/react";
 import { GameImproved } from "./gameImproved";
 import bufferData from "../logic/buffer";
 
-export const Loading = ({ accounts, colorToggle, setGameState }) => {
+export const Loading = ({ accounts, colorToggle, setGameState, session}) => {
     const [reload, setReload] = useState();
     const [length, setLength] = useState(0);
     const BUFFER_SIZE = 5;
 
     useEffect(() => {
-        bufferData(accounts, BUFFER_SIZE);
-    }, []);
+        if (accounts.length != 0) {
+            bufferData(accounts, BUFFER_SIZE);
+        }
+    }, [accounts]);
 
     useEffect(() => {
         setLength(data.length);
