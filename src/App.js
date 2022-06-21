@@ -20,7 +20,7 @@ function App() {
         { id: "25365536", name: "Kim Kardashian", username: "KimKardashian" },
         { id: "50393960", name: "Bill Gates", username: "BillGates" },
     ];
-
+    /*
     // Accounts representing the current group to be played
     const [accs, setAccs] = useState([
         { id: "27260086", name: "Justin Bieber", username: "justinbieber" },
@@ -28,6 +28,8 @@ function App() {
         { id: "21447363", name: "KATY PERRY", username: "katyperry" },
         { id: "155659213", name: "Cristiano Ronaldo", username: "Cristiano" },
     ]);
+    */
+    const [accs, setAccs] = useState([]);
     /* State of game to determine which component to render
     0 - Default, render group select screen [TODO]
     1 - Start of game [FOR NOW, DEFAULT]
@@ -45,15 +47,34 @@ function App() {
     // useEffect that sets up supabase to update session everytime auth updates
     useEffect(() => {
         // Taken from supabase docs - sets session
-        setSession(supabase.auth.session());
+        setSession(supabase.auth.session())
         supabase.auth.onAuthStateChange((_event, session) => {
             setSession(session);
             // If session is not null, it means someone just logged in. Hence, handle profile.
             if (session != null) {
                 return handleProfileOnLogin(session);
             }
+            //setAccs(accounts)
         });
     }, []);
+
+    useEffect(() => {
+        if (session != null && supabase.auth.user() != null) {
+            const userID = session.user.user_metadata.provider_id
+            async function userFollowing() {
+                try {
+                    const response = await getFollowing(userID);
+                    setAccs(response);
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+            userFollowing();
+        } else if (supabase.auth.user() == null) {
+            setAccs(accounts);
+        }
+        console.log(supabase.auth.user())
+    }, [session]);
 
     let displayComponent;
     if (gameState === 0) {
