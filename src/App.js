@@ -58,8 +58,11 @@ function App() {
         });
     }, []);
 
+    // userEffect for fetching information for user's followings
+        // refreshes this when session loads since it is initially null
     useEffect(() => {
         if (session != null && supabase.auth.user() != null) {
+            // gets user id if logged in
             const userID = session.user.user_metadata.provider_id
             async function userFollowing() {
                 try {
@@ -71,6 +74,7 @@ function App() {
             }
             userFollowing();
         } else if (supabase.auth.user() == null) {
+            // sets to default account if not logged in
             setAccs(accounts);
         }
         console.log(supabase.auth.user())
