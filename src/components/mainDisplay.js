@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
     Box,
     Center,
@@ -9,12 +9,18 @@ import {
 import { 
     TwitterTweetEmbed
 } from 'react-twitter-embed';
-
+import extractUrls from "extract-urls";
 // Modified Game Component that uses hardcoded values instead of pulling from the API.
 export const MainDisplay = (
     // Twitter accounts selected by the player is passed in as props (hardcode for now)
     { reloadEmbed, embed, post, ID, showAnswer }
 ) => {
+    const [links, setLinks] = useState([]);
+    useEffect(() => {
+        setLinks(extractUrls(post));
+    }, []);
+
+    console.log(extractUrls(post));
     return (
         <Box minHeight="250px">
             {!showAnswer ? (
@@ -49,9 +55,16 @@ export const MainDisplay = (
                             maxWidth="516px" maxHeight="255px"
                             minWidth="250px"
                         >
-                            {post.replace(/^"(.*)"$/, "$1")}
+                            {post.replace(/^"(.*)"$/, "$1").replace(/(?:https?|ftp):\/\/[\n\S]+/g, '')}
                         </Text>
                     </Box>
+                    {links != undefined ? (
+                        links.map((link) => {
+
+                        })
+                    ):(
+                        <Box></Box>
+                    )}
                 </Center>
             ) : (
                 <TwitterTweetEmbed
