@@ -23,7 +23,7 @@ test("newLBEntryAnon correctly inserts an anoynmous entry in the leaderboard dat
             return deleteLBEntryAnon("JestTestGroup", "Test Player", "40");
         })
         .then((data) => {
-            console.log(data);
+            //console.log(data);
         });
 });
 
@@ -39,7 +39,7 @@ test("newLBEntry correctly inserts a logged entry in database that is detected b
             "46a60792-a172-4f18-b737-376296165388"
         )
             .then((result) => {
-                console.log(result);
+                //console.log(result);
                 expect(result.length).toBe(1);
                 expect(result[0].playerID).toBe(
                     "46a60792-a172-4f18-b737-376296165388"
