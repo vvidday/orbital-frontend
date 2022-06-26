@@ -56,6 +56,7 @@ test("newLBEntry correctly inserts a logged entry in database that is detected b
 });
 
 test("updateLBEntry successfully updates when score is greater, and doesn't when score is less", () => {
+    jest.setTimeout(10000);
     // New entry with score 11 (bigger than 10), SHOULD update.
     return updateLB(
         "JestTestGroup",
