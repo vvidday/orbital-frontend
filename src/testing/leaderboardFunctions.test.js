@@ -41,6 +41,11 @@ test("newLBEntry correctly inserts a logged entry in database that is detected b
             .then((result) => {
                 console.log(result);
                 expect(result.length).toBe(1);
+                expect(result[0].playerID).toBe(
+                    "46a60792-a172-4f18-b737-376296165388"
+                );
+                expect(result[0].playerName).toBe("useinLBTest");
+                expect(result[0].score).toBe(10);
                 return dataIfExists(
                     "JestTestGroup",
                     "a84f2508-79a2-475f-97ff-6b3424ee77b1"

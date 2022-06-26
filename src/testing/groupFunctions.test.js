@@ -6,8 +6,8 @@ import {
 
 test("generateGroupID correctly generates string representing the sorted array concatenated together", () => {
     expect(generateGroupID(["foo", "bar", "baz", "qux"])).toBe("barbazfooqux");
-    expect(generateGroupID(["Foo", "bar", "Baz", "qux"])).toBe("BazFoobarqux");
-    expect(generateGroupID(["qux", "Baz", "bar", "Foo"])).toBe("BazFoobarqux");
+    expect(generateGroupID(["Foo", "bar", "Baz", "qux"])).toBe("barbazfooqux");
+    expect(generateGroupID(["qux", "Baz", "bar", "Foo"])).toBe("barbazfooqux");
 });
 
 test("isDuplicate correctly returns false for an entry that is not inside the database", () => {
