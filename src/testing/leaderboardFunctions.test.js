@@ -55,7 +55,7 @@ test("newLBEntry correctly inserts a logged entry in database that is detected b
     });
 });
 
-test("updateLBEntry successfully updates when score is greater, and doesn't when score is less", () => {
+test("updateLBEntry successfully updates when score is greater", () => {
     // New entry with score 11 (bigger than 10), SHOULD update.
     return updateLB(
         "JestTestGroup",
@@ -71,24 +71,26 @@ test("updateLBEntry successfully updates when score is greater, and doesn't when
         )
         .then((result) => {
             expect(result[0]["score"]).toBe(11);
-            // New entry with score 10, SHOULD NOT update.
-            return updateLB(
-                "JestTestGroup",
-                "46a60792-a172-4f18-b737-376296165388",
-                "useinLBTest",
-                10
-            );
-        })
-        .then(() =>
-            dataIfExists(
+        });
+});
+
+test("updateLBEntry does not update when score is lower", () => {
+    return updateLB(
+        "JestTestGroup",
+        "46a60792-a172-4f18-b737-376296165388",
+        "useinLBTest",
+        10
+    )
+        .then(() => {
+            return dataIfExists(
                 "JestTestGroup",
                 "46a60792-a172-4f18-b737-376296165388"
-            )
-        )
+            );
+        })
         .then((result) => {
             expect(result[0]["score"]).toBe(11);
         });
-}, 15000);
+});
 
 test("Delete test entries for cleanup", () => {
     return deleteLBEntry(
