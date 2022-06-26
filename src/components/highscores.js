@@ -46,14 +46,15 @@ export const Highscores = ({ accs, setGameState }) => {
                 {data.map((entry, i) => {
                     return (
                         <Grid
+                            id={`hsentry${i}`}
                             templateColumns="repeat(2, 1fr)"
                             align="center"
                             key={i}
                         >
-                            <GridItem>
+                            <GridItem id={`name${i}`}>
                                 {entry.playerName ?? entry.playerNameAnon}{" "}
                             </GridItem>
-                            <GridItem>{entry.score}</GridItem>
+                            <GridItem id={`score${i}`}>{entry.score}</GridItem>
                         </Grid>
                     );
                 })}
