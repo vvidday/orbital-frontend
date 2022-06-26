@@ -184,6 +184,7 @@ export const GameImproved = (
                             choices.map((acc, key) => {
                                 return (
                                     <Button
+                                        id={`choice${key}`}
                                         variant="custom"
                                         className="option"
                                         key={key}
@@ -216,6 +217,7 @@ export const GameImproved = (
                 <Fade in={isOpen}>
                     {wrong ? (
                         <Button
+                            id="wrong-btn"
                             className="answer"
                             colorScheme="twitter"
                             variant="solid"
@@ -231,6 +233,7 @@ export const GameImproved = (
                         </Button>
                     ) : (
                         <Button
+                            id="next-btn"
                             className="answer"
                             colorScheme="twitter"
                             variant="solid"

@@ -43,6 +43,7 @@ export const Selection = ({ setGameState, setAccs }) => {
                             return (
                                 <Group
                                     key={i}
+                                    index={i}
                                     title={group.title}
                                     handles={group.handles}
                                     setAccs={setAccs}
