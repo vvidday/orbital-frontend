@@ -23,7 +23,7 @@ test("newLBEntryAnon correctly inserts an anoynmous entry in the leaderboard dat
             return deleteLBEntryAnon("JestTestGroup", "Test Player", "40");
         })
         .then((data) => {
-            console.log(data);
+            //console.log(data);
         });
 });
 
@@ -39,8 +39,13 @@ test("newLBEntry correctly inserts a logged entry in database that is detected b
             "46a60792-a172-4f18-b737-376296165388"
         )
             .then((result) => {
-                console.log(result);
+                //console.log(result);
                 expect(result.length).toBe(1);
+                expect(result[0].playerID).toBe(
+                    "46a60792-a172-4f18-b737-376296165388"
+                );
+                expect(result[0].playerName).toBe("useinLBTest");
+                expect(result[0].score).toBe(10);
                 return dataIfExists(
                     "JestTestGroup",
                     "a84f2508-79a2-475f-97ff-6b3424ee77b1"
@@ -50,7 +55,7 @@ test("newLBEntry correctly inserts a logged entry in database that is detected b
     });
 });
 
-test("updateLBEntry successfully updates when score is greater, and doesn't when score is less", () => {
+test("updateLBEntry successfully updates when score is greater", () => {
     // New entry with score 11 (bigger than 10), SHOULD update.
     return updateLB(
         "JestTestGroup",
@@ -66,20 +71,22 @@ test("updateLBEntry successfully updates when score is greater, and doesn't when
         )
         .then((result) => {
             expect(result[0]["score"]).toBe(11);
-            // New entry with score 10, SHOULD NOT update.
-            return updateLB(
-                "JestTestGroup",
-                "46a60792-a172-4f18-b737-376296165388",
-                "useinLBTest",
-                10
-            );
-        })
-        .then(() =>
-            dataIfExists(
+        });
+});
+
+test("updateLBEntry does not update when score is lower", () => {
+    return updateLB(
+        "JestTestGroup",
+        "46a60792-a172-4f18-b737-376296165388",
+        "useinLBTest",
+        10
+    )
+        .then(() => {
+            return dataIfExists(
                 "JestTestGroup",
                 "46a60792-a172-4f18-b737-376296165388"
-            )
-        )
+            );
+        })
         .then((result) => {
             expect(result[0]["score"]).toBe(11);
         });
