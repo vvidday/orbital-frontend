@@ -30,8 +30,9 @@ export const Nav = ({ setToggle, session }) => {
                     </Text>{" "}
                     That?
                 </Heading>
-                <Box>
+                <Flex>
                     <Button
+                        marginRight={"20px"}
                         id="toggle"
                         onClick={() => {
                             toggleColorMode();
@@ -40,14 +41,16 @@ export const Nav = ({ setToggle, session }) => {
                     >
                         Toggle Mode
                     </Button>
-                </Box>
-                <Box>
-                    {session ? (
-                        <Button onClick={signOut}>Sign Out</Button>
-                    ) : (
-                        <Button onClick={signInWithTwitter}>Sign In</Button>
-                    )}
-                </Box>
+
+                    <Box>
+                        {session ? (
+                            <Button onClick={signOut}>Sign Out</Button>
+                        ) : (
+                            <Button onClick={signInWithTwitter}>Sign In</Button>
+                        )}
+                    </Box>
+                </Flex>
+
                 {/*
                     <Box>
                         <FormControl>

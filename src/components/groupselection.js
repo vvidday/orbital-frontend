@@ -13,6 +13,14 @@ const DEFAULT_GROUPS = [
         title: "MMA",
         handles: ["TheNotoriousMMA", "USMAN84kg", "JonnyBones", "bullyb170"],
     },
+    {
+        title: "US Politics",
+        handles: ["AOC", "BernieSanders", "tedcruz", "POTUS", "DonaldjTrumpJR"],
+    },
+    {
+        title: "Twitch",
+        handles: ["xQc", "summit1g", "shroud", "loltyler1", "timthetatman"],
+    },
 ];
 
 export const Selection = ({ setGameState, setAccs }) => {
@@ -30,7 +38,7 @@ export const Selection = ({ setGameState, setAccs }) => {
                 <Box>Loading...</Box>
             ) : (
                 <Box>
-                    <Flex>
+                    <Flex justify={"space-around"} flexFlow="row wrap">
                         {DEFAULT_GROUPS.map((group, i) => {
                             return (
                                 <Group

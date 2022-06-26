@@ -73,11 +73,12 @@ export const CustomGroup = ({ setGameState, setAccs }) => {
     return (
         <Box align="center">
             Custom Group (Input 2-8 twitter handles/usernames)
-            <Flex padding="20px">
+            <Flex padding="20px" flexWrap={"wrap"} justifyContent={"center"}>
                 {arr.map((i, key) => {
                     return (
                         <Input
-                            margin="0px 10px"
+                            margin="10px 10px"
+                            width="200px"
                             value={i[0]}
                             onChange={(e) => i[1](e.target.value)}
                             key={key}

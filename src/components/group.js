@@ -10,7 +10,7 @@ export const Group = ({
 }) => {
     return (
         <Box
-            margin="30px 100px"
+            margin="30px 30px"
             padding="10px"
             _hover={{ cursor: "pointer" }}
             onClick={async (e) => {
