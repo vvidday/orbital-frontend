@@ -9,6 +9,7 @@ import { GameTest } from "./components/gameTesting";
 import { Box, ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { Loading } from "./components/loadingScreen";
 import { Selection } from "./components/groupselection";
+import { ApiTest } from "./components/apitesting";
 
 function App() {
     const accounts = [
@@ -34,7 +35,7 @@ function App() {
     2 - On submit score screen
     3 - On highscore screen
     */
-    const [gameState, setGameState] = useState(0);
+    const [gameState, setGameState] = useState(-1);
 
     // State to store session data
     const [session, setSession] = useState(null);
@@ -58,6 +59,9 @@ function App() {
     }, []);
 
     let displayComponent;
+    if (gameState === -1) {
+        displayComponent = <ApiTest />;
+    }
     if (gameState === 0) {
         displayComponent = (
             <Selection setGameState={setGameState} setAccs={setAccs} />
