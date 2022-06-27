@@ -69,7 +69,7 @@ export const MainDisplay = (
                             minWidth="250px"
                         >
                             {/*post.replace(/^"(.*)"$/, "$1")*/}
-                            {post.text}
+                            {post.text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, "")}
 
                             {post.media.length > 0 ? (
                                 <Image src={post.media[img]}></Image>
