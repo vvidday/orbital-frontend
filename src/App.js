@@ -54,7 +54,6 @@ function App() {
             if (session != null) {
                 return handleProfileOnLogin(session);
             }
-            //setAccs(accounts)
         });
     }, []);
 
@@ -63,39 +62,38 @@ function App() {
     useEffect(() => {
         if (session != null && supabase.auth.user() != null) {
             // gets user id if logged in
-            const userID = session.user.user_metadata.provider_id
-            async function userFollowing() {
-                try {
-                    const response = await getFollowing(userID);
-                    setAccs(response);
-                } catch (error) {
-                    console.log(error);
-                }
+            const fetchData = async () => {
+                const userID = session.user.user_metadata.provider_id
+                const response = await getFollowing(userID);
+                setAccs(response);   
             }
-            userFollowing();
-        } else if (supabase.auth.user() == null) {
-            // sets to default account if not logged in
-            setAccs(accounts);
+            fetchData().catch(console.error);
         }
-        console.log(supabase.auth.user())
     }, [session]);
 
     let displayComponent;
     if (gameState === 0) {
         displayComponent = (
-            <Selection setGameState={setGameState} setAccs={setAccs} />
+            <Selection 
+                session={session}
+                setGameState={setGameState} 
+                accs = {accs}
+                setAccs={setAccs} 
+            />
         );
     }
-    if (gameState === 1)
+    if (gameState === 1){
+        console.log("starting to load")
+        console.log(accs)
         displayComponent = (
             //<div>{JSON.stringify(session)}</div>
-
+            
             <Loading
                 accounts={accs}
                 setGameState={setGameState}
                 colorToggle={toggle}
             />
-        );
+        );}
     if (gameState === 2)
         displayComponent = (
             <SubmitScore

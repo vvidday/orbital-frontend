@@ -1,4 +1,4 @@
-import { Box, Button, Center, Heading, Text } from "@chakra-ui/react";
+import { Box, Heading, Text, Button, background } from "@chakra-ui/react";
 import { handlesToAccs } from "../logic/helpers";
 
 export const Group = ({
@@ -9,25 +9,36 @@ export const Group = ({
     setLoading,
 }) => {
     return (
-        <Box
+        <Button
+            border = "1px"
+            borderRadius = "10px"
+            flexDirection="column"
+            height="auto"
             margin="30px 30px"
             padding="10px"
-            _hover={{ cursor: "pointer" }}
+            _hover={{ cursor: "pointer", background:"lightblue"}}
             onClick={async (e) => {
                 setLoading(true);
-                const accs = await handlesToAccs(handles);
-                setAccs(accs);
+                if (handles != []) {
+                    const accs = await handlesToAccs(handles);
+                    setAccs(accs);
+                }
                 setGameState(1);
             }}
         >
             <Heading paddingBottom="10px">{title}</Heading>
             {handles.map((handle, i) => {
-                return (
+                return ( i < 5 ?
                     <Text key={i} fontStyle="italic">
                         @{handle}
-                    </Text>
+                    </Text> : ( i == handles.length - 1 ?
+                    <Text key={i} fontStyle="italic">
+                        {"... +" + (handles.length - 5)}
+                    </Text> :
+                    <Text key={i}></Text>
+                    )                                
                 );
             })}
-        </Box>
+        </Button>
     );
 };

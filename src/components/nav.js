@@ -4,12 +4,8 @@ import {
     Flex,
     Heading,
     Text,
-    FormControl,
-    FormLabel,
-    Switch,
     Button,
     useColorMode,
-    LightMode,
 } from "@chakra-ui/react";
 
 import { signInWithTwitter, signOut } from "../logic/auth";
