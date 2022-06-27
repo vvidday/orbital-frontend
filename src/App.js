@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { Highscores } from "./components/highscores";
 import { SubmitScore } from "./components/submitscore";
 import { supabase } from "./supabase/supabaseClient";
-import { getFollowing } from "./api/twitter";
 import { handleProfileOnLogin } from "./supabase/profileFunctions";
 import { GameTest } from "./components/gameTesting";
 import { Box, ChakraProvider, extendTheme } from "@chakra-ui/react";
@@ -59,19 +58,6 @@ function App() {
         });
     }, []);
 
-    // userEffect for fetching information for user's followings
-        // refreshes this when session loads since it is initially null
-    useEffect(() => {
-        if (session != null && supabase.auth.user() != null) {
-            // gets user id if logged in
-            const fetchData = async () => {
-                const userID = session.user.user_metadata.provider_id
-                const response = await getFollowing(userID);
-                setAccs(response);   
-            }
-            fetchData().catch(console.error);
-        }
-    }, [session]);
 
     let displayComponent;
     if (gameState === 0) {
