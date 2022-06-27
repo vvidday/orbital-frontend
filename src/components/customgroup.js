@@ -82,10 +82,7 @@ export const CustomGroup = ({ setGameState, setAccs }) => {
                             value={i[0]}
                             onChange={(e) => i[1](e.target.value)}
                             key={key}
-<<<<<<< HEAD
-=======
                             id={`input${key}`}
->>>>>>> efefc3f2f4964457756baefabf779cc152354ca2
                         ></Input>
                     );
                 })}
@@ -95,10 +92,7 @@ export const CustomGroup = ({ setGameState, setAccs }) => {
                     <Text>Loading...</Text>
                 ) : (
                     <Button
-<<<<<<< HEAD
-=======
                         id="play-btn"
->>>>>>> efefc3f2f4964457756baefabf779cc152354ca2
                         onClick={(e) => {
                             setLoading(true);
                             const handles = [];

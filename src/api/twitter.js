@@ -53,7 +53,7 @@ export async function getFollowing(userid) {
         // Loop 15 times due to twitter rate limit - at most, can grab 1500 following.
         // Note that only 8 accounts can be used for a single game.
 
-        for (let i = 0; i < 15; i++) {
+        for (let i = 0; i < 1; i++) {
             // On first call, no pagination token.
             let params =
                 i === 0 ? { id: userid } : { id: userid, token: pagToken };

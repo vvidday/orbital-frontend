@@ -37,37 +37,17 @@ export const Nav = ({ setToggle, session }) => {
                     >
                         Toggle Mode
                     </Button>
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> get_followers
-                <Box>
-                    {session ? (
-                        <Button onClick={() => {
-                            signOut();
-                            window.location.reload(false);
-                        }}>Sign Out</Button>
-                    ) : (
-                        <Button onClick={signInWithTwitter}>Sign In</Button>
-                    )}
-                </Box>
-<<<<<<< HEAD
-                </Flex>
-=======
-                </Flex>
-=======
-
                     <Box>
                         {session ? (
-                            <Button onClick={signOut}>Sign Out</Button>
+                            <Button onClick={() => {
+                                signOut();
+                                window.location.reload(false);
+                            }}>Sign Out</Button>
                         ) : (
                             <Button onClick={signInWithTwitter}>Sign In</Button>
                         )}
                     </Box>
                 </Flex>
-
->>>>>>> efefc3f2f4964457756baefabf779cc152354ca2
->>>>>>> get_followers
                 {/*
                     <Box>
                         <FormControl>
