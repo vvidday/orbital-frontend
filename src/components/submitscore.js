@@ -39,11 +39,14 @@ export const SubmitScore = ({ setGameState, accs, session }) => {
             ) : (
                 <>
                     <Input
+                        id="submit-name-input"
                         placeholder="Name"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                     ></Input>
-                    <Button onClick={handleSubmit}>Submit Score</Button>
+                    <Button id="submit-name-btn" onClick={handleSubmit}>
+                        Submit Score
+                    </Button>
                 </>
             )}
         </Box>

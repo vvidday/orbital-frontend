@@ -76,3 +76,66 @@ export async function getFollowing(userid) {
         return error;
     }
 }
+
+/*
+    Function that gets more info for a list of tweets
+    @param tweetIDs - array of tweet IDs
+    @return Array of tweet objects
+*/
+export async function tweetsLookup(tweetIDs) {
+    try {
+        const params = {
+            ids: tweetIDs.join(","),
+            expansions: "attachments.media_keys",
+            "media.fields": "type,url,width,height,preview_image_url",
+        };
+        const data = await axios.get(BASE + "tweet", { params: params });
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
+}
+
+/* Singular tweet lookup
+Return format: {
+    id: string
+    media: [] array of links, ONLY if media exists.
+    text: string   
+}
+Essentially, only change is inclusion of media link.
+*/
+export async function tweetLookup(tweetID) {
+    try {
+        const params = {
+            ids: tweetID,
+            expansions: "attachments.media_keys",
+            "media.fields": "type,url,preview_image_url",
+        };
+        const res = await axios.get(BASE + "tweet", { params: params });
+        const data = res.data;
+        //console.log(data["data"]);
+        const returnObj = {
+            id: data["data"]["0"]["id"],
+            text: data["data"]["0"]["text"],
+        };
+        // There is at least one media
+        if (data.data["0"].attachments != null) {
+            const media = [];
+            data.includes.media.map((x) => {
+                if (x["url"] != null) media.push(x["url"]);
+                if (x["preview_image_url"] != null)
+                    media.push(x["preview_image_url"]);
+            });
+            returnObj["media"] = media;
+        } else {
+            returnObj["media"] = [];
+        }
+        console.log(returnObj);
+        return returnObj;
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
+}

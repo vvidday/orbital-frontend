@@ -1,4 +1,4 @@
-import { Box, Flex, Textarea,ButtonGroup } from "@chakra-ui/react";
+import { Box, ButtonGroup } from "@chakra-ui/react";
 import { supabase } from "../supabase/supabaseClient";
 import { Group } from "./group";
 import { CustomGroup } from "./customgroup";
