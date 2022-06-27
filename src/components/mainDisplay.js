@@ -13,13 +13,13 @@ import extractUrls from "extract-urls";
 // Modified Game Component that uses hardcoded values instead of pulling from the API.
 export const MainDisplay = (
     // Twitter accounts selected by the player is passed in as props (hardcode for now)
-    { reloadEmbed, embed, post, ID, showAnswer }
+    { reloadEmbed, embed, post, ID, showAnswer}
 ) => {
     const [links, setLinks] = useState([]);
     useEffect(() => {
         setLinks(extractUrls(post));
     }, []);
-
+    
     console.log(extractUrls(post));
     return (
         <Box minHeight="250px">
@@ -55,6 +55,7 @@ export const MainDisplay = (
                             maxWidth="516px" maxHeight="255px"
                             minWidth="250px"
                         >
+                            {/* second regex statement looks for links starting with 'https:' and removes it */}
                             {post.replace(/^"(.*)"$/, "$1").replace(/(?:https?|ftp):\/\/[\n\S]+/g, '')}
                         </Text>
                     </Box>

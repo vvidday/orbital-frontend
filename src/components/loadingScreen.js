@@ -5,7 +5,7 @@ import { Box, Text } from "@chakra-ui/react";
 import { GameImproved } from "./gameImproved";
 import bufferData from "../logic/buffer";
 
-export const Loading = ({ accounts, colorToggle, setGameState, session}) => {
+export const Loading = ({ accounts, colorToggle, setGameState}) => {
     const [reload, setReload] = useState();
     const [length, setLength] = useState(0);
     const BUFFER_SIZE = 5;
