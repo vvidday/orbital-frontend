@@ -128,13 +128,6 @@ export const MainDisplay = (
                             )}
                         </Box>
                     </Box>
-                    {links != undefined ? (
-                        links.map((link) => {
-
-                        })
-                    ):(
-                        <Box></Box>
-                    )}
                 </Center>
             ) : (
                 <TwitterTweetEmbed
