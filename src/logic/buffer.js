@@ -1,5 +1,5 @@
 import { data } from "../data/bufferData";
-import { getUserByUsername } from "../api/twitter";
+import { getUserByUsername, tweetLookup } from "../api/twitter";
 import { getTimeline } from "../api/twitter";
 import { setChoices } from "../logic/setChoices";
 /*
@@ -26,15 +26,14 @@ function bufferData(accounts, bufferSize) {
         try {
             const response = await getTimeline(id, true, true);
             const recentPosts = response.data;
+            // Select random post from timeline
             const randomRecentPost =
                 recentPosts.data[
                     Math.floor(Math.random() * recentPosts.data.length)
                 ];
-            //dictionary["post"] = randomRecentPost.text;
-            //return randomRecentPost.text;
-            dictionary["post"] = randomRecentPost.text;
-            dictionary["id"] = randomRecentPost.id;
-            return randomRecentPost.text;
+            // Get full tweet object including media for the post
+            dictionary["post"] = await tweetLookup(randomRecentPost.id);
+            return;
         } catch (error) {
             console.log(error);
         }
