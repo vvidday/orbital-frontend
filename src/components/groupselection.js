@@ -4,7 +4,11 @@ import { Group } from "./group";
 import { CustomGroup } from "./customgroup";
 import { useEffect, useState } from "react";
 import { resetData } from "../data/bufferData";
-import { accsToHandles } from "../logic/helpers";
+import { getFollowing } from "../api/twitter";
+import {
+    isDuplicate,
+    newGroup,
+} from "../supabase/groupFunctions";
 
 const DEFAULT_GROUPS = [
     {
@@ -43,6 +47,34 @@ export const Selection = ({ setGameState, accs, setAccs, session }) => {
         })
     );
 
+    useEffect(() => {
+        accs = []
+        if (session != null && supabase.auth.user() != null) {
+            // gets user id if logged in
+            const fetchData = async () => {
+                const userID = session.user.user_metadata.provider_id
+                const response = await getFollowing(userID);
+                if (response.length > 8) {
+                    const newAccs = [];
+                    let i = 0;
+                    while (i < 8) {
+                        const random = Math.floor(Math.random() * response.length);
+                        newAccs.push(response[random]);
+                        response.splice(random, 1);
+                        i+=1;
+                    }
+                    console.log(newAccs);
+                    setAccs(newAccs);
+                } else {
+                    setAccs(response);
+                }
+                console.log(accs);
+            }
+            fetchData().catch(console.error);
+            console.log(accs);
+        }
+    }, [session]);
+
     // Reset data on load... change to state!!!
     useEffect(() => {
         resetData();
@@ -53,23 +85,46 @@ export const Selection = ({ setGameState, accs, setAccs, session }) => {
     useEffect(() => {
         if (supabase.auth.user() != null) {
             if (DEFAULT_GROUPS[DEFAULT_GROUPS.length-1].title == "Your Following") {
+                const userHandles = accs.map((i) => i.username)
                 DEFAULT_GROUPS[DEFAULT_GROUPS.length-1] = {
                     title: "Your Following",
-                    handles: accs.map((i) => i.username)
+                    handles: userHandles
                 }
-                setHandle(
-                    DEFAULT_GROUPS.map((group, i) => {
-                    return (
-                        <Group
-                            key={i}
-                            title={group.title}
-                            handles={group.handles}
-                            setAccs={setAccs}
-                            setGameState={setGameState}
-                            setLoading={setLoading}
-                        />
-                    );
-                }))
+                const playUserGroup = async (currentHandles) => {
+                    const groupExists = await isDuplicate(currentHandles);
+                    if (!groupExists) {
+                        // Create group
+                        newGroup(currentHandles).then(() => {
+                            setHandle(
+                                DEFAULT_GROUPS.map((group, i) => {
+                                return (
+                                    <Group
+                                        key={i}
+                                        title={group.title}
+                                        handles={group.handles}
+                                        setAccs={setAccs}
+                                        setGameState={setGameState}
+                                        setLoading={setLoading}
+                                    />
+                                );
+                            }));
+                        });
+                    }
+                    setHandle(
+                        DEFAULT_GROUPS.map((group, i) => {
+                        return (
+                            <Group
+                                key={i}
+                                title={group.title}
+                                handles={group.handles}
+                                setAccs={setAccs}
+                                setGameState={setGameState}
+                                setLoading={setLoading}
+                            />
+                        );
+                    }));
+                };
+                playUserGroup(userHandles);
             } else {
                 // handles initial case when accs is not loaded yet
                     // refreshes this part when accs is added
@@ -81,7 +136,6 @@ export const Selection = ({ setGameState, accs, setAccs, session }) => {
             }
         }
     },[accs, session]);
-    console.log(DEFAULT_GROUPS);
     return (
         <Box>
             {loading ? (

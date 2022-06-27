@@ -2,7 +2,6 @@ import { Box, Button, Center, Flex, Input, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { getUserByUsername } from "../api/twitter";
 import {
-    generateGroupID,
     isDuplicate,
     newGroup,
 } from "../supabase/groupFunctions";
