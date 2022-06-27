@@ -27,7 +27,7 @@ export const Highscores = ({ accs, setGameState }) => {
                 {accs.map((acc, i) =>
                     i === accs.length - 1
                         ? `@${acc.username}`
-                        : `@${acc.username}         `
+                        : `@${acc.username}`
                 )}
             </Text>
             <Box>
