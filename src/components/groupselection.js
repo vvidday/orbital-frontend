@@ -46,7 +46,7 @@ export const Selection = ({ setGameState, accs, setAccs, session }) => {
             );
         })
     );
-
+/*
     useEffect(() => {
         accs = []
         if (session != null && supabase.auth.user() != null) {
@@ -77,11 +77,12 @@ export const Selection = ({ setGameState, accs, setAccs, session }) => {
             console.log(accs);
         }
     }, [session]);
-
+*/
     // Reset data on load... change to state!!!
     useEffect(() => {
         resetData();
     });
+/*
     // maps Your Following button to the selection when the user logs in
         // if user logs out, it is removed
         // if user logs in at any time, the button is added
@@ -139,6 +140,7 @@ export const Selection = ({ setGameState, accs, setAccs, session }) => {
             }
         }
     },[accs, session]);
+*/
     return (
         <Box>
             {loading ? (
