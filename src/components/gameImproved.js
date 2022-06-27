@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { setChoices } from "../logic/setChoices";
-import { getUserByUsername } from "../api/twitter";
+import { getUserByUsername, tweetLookup } from "../api/twitter";
 import { getTimeline } from "../api/twitter";
 import { buttonLogic } from "../logic/button";
 import { resetColor } from "../logic/button";
@@ -27,7 +27,7 @@ export const GameImproved = (
     // Result - Object containing the object data of the correct user. E.g. {id:"813286",name:"Barack Obama",username:"BarackObama"}
     const [result, setResult] = useState({});
     // Post - String, the ID content of the selected twitter post.
-    const [post, setPost] = useState("");
+    const [post, setPost] = useState({ text: "", media: [] });
     // Choices - Array of objects. length 4. contains 4 user objects : the correct user (i.e. result) and 3 other random users from {accounts}.
     const [choices, allChoices] = useState([]);
     // Boolean - Placeholder variable to trigger useEffect() - used to reset round of the game
@@ -36,12 +36,16 @@ export const GameImproved = (
     // wrong=true when player selects wrong answer, used to change next button.
     const [wrong, setWrong] = useState(false);
 
-    const [ID, setID] = useState();
+    //const [ID, setID] = useState();
     const [disable, setDisable] = useState(true);
     const [reloadDisable, setReloadDisable] = useState(false);
 
     const [embed, setEmbed] = useState();
     const [reloadEmbed, setReloadEmbed] = useState(false);
+
+    // Used in maindisplay
+    const [totalImg, setTotalImg] = useState(0);
+
     /*
             Game logic -> Depends how we can retrieve tweets. Tentatively:
                 Each Round:
@@ -85,8 +89,8 @@ export const GameImproved = (
         const randomAccount = accounts[index].username;
 
         let tempResult = {};
-        let tempPost = "";
-        let tempID = "";
+        let tempPost = {};
+        //let tempID = "";
         /* 
             userInfo - Asynchronously fetches the user data of the randomly selected account, and stores it in {result}
             @return Promise containing the user id of the randomly selected account
@@ -114,8 +118,8 @@ export const GameImproved = (
                     recentPosts.data[
                         Math.floor(Math.random() * recentPosts.data.length)
                     ];
-                tempPost = randomRecentPost.text;
-                tempID = randomRecentPost.id;
+                // Get full tweet object including media for the post
+                tempPost = await tweetLookup(randomRecentPost.id);
             } catch (error) {
                 console.log(error);
             }
@@ -129,7 +133,7 @@ export const GameImproved = (
                 data.push({
                     account: tempResult,
                     post: tempPost,
-                    id: tempID,
+                    //id: tempID,
                     choices: setChoices(index, accounts),
                 });
             });
@@ -137,9 +141,10 @@ export const GameImproved = (
         //Takes the top post from buffer array and sets the useState
         //should run asynchronously with the above part
         const topData = data.shift();
+        console.log(topData);
         setResult(topData.account);
         setPost(topData.post);
-        setID(topData.id);
+        //setID(topData.id);
         allChoices(topData.choices);
     }, [reload]);
 
@@ -162,14 +167,15 @@ export const GameImproved = (
         <Box>
             <Flex padding="10px" direction="column">
                 <Center fontSize="20px">Score: {score}</Center>
-
-                <MainDisplay
-                    reloadEmbed={reloadEmbed}
-                    embed={embed}
-                    post={post}
-                    ID={ID}
-                    showAnswer={reloadDisable}
-                />
+                {
+                    <MainDisplay
+                        key={post}
+                        reloadEmbed={reloadEmbed}
+                        embed={embed}
+                        post={post}
+                        showAnswer={reloadDisable}
+                    />
+                }
 
                 <Center className="options" marginTop="15px">
                     <ButtonGroup
@@ -184,6 +190,7 @@ export const GameImproved = (
                             choices.map((acc, key) => {
                                 return (
                                     <Button
+                                        id={`choice${key}`}
                                         variant="custom"
                                         className="option"
                                         key={key}
@@ -216,6 +223,7 @@ export const GameImproved = (
                 <Fade in={isOpen}>
                     {wrong ? (
                         <Button
+                            id="wrong-btn"
                             className="answer"
                             colorScheme="twitter"
                             variant="solid"
@@ -231,6 +239,7 @@ export const GameImproved = (
                         </Button>
                     ) : (
                         <Button
+                            id="next-btn"
                             className="answer"
                             colorScheme="twitter"
                             variant="solid"

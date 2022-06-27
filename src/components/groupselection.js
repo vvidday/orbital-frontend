@@ -1,10 +1,9 @@
-import { Box, Flex, Textarea,ButtonGroup } from "@chakra-ui/react";
+import { Box, ButtonGroup } from "@chakra-ui/react";
 import { supabase } from "../supabase/supabaseClient";
 import { Group } from "./group";
 import { CustomGroup } from "./customgroup";
 import { useEffect, useState } from "react";
 import { resetData } from "../data/bufferData";
-import { accsToHandles } from "../logic/helpers";
 
 const DEFAULT_GROUPS = [
     {

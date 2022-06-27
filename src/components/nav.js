@@ -37,6 +37,7 @@ export const Nav = ({ setToggle, session }) => {
                     >
                         Toggle Mode
                     </Button>
+<<<<<<< HEAD
                 <Box>
                     {session ? (
                         <Button onClick={() => {
@@ -48,6 +49,18 @@ export const Nav = ({ setToggle, session }) => {
                     )}
                 </Box>
                 </Flex>
+=======
+
+                    <Box>
+                        {session ? (
+                            <Button onClick={signOut}>Sign Out</Button>
+                        ) : (
+                            <Button onClick={signInWithTwitter}>Sign In</Button>
+                        )}
+                    </Box>
+                </Flex>
+
+>>>>>>> efefc3f2f4964457756baefabf779cc152354ca2
                 {/*
                     <Box>
                         <FormControl>

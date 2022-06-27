@@ -54,6 +54,8 @@ function App() {
             if (session != null) {
                 return handleProfileOnLogin(session);
             }
+            // Back to selection
+            setGameState(0);
         });
     }, []);
 
