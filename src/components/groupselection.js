@@ -46,14 +46,17 @@ export const Selection = ({ setGameState, accs, setAccs, session }) => {
             );
         })
     );
-
+/*
     useEffect(() => {
         accs = []
         if (session != null && supabase.auth.user() != null) {
             // gets user id if logged in
             const fetchData = async () => {
                 const userID = session.user.user_metadata.provider_id
-                const response = await getFollowing(userID);
+                //const response = await getFollowing(userID);
+                const response = ["xQc", "summit1g", "shroud", "loltyler1", "timthetatman",
+                "AOC", "BernieSanders", "tedcruz", "POTUS", "DonaldjTrumpJR","BarackObama", 
+                "Cristiano", "justinbieber", "katyperry"];
                 if (response.length > 8) {
                     const newAccs = [];
                     let i = 0;
@@ -74,11 +77,12 @@ export const Selection = ({ setGameState, accs, setAccs, session }) => {
             console.log(accs);
         }
     }, [session]);
-
+*/
     // Reset data on load... change to state!!!
     useEffect(() => {
         resetData();
     });
+/*
     // maps Your Following button to the selection when the user logs in
         // if user logs out, it is removed
         // if user logs in at any time, the button is added
@@ -136,6 +140,7 @@ export const Selection = ({ setGameState, accs, setAccs, session }) => {
             }
         }
     },[accs, session]);
+*/
     return (
         <Box>
             {loading ? (
