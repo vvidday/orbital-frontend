@@ -2,6 +2,7 @@ import { Box, Button, Center, Heading, Text } from "@chakra-ui/react";
 import { handlesToAccs } from "../logic/helpers";
 
 export const Group = ({
+    index,
     title,
     handles,
     setAccs,
@@ -10,6 +11,7 @@ export const Group = ({
 }) => {
     return (
         <Box
+            id={`group${index}`}
             margin="30px 30px"
             padding="10px"
             _hover={{ cursor: "pointer" }}

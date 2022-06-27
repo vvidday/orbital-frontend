@@ -1,12 +1,5 @@
 import React from "react";
-import {
-    Box,
-    Button,
-    Center,
-    useDisclosure,
-    Fade,
-} from "@chakra-ui/react";
-
+import { Box, Button, Center, useDisclosure, Fade } from "@chakra-ui/react";
 
 // Modified Game Component that uses hardcoded values instead of pulling from the API.
 export const ShowAnswer = (
@@ -19,11 +12,15 @@ export const ShowAnswer = (
     return (
         <Box>
             <Center marginTop={"50px"}>
-                <Button onClick={onToggle}>Show Answer (Dev)</Button>
+                <Button id="showans-btn" onClick={onToggle}>
+                    Show Answer (Dev)
+                </Button>
             </Center>
 
             <Fade in={isOpen}>
-                <Center p="40px">{answer}</Center>
+                <Center id="answer" p="40px">
+                    {answer}
+                </Center>
             </Fade>
         </Box>
     );
