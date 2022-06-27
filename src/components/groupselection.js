@@ -53,7 +53,10 @@ export const Selection = ({ setGameState, accs, setAccs, session }) => {
             // gets user id if logged in
             const fetchData = async () => {
                 const userID = session.user.user_metadata.provider_id
-                const response = await getFollowing(userID);
+                //const response = await getFollowing(userID);
+                const response = ["xQc", "summit1g", "shroud", "loltyler1", "timthetatman",
+                "AOC", "BernieSanders", "tedcruz", "POTUS", "DonaldjTrumpJR","BarackObama", 
+                "Cristiano", "justinbieber", "katyperry"];
                 if (response.length > 8) {
                     const newAccs = [];
                     let i = 0;
