@@ -9,6 +9,7 @@ import {
     isDuplicate,
     newGroup,
 } from "../supabase/groupFunctions";
+
 const DEFAULT_GROUPS = [
     {
         title: "Default",

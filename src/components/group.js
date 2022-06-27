@@ -1,4 +1,4 @@
-import { Box, Heading, Text, Button } from "@chakra-ui/react";
+import { Heading, Text, Button } from "@chakra-ui/react";
 import { handlesToAccs } from "../logic/helpers";
 
 export const Group = ({

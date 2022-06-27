@@ -37,16 +37,16 @@ export const Nav = ({ setToggle, session }) => {
                     >
                         Toggle Mode
                     </Button>
-                <Box>
-                    {session ? (
-                        <Button onClick={() => {
-                            signOut();
-                            window.location.reload(false);
-                        }}>Sign Out</Button>
-                    ) : (
-                        <Button onClick={signInWithTwitter}>Sign In</Button>
-                    )}
-                </Box>
+                    <Box>
+                        {session ? (
+                            <Button onClick={() => {
+                                signOut();
+                                window.location.reload(false);
+                            }}>Sign Out</Button>
+                        ) : (
+                            <Button onClick={signInWithTwitter}>Sign In</Button>
+                        )}
+                    </Box>
                 </Flex>
                 {/*
                     <Box>
