@@ -10,7 +10,7 @@ import {
 
 import { signInWithTwitter, signOut } from "../logic/auth";
 
-export const Nav = ({ setToggle, session }) => {
+export const Nav = ({ setToggle, session, setGameState }) => {
     const { colorMode, toggleColorMode } = useColorMode();
     useEffect(() => {
         setToggle(colorMode);
@@ -27,6 +27,19 @@ export const Nav = ({ setToggle, session }) => {
                     That?
                 </Heading>
                 <Flex>
+                    <Box>
+                        {session ? (
+                            <Button
+                                onClick={() => setGameState(-1)}
+                                marginRight="20px"
+                            >
+                                Profile
+                            </Button>
+                        ) : (
+                            <></>
+                        )}
+                    </Box>
+
                     <Button
                         marginRight={"20px"}
                         id="toggle"
@@ -39,10 +52,14 @@ export const Nav = ({ setToggle, session }) => {
                     </Button>
                     <Box>
                         {session ? (
-                            <Button onClick={() => {
-                                signOut();
-                                window.location.reload(false);
-                            }}>Sign Out</Button>
+                            <Button
+                                onClick={() => {
+                                    signOut();
+                                    window.location.reload(false);
+                                }}
+                            >
+                                Sign Out
+                            </Button>
                         ) : (
                             <Button onClick={signInWithTwitter}>Sign In</Button>
                         )}
