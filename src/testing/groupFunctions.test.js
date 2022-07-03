@@ -2,6 +2,7 @@ import {
     newGroup,
     isDuplicate,
     generateGroupID,
+    idToHandles,
 } from "../supabase/groupFunctions";
 
 test("generateGroupID correctly generates string representing the sorted array concatenated together", () => {
@@ -25,4 +26,17 @@ test("isDuplicate correctly returns true for an entry that is not inside the dat
     ]).then((response) => {
         expect(response).toBe(true);
     });
+});
+
+test("idToHandles correctly converts id to handle array", () => {
+    return idToHandles("aocberniesandersdonaldjtrumpjrpotustedcruz").then(
+        (response) => {
+            expect(response.length).toBe(5);
+            expect(response[0]).toBe("aoc");
+            expect(response[1]).toBe("berniesanders");
+            expect(response[2]).toBe("donaldjtrumpjr");
+            expect(response[3]).toBe("potus");
+            expect(response[4]).toBe("tedcruz");
+        }
+    );
 });
