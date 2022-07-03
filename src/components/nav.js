@@ -19,7 +19,11 @@ export const Nav = ({ setToggle, session, setGameState }) => {
     return (
         <Flex h="100px" padding="10px 30px" align="center">
             <Flex as="nav" id="navbar" basis="100%" justify="space-between">
-                <Heading as="h2">
+                <Heading
+                    as="h2"
+                    cursor="pointer"
+                    onClick={() => setGameState(0)}
+                >
                     Who{" "}
                     <Text as="span" color="#00acee">
                         Tweeted
