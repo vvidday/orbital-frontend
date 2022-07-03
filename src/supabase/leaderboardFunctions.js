@@ -125,3 +125,37 @@ export const deleteLBEntryAnon = async (groupID, playerNameAnon, score) => {
         .eq("score", score);
     return data;
 };
+
+/*
+    getProfileLB - Get all entries in the leaderboard by profile id. 
+    @param userID - ID of user
+    @return Array of javascript objects representing rows in database
+*/
+export const getProfileLB = async (playerID) => {
+    const { data, error } = await supabase
+        .from("Leaderboard")
+        .select("*")
+        .eq("playerID", playerID);
+    if (error != null) {
+        console.log(error);
+        return error;
+    }
+    return data;
+};
+
+/*
+    getProfileHelper - Get all relevant info by playerID, to be used in profile page.
+    @param userID - ID of user
+    @return Array of javascript objects representing top scores for the user.
+*/
+export const getProfileHelper = async (playerID) => {
+    const data = await getProfileLB(playerID);
+    const ans = [];
+    for (let i = 0; i < data.length; i++) {
+        const obj = {};
+        obj["groupID"] = data[i]["groupID"];
+        obj["score"] = data[i]["score"];
+        ans.push(obj);
+    }
+    return ans;
+};
