@@ -22,11 +22,6 @@
     "react-twitter-embed": "^4.0.4",
     "web-vitals": "^2.1.4"
   },
-  "jest":{
-    "verbose": true,
-     "testTimeout": 20000
-
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
