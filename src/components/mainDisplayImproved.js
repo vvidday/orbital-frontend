@@ -22,7 +22,6 @@ export const MainDisplayImproved = (
     // Index of currently shown image
     const [img, setImg] = useState(0);
     const [hiddenTweet, setHiddenTweet] = useState(<Box></Box>);
-    const [embedTweet, setEmbedTweet] = useState(<Box></Box>);
     // Total number of images in tweet
     const [totalImg, setTotalImg] = useState(0);
 
