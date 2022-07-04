@@ -96,7 +96,14 @@ export const CustomGroup = ({ setGameState, setAccs }) => {
                             setLoading(true);
                             const handles = [];
                             arr.map((i) => {
-                                if (i[0] != "") handles.push(i[0]);
+                                // check and remove first char value if its "@"
+                                if (i[0] != "") {
+                                    if (i[0].charAt(0) == "@") {
+                                        handles.push(i[0].substring(1));
+                                    } else {
+                                        handles.push(i[0]);
+                                    }
+                                } 
                             });
                             console.log(handles);
                             playCustomGroup(handles);

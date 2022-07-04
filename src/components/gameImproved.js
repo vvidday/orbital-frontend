@@ -18,6 +18,7 @@ import {
 import { data } from "../data/bufferData";
 import { ShowAnswer } from "./answer";
 import { MainDisplay } from "./mainDisplay";
+import { MainDisplayImproved } from "./mainDisplayImproved";
 
 export const GameImproved = (
     // Twitter accounts selected by the player is passed in as props (hardcode for now)
@@ -168,12 +169,13 @@ export const GameImproved = (
             <Flex padding="10px" direction="column">
                 <Center fontSize="20px">Score: {score}</Center>
                 {
-                    <MainDisplay
+                    <MainDisplayImproved
                         key={post}
                         reloadEmbed={reloadEmbed}
                         embed={embed}
                         post={post}
                         showAnswer={reloadDisable}
+                        onToggle = {onToggle}
                     />
                 }
 
@@ -207,7 +209,7 @@ export const GameImproved = (
                                                 setWrong(true);
                                                 // Clean up
                                             }
-                                            onToggle();
+                                            //onToggle();
                                             setReloadDisable(!reloadDisable);
                                         }}
                                     >

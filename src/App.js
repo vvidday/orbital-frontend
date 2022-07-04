@@ -3,10 +3,8 @@ import { useEffect, useState } from "react";
 import { Highscores } from "./components/highscores";
 import { SubmitScore } from "./components/submitscore";
 import { supabase } from "./supabase/supabaseClient";
-
 import { handleProfileOnLogin } from "./supabase/profileFunctions";
-import { GameTest } from "./components/gameTesting";
-import { Box, ChakraProvider, extendTheme } from "@chakra-ui/react";
+import { Box} from "@chakra-ui/react";
 import { Loading } from "./components/loadingScreen";
 import { Selection } from "./components/groupselection";
 
