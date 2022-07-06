@@ -1,4 +1,4 @@
-import { Heading, Text, Button, WrapItem } from "@chakra-ui/react";
+import { Heading, Text, Button, WrapItem, Box} from "@chakra-ui/react";
 import { handlesToAccs } from "../logic/helpers";
 
 export const Group = ({
@@ -14,7 +14,10 @@ export const Group = ({
                 border = "1px"
                 borderRadius = "10px"
                 flexDirection="column"
-                height="auto"
+                height="100%"
+                width={{base: "60vw", sm:"auto"}}
+                minWidth = "50px"
+                justifyContent="space-between"
                 padding="10px"
                 _hover={{ cursor: "pointer", background:"lightblue"}}
                 onClick={async (e) => {
@@ -26,7 +29,10 @@ export const Group = ({
                     setGameState(1);
                 }}
             >
-                <Heading paddingBottom="10px">{title}</Heading>
+                <Heading 
+                    paddingBottom="10px"
+                    size={{base:"md", sm:"xl"}}
+                >{title}</Heading>
                 {handles.map((handle, i) => {
                     return ( i < 5 ?
                         <Text key={i} fontStyle="italic">

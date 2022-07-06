@@ -146,7 +146,7 @@ export const Selection = ({ setGameState, accs, setAccs, session }) => {
             {loading ? (
                 <Box>Loading...</Box>
             ) : (
-                <Box>
+                <Box border="1px">
                     <ButtonGroup 
                         display="flex"
                         justify="space-around"
@@ -169,7 +169,14 @@ export const Selection = ({ setGameState, accs, setAccs, session }) => {
                             );
                         })handleArray*/}
                     </ButtonGroup>
-                    <Wrap spacing="20px" justify="center">{handleArray}</Wrap>
+                    <Wrap 
+                        spacing="20px" 
+                        justify="center"
+                        align={{base:"center", sm:"stretch"}}
+                        direction={{base:"column", sm:"row"}}
+                    >
+                        {handleArray}
+                    </Wrap>
                     <CustomGroup
                         setGameState={setGameState}
                         setAccs={setAccs}

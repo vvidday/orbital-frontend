@@ -10,7 +10,9 @@ import {
     MenuButton,
     IconButton,
     MenuList,
-    MenuItem
+    MenuItem,
+    Show,
+    Hide
 } from "@chakra-ui/react";
 import { 
     MoonIcon, 
@@ -36,7 +38,7 @@ export const Nav = ({ setToggle, session }) => {
                     That?
                 </Heading>
                 <Flex>
-                    <Flex display={{ base: "none", sm: "flex" }} alignItems="center">
+                    <Hide below="sm" alignItems="center">
                         <Button
                             marginRight={"20px"}
                             id="toggle"
@@ -44,8 +46,7 @@ export const Nav = ({ setToggle, session }) => {
                                 toggleColorMode();
                                 setToggle(colorMode);
                             }}
-                        >
-                            {colorMode == "dark" ? 
+                        >{colorMode == "dark" ? 
                             (<SunIcon/>):(<MoonIcon/>)}
                         </Button>
                         <Box>
@@ -58,37 +59,37 @@ export const Nav = ({ setToggle, session }) => {
                                 <Button onClick={signInWithTwitter}>Sign In</Button>
                             )}
                         </Box>
-                    </Flex>
-                    <Flex display={{ base: "flex", sm: "none" }} alignItems="center">
-                    <Menu>
-                        <MenuButton
-                            as={IconButton}
-                            aria-label='Options'
-                            icon={<HamburgerIcon />}
-                            variant='outline'
-                        />
-                        <MenuList>
-                            <MenuItem 
-                                onClick={() => {
-                                    toggleColorMode();
-                                    setToggle(colorMode);
-                                }}
-                            >
-                                    Toggle
-                            </MenuItem>
-                            <Box>
-                                {session ? (
-                                    <MenuItem onClick={() => {
-                                        signOut();
-                                        window.location.reload(false);
-                                    }}>Sign Out</MenuItem>
-                                ) : (
-                                    <MenuItem onClick={signInWithTwitter}>Sign In</MenuItem>
-                                )}
-                            </Box>
-                        </MenuList>
-                    </Menu>
-                    </Flex>
+                    </Hide>
+                    <Show below="sm" alignItems="center">
+                        <Menu>
+                            <MenuButton
+                                as={IconButton}
+                                aria-label='Options'
+                                icon={<HamburgerIcon />}
+                                variant='outline'
+                            />
+                            <MenuList>
+                                <MenuItem 
+                                    onClick={() => {
+                                        toggleColorMode();
+                                        setToggle(colorMode);
+                                    }}
+                                >
+                                        Toggle
+                                </MenuItem>
+                                <Box>
+                                    {session ? (
+                                        <MenuItem onClick={() => {
+                                            signOut();
+                                            window.location.reload(false);
+                                        }}>Sign Out</MenuItem>
+                                    ) : (
+                                        <MenuItem onClick={signInWithTwitter}>Sign In</MenuItem>
+                                    )}
+                                </Box>
+                            </MenuList>
+                        </Menu>
+                    </Show>
                 </Flex>
                 {/*
                     <Box>
