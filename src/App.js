@@ -56,7 +56,6 @@ function App() {
             setGameState(0);
         });
     }, []);
-
     let displayComponent;
     if (gameState === 0) {
         displayComponent = (

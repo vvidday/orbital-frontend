@@ -33,6 +33,7 @@ function bufferData(accounts, bufferSize) {
                 ];
             // Get full tweet object including media for the post
             dictionary["post"] = await tweetLookup(randomRecentPost.id);
+            //dictionary["id"] = randomRecentPost.id;
             return;
         } catch (error) {
             console.log(error);

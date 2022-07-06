@@ -1,4 +1,4 @@
-import { Box, ButtonGroup } from "@chakra-ui/react";
+import { Box, ButtonGroup, Wrap } from "@chakra-ui/react";
 import { supabase } from "../supabase/supabaseClient";
 import { Group } from "./group";
 import { CustomGroup } from "./customgroup";
@@ -167,8 +167,9 @@ export const Selection = ({ setGameState, accs, setAccs, session }) => {
                                     setLoading={setLoading}
                                 />
                             );
-                        })*/handleArray}
+                        })handleArray*/}
                     </ButtonGroup>
+                    <Wrap spacing="20px" justify="center">{handleArray}</Wrap>
                     <CustomGroup
                         setGameState={setGameState}
                         setAccs={setAccs}

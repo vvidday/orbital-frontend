@@ -23,14 +23,32 @@ export const MainDisplay = (
     const [img, setImg] = useState(0);
     // Total number of images in tweet
     const [totalImg, setTotalImg] = useState(0);
-
+    const [preLoad, setPreLoadEmbed] = useState(<Box></Box>);
+    const [loaded, setLoaded] = useState(false);
     let buttonComp;
 
     useEffect(() => {
         // Set current index to 0 on new post
         setImg(0);
     }, [post]);
-
+/*
+    useEffect(() => {
+        setPreLoadEmbed(
+        <TwitterTweetEmbed
+            onLoad={function noRefCheck() {
+                //onToggle();
+                setLoaded(!loaded);
+            }}
+            placeholder="Loading"
+            key={reloadEmbed}
+            tweetId={post.id}
+            options={{
+                theme: embed,
+                align: "center",
+            }}
+        />);
+    }, [post]);
+*/
     return (
         <Box minHeight="250px">
             {!showAnswer ? (
@@ -130,6 +148,7 @@ export const MainDisplay = (
                     </Box>
                 </Center>
             ) : (
+                
                 <TwitterTweetEmbed
                     onLoad={function noRefCheck() {onToggle()}}
                     placeholder="Loading"
@@ -140,6 +159,8 @@ export const MainDisplay = (
                         align: "center",
                     }}
                 />
+                
+                //<Box>{preLoad}</Box>
             )}
         </Box>
     );

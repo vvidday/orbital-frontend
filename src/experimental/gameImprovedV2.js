@@ -5,7 +5,7 @@ import { getUserByUsername, tweetLookup } from "../api/twitter";
 import { getTimeline } from "../api/twitter";
 import { buttonLogic } from "../logic/button";
 import { resetColor } from "../logic/button";
-import { score, setDefault } from "./score";
+import { score, setDefault } from "../components/score";
 import {
     Box,
     Button,
@@ -15,11 +15,11 @@ import {
     useDisclosure,
     Fade,
 } from "@chakra-ui/react";
-import { data } from "../data/bufferData";
-import { ShowAnswer } from "./answer";
-import { MainDisplay } from "./mainDisplay";
+import { data } from "./data/improvedBuffer";
+import { ShowAnswer } from "../components/answer";
+import { MainDisplayImproved } from "../components/mainDisplayImproved";
 
-export const GameImproved = (
+export const GameImprovedV2 = (
     // Twitter accounts selected by the player is passed in as props (hardcode for now)
     { accounts, colorToggle, setGameState }
 ) => {
@@ -89,7 +89,8 @@ export const GameImproved = (
         const randomAccount = accounts[index].username;
 
         let tempResult = {};
-        let tempPost = {};
+        let tempID = "";
+        let tempPost = {}
         //let tempID = "";
         /* 
             userInfo - Asynchronously fetches the user data of the randomly selected account, and stores it in {result}
@@ -118,8 +119,16 @@ export const GameImproved = (
                     recentPosts.data[
                         Math.floor(Math.random() * recentPosts.data.length)
                     ];
-                // Get full tweet object including media for the post
-                tempPost = await tweetLookup(randomRecentPost.id);
+                tempID = randomRecentPost.id;
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        async function fullPost(postID) {
+            try {
+                tempPost = await tweetLookup(postID);
+                setPost(tempPost);
             } catch (error) {
                 console.log(error);
             }
@@ -131,20 +140,16 @@ export const GameImproved = (
             .then(() => {
                 data.push({
                     account: tempResult,
-                    post: tempPost,
-                    //id: tempPost,
                     choices: setChoices(index, accounts),
+                    id: tempID
                 });
             });
 
         //Takes the top post from buffer array and sets the useState
         //should run asynchronously with the above part
         const topData = data.shift();
-        console.log(topData);
-        //setPost(allInfo(topData.id));
-        //console.log(post);
+        fullPost(topData.id);
         setResult(topData.account);
-        setPost(topData.post);
         allChoices(topData.choices);
     }, [reload]);
 
@@ -160,7 +165,7 @@ export const GameImproved = (
         }
         setReloadEmbed(!reloadEmbed);
     }, [colorToggle]);
-
+    console.log(data);
     // Chakra specific hook for fade transition.
     const { isOpen, onToggle } = useDisclosure();
     return (
@@ -168,7 +173,7 @@ export const GameImproved = (
             <Flex padding="10px" direction="column">
                 <Center fontSize="20px">Score: {score}</Center>
                 {
-                    <MainDisplay
+                    <MainDisplayImproved
                         key={post}
                         reloadEmbed={reloadEmbed}
                         embed={embed}
