@@ -1,4 +1,4 @@
-import { Box, ButtonGroup, Wrap } from "@chakra-ui/react";
+import { Box, ButtonGroup, Wrap, Flex, CircularProgress } from "@chakra-ui/react";
 import { supabase } from "../supabase/supabaseClient";
 import { Group } from "./group";
 import { CustomGroup } from "./customgroup";
@@ -144,7 +144,12 @@ export const Selection = ({ setGameState, accs, setAccs, session }) => {
     return (
         <Box>
             {loading ? (
-                <Box>Loading...</Box>
+                <Flex justifyContent="center">
+                    <CircularProgress 
+                        isIndeterminate 
+                        color="#00acee"
+                    />
+                </Flex>
             ) : (
                 <Box border="1px">
                     <ButtonGroup 
@@ -177,10 +182,12 @@ export const Selection = ({ setGameState, accs, setAccs, session }) => {
                     >
                         {handleArray}
                     </Wrap>
-                    <CustomGroup
-                        setGameState={setGameState}
-                        setAccs={setAccs}
-                    />
+                    <Flex border="1px" justify="center" align="center">
+                        <CustomGroup
+                            setGameState={setGameState}
+                            setAccs={setAccs}
+                        />
+                    </Flex>
                 </Box>
             )}
         </Box>

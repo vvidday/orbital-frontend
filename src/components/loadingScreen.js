@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { data } from "../data/bufferData";
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Text, CircularProgress, Flex } from "@chakra-ui/react";
 import { GameImproved } from "./gameImproved";
 import bufferData from "../logic/buffer";
 
@@ -30,13 +30,19 @@ export const Loading = ({ accounts, colorToggle, setGameState}) => {
     if (length == 0) {
         return (
             <Box>
-                <Text margin="30px 30px">
+                <Text>
                     {JSON.stringify(
                         setTimeout(() => {
                             setReload(!reload);
                         }, 1000)
-                    ).replace(new RegExp(".*"), "Loading...")}
+                    ).replace(new RegExp(".*"), "")}
                 </Text>
+                <Flex justifyContent="center">
+                    <CircularProgress 
+                        isIndeterminate 
+                        color="#00acee"
+                    />
+                </Flex>
             </Box>
         );
     } else {

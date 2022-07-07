@@ -12,7 +12,8 @@ import {
     MenuList,
     MenuItem,
     Show,
-    Hide
+    Hide,
+    Tooltip
 } from "@chakra-ui/react";
 import { 
     MoonIcon, 
@@ -30,15 +31,15 @@ export const Nav = ({ setToggle, session }) => {
     return (
         <Flex h="100px" padding="10px 30px" align="center">
             <Flex as="nav" id="navbar" basis="100%" justify="space-between">
-                <Heading as="h2" fontSize={{base: "6vw", sm: "5vw", md: "40px"}}>
+                <Heading as="h2" fontSize={{base: "7vw", sm: "4.5vw", md: "30px"}}>
                     Who{" "}
                     <Text as="span" color="#00acee">
                         Tweeted
                     </Text>{" "}
                     That?
                 </Heading>
-                <Flex>
-                    <Hide below="sm" alignItems="center">
+                <Flex alignItems="center">
+                    <Hide below="sm">
                         <Button
                             marginRight={"20px"}
                             id="toggle"
@@ -60,7 +61,7 @@ export const Nav = ({ setToggle, session }) => {
                             )}
                         </Box>
                     </Hide>
-                    <Show below="sm" alignItems="center">
+                    <Show below="sm">
                         <Menu>
                             <MenuButton
                                 as={IconButton}

@@ -29,21 +29,24 @@ export const Group = ({
                     setGameState(1);
                 }}
             >
-                <Heading 
+                <Heading
                     paddingBottom="10px"
                     size={{base:"md", sm:"xl"}}
                 >{title}</Heading>
                 {handles.map((handle, i) => {
                     return ( i < 5 ?
-                        <Text key={i} fontStyle="italic">
+                        <Text 
+                            key={i} 
+                            fontStyle="italic"
+                            fontSize={{base:"sm", sm:"md"}}
+                        >
                             @{handle}
                         </Text> : ( i == handles.length - 1 ?
                         <Text key={i} fontStyle="italic">
                             {"... +" + (handles.length - 5)}
                         </Text> :
                         <Text key={i}></Text>
-                        )                                
-                    );
+                        ));
                 })}
             </Button>
         </WrapItem>
