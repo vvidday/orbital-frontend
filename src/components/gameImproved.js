@@ -177,7 +177,7 @@ export const GameImproved = (
             <Flex padding="10px" direction="column">
                 <Center fontSize="20px">Score: {score}</Center>
                 {
-                    <MainDisplayImproved
+                    <MainDisplay
                         key={post}
                         reloadEmbed={reloadEmbed}
                         embed={embed}
