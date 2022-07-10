@@ -5,6 +5,7 @@ import {
     statsCorrect,
     statsWrong,
     deleteEntry,
+    advancedStats,
 } from "../supabase/statisticsGroupFunctions";
 
 test("newEntry creates entries correctly", () => {
@@ -13,15 +14,15 @@ test("newEntry creates entries correctly", () => {
     });
 });
 test("getCurrent returns correctly", () => {
-    return getCurrent("JestTestGroup", "TestUsername").then((res) => {
+    return getCurrent("JestTestGroup", "testusername").then((res) => {
         expect(res[0]["correct"]).toBe(0);
         expect(res[0]["wrong"]).toBe(0);
     });
 });
 
 test("Increments work", () => {
-    return statsCorrect("JestTestGroup", "TestUsername")
-        .then(() => getCurrent("JestTestGroup", "TestUsername"))
+    return statsCorrect("JestTestGroup", "testusername")
+        .then(() => getCurrent("JestTestGroup", "testusername"))
         .then((res) => {
             expect(res[0]["correct"]).toBe(1);
             expect(res[0]["wrong"]).toBe(0);
@@ -29,8 +30,8 @@ test("Increments work", () => {
 });
 
 test("Decrements work", () => {
-    return statsWrong("JestTestGroup", "TestUsername")
-        .then(() => getCurrent("JestTestGroup", "TestUsername"))
+    return statsWrong("JestTestGroup", "testusername")
+        .then(() => getCurrent("JestTestGroup", "testusername"))
         .then((res) => {
             expect(res[0]["correct"]).toBe(1);
             expect(res[0]["wrong"]).toBe(1);
@@ -38,7 +39,7 @@ test("Decrements work", () => {
 });
 
 test("Cleanup", () => {
-    return deleteEntry("JestTestGroup", "TestUsername").then((res) => {
+    return deleteEntry("JestTestGroup", "testusername").then((res) => {
         expect(res.length).toBe(1);
     });
 });
