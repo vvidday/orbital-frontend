@@ -10,7 +10,7 @@ import {
 
 import { signInWithTwitter, signOut } from "../logic/auth";
 
-export const Nav = ({ setToggle, session }) => {
+export const Nav = ({ setToggle, session, setGameState }) => {
     const { colorMode, toggleColorMode } = useColorMode();
     useEffect(() => {
         setToggle(colorMode);
@@ -19,7 +19,11 @@ export const Nav = ({ setToggle, session }) => {
     return (
         <Flex h="100px" padding="10px 30px" align="center">
             <Flex as="nav" id="navbar" basis="100%" justify="space-between">
-                <Heading as="h2">
+                <Heading
+                    as="h2"
+                    cursor="pointer"
+                    onClick={() => setGameState(0)}
+                >
                     Who{" "}
                     <Text as="span" color="#00acee">
                         Tweeted
@@ -27,6 +31,19 @@ export const Nav = ({ setToggle, session }) => {
                     That?
                 </Heading>
                 <Flex>
+                    <Box>
+                        {session ? (
+                            <Button
+                                onClick={() => setGameState(-1)}
+                                marginRight="20px"
+                            >
+                                Profile
+                            </Button>
+                        ) : (
+                            <></>
+                        )}
+                    </Box>
+
                     <Button
                         marginRight={"20px"}
                         id="toggle"
@@ -39,10 +56,14 @@ export const Nav = ({ setToggle, session }) => {
                     </Button>
                     <Box>
                         {session ? (
-                            <Button onClick={() => {
-                                signOut();
-                                window.location.reload(false);
-                            }}>Sign Out</Button>
+                            <Button
+                                onClick={() => {
+                                    signOut();
+                                    window.location.reload(false);
+                                }}
+                            >
+                                Sign Out
+                            </Button>
                         ) : (
                             <Button onClick={signInWithTwitter}>Sign In</Button>
                         )}
