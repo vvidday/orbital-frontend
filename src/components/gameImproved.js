@@ -18,7 +18,7 @@ import {
 import { data } from "../data/bufferData";
 import { ShowAnswer } from "./answer";
 import { MainDisplay } from "./mainDisplay";
-
+import { MainDisplayImproved } from "./mainDisplayImproved";
 export const GameImproved = (
     // Twitter accounts selected by the player is passed in as props (hardcode for now)
     { accounts, colorToggle, setGameState }
@@ -168,7 +168,7 @@ export const GameImproved = (
             <Flex padding="10px" direction="column">
                 <Center fontSize="20px">Score: {score}</Center>
                 {
-                    <MainDisplay
+                    <MainDisplayImproved
                         key={post}
                         reloadEmbed={reloadEmbed}
                         embed={embed}
@@ -185,6 +185,7 @@ export const GameImproved = (
                         gridTemplateColumns="auto auto"
                         flexWrap={"wrap"}
                         justifyContent={"center"}
+                        isAttached
                     >
                         {
                             // Reformat once we determine how accounts are stored

@@ -16,7 +16,6 @@ import {
     newGroup,
 } from "../supabase/groupFunctions";
 import { DropDown } from "./customgroupDropdown";
-import { Loading } from "./loadingScreen";
 
 export const CustomGroupImproved = ({ setGameState, setAccs }) => {
     // States of the eight input fields.
@@ -82,12 +81,30 @@ export const CustomGroupImproved = ({ setGameState, setAccs }) => {
 
     // Checks the validity of a single account
     const checkAccount = async (handle) => {
-        if (handle != "") {
-            let filteredHandle = handle
+        let filteredHandle = handle
+        
+        //if (handles.map((element)=> element.value).includes(handle)) {
+            //    setError(`Handle has already been added!`);
+            //    setLoading(false);
+            //    return null;
+            //}
+
+        if (handle.charAt(0) == "@" && handle.length == 1) {
+            // checks for single "@" character
+            setError(`Empty handle!`);
+            setLoading(false);
+            return null;
+        } else if (handle.charAt(0) == "@") { 
             // if account starts with "@", remove it
-            if (handle.charAt(0) == "@") {
-                filteredHandle = handle.substring(1);
-            }
+            filteredHandle = handle.substring(1);
+        }
+        // checks for more than 8 inputs
+        if (handles.length == 8 && filteredHandle != "") {
+            setError(`You have reached the maximum handles allowed!`);
+            setLoading(false);
+            return null;
+        }
+        if (filteredHandle != "") {
             const res = await getUserByUsername(filteredHandle);
             if (res.data.id == null) {
                 setError(`${handle} is not a valid twitter username.`);
@@ -97,9 +114,11 @@ export const CustomGroupImproved = ({ setGameState, setAccs }) => {
             setError("");
             setAccounts([...accounts, res.data]);
             setInput("");
-            setHandles([...handles, {id:handles.length, value:inputValue}]);
+            setHandles([...handles, {id:handles.length, value:handle}]);
             return true;
         } 
+        setError(`Empty input!`);
+        setLoading(false);
         return null
         
     }
@@ -121,14 +140,22 @@ export const CustomGroupImproved = ({ setGameState, setAccs }) => {
                     isInvalid={isError} 
                     w="100%"
                     size="md"
-                    maxW={{ base: '80vw', sm: '70vw', lg: '50vw', xl: '30vw' }}>
-                    <FormLabel>Input Twitter Handle/Username:</FormLabel>
+                    maxW={{ base: '80vw', sm: '70vw', lg: '50vw', xl: '30vw' }}
+                >
+                    <FormLabel>
+                        Input Twitter Handle/Username (Limited to 8):
+                        </FormLabel>
                     <InputGroup>
                         <Input
                             pr="4.5rem"
                             placeholder="Input Handle/Username"
                             value={inputValue}
-                            onChange={(e)=>{setInput(e.target.value)}}
+                            autoComplete="off"
+                            onChange={(e)=>{
+                                // updates user input and replace all spaces
+                                // Result: user CANNOT input spaces
+                                setInput(e.target.value.replace(/\s/g, ""))
+                            }}
                         />
                         <InputRightElement width="5rem">
                             <Button 
