@@ -22,7 +22,7 @@ import {
 } from '@chakra-ui/icons'
 import { signInWithTwitter, signOut } from "../logic/auth";
 
-export const Nav = ({ setToggle, session }) => {
+export const Nav = ({ setToggle, session, setGameState }) => {
     const { colorMode, toggleColorMode } = useColorMode();
     useEffect(() => {
         setToggle(colorMode);
@@ -31,7 +31,12 @@ export const Nav = ({ setToggle, session }) => {
     return (
         <Flex h="100px" padding="10px 30px" align="center">
             <Flex as="nav" id="navbar" basis="100%" justify="space-between">
-                <Heading as="h2" fontSize={{base: "7vw", sm: "4.5vw", md: "30px"}}>
+                <Heading
+                    as="h2"
+                    cursor="pointer"
+                    fontSize={{base: "7vw", sm: "4.5vw", md: "30px"}}
+                    onClick={() => setGameState(0)}
+                >
                     Who{" "}
                     <Text as="span" color="#00acee">
                         Tweeted
@@ -40,6 +45,18 @@ export const Nav = ({ setToggle, session }) => {
                 </Heading>
                 <Flex alignItems="center">
                     <Hide below="sm">
+                        <Box>
+                            {session ? (
+                                <Button
+                                    onClick={() => setGameState(-1)}
+                                    marginRight="20px"
+                                >
+                                    Profile
+                                </Button>
+                            ) : (
+                                <></>
+                            )}
+                        </Box>
                         <Button
                             marginRight={"20px"}
                             id="toggle"
@@ -78,6 +95,18 @@ export const Nav = ({ setToggle, session }) => {
                                 >
                                         Toggle
                                 </MenuItem>
+                                <Box>
+                                    {session ? (
+                                        <MenuItem
+                                            onClick={() => setGameState(-1)}
+                                            marginRight="20px"
+                                        >
+                                            Profile
+                                        </MenuItem>
+                                    ) : (
+                                        <></>
+                                    )}
+                                </Box>
                                 <Box>
                                     {session ? (
                                         <MenuItem onClick={() => {

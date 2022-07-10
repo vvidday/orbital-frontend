@@ -19,6 +19,10 @@ import { data } from "../data/bufferData";
 import { ShowAnswer } from "./answer";
 import { MainDisplay } from "./mainDisplay";
 import { MainDisplayImproved } from "./mainDisplayImproved";
+import { accsToHandles } from "../logic/helpers";
+import { generateGroupID } from "../supabase/groupFunctions";
+import { statsCorrect, statsWrong } from "../supabase/statisticsGroupFunctions";
+
 export const GameImproved = (
     // Twitter accounts selected by the player is passed in as props (hardcode for now)
     { accounts, colorToggle, setGameState }
@@ -45,6 +49,9 @@ export const GameImproved = (
 
     // Used in maindisplay
     const [totalImg, setTotalImg] = useState(0);
+
+    // Keep track of groupID for advanced statistics
+    const [groupID, setGroupID] = useState("");
 
     /*
             Game logic -> Depends how we can retrieve tweets. Tentatively:
@@ -78,8 +85,10 @@ export const GameImproved = (
         */
 
     // Set score to 0 on component render (Just for toggling between modes)
+    // Get groupID from handles
     useEffect(() => {
         setDefault();
+        setGroupID(generateGroupID(accsToHandles(accounts)));
     }, []);
 
     // Main game loop, called on render and each time reload is modified
@@ -206,8 +215,20 @@ export const GameImproved = (
 
                                             // Wrong answer
                                             if (res === false) {
+                                                // Show wrong button
                                                 setWrong(true);
+                                                // Update advanced statistics
+                                                statsWrong(
+                                                    groupID,
+                                                    result.username.toLowerCase()
+                                                );
                                                 // Clean up
+                                            } else {
+                                                // Update advanced statistics
+                                                statsCorrect(
+                                                    groupID,
+                                                    result.username.toLowerCase()
+                                                );
                                             }
                                             //onToggle();
                                             setReloadDisable(!reloadDisable);

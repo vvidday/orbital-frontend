@@ -7,6 +7,7 @@ import { handleProfileOnLogin } from "./supabase/profileFunctions";
 import { Box} from "@chakra-ui/react";
 import { Loading } from "./components/loadingScreen";
 import { Selection } from "./components/groupselection";
+import { Profile } from "./components/profile";
 
 function App() {
     const accounts = [
@@ -29,8 +30,9 @@ function App() {
     */
     const [accs, setAccs] = useState([]);
     /* State of game to determine which component to render
-    0 - Default, render group select screen [TODO]
-    1 - Start of game [FOR NOW, DEFAULT]
+    -1 - Profile page
+    0 - Default, render group select screen [DEFAULT]
+    1 - Start of game 
     2 - On submit score screen
     3 - On highscore screen
     */
@@ -45,7 +47,7 @@ function App() {
     // useEffect that sets up supabase to update session everytime auth updates
     useEffect(() => {
         // Taken from supabase docs - sets session
-        setSession(supabase.auth.session())
+        setSession(supabase.auth.session());
         supabase.auth.onAuthStateChange((_event, session) => {
             setSession(session);
             // If session is not null, it means someone just logged in. Hence, handle profile.
@@ -57,28 +59,38 @@ function App() {
         });
     }, []);
     let displayComponent;
-    if (gameState === 0) {
+    if (gameState === -1) {
         displayComponent = (
-            <Selection 
+            <Profile
                 session={session}
-                setGameState={setGameState} 
-                accs = {accs}
-                setAccs={setAccs} 
+                setGameState={setGameState}
+                setAccs={setAccs}
             />
         );
     }
-    if (gameState === 1){
-        console.log("starting to load")
-        console.log(accs)
+    if (gameState === 0) {
+        displayComponent = (
+            <Selection
+                session={session}
+                setGameState={setGameState}
+                accs={accs}
+                setAccs={setAccs}
+            />
+        );
+    }
+    if (gameState === 1) {
+        console.log("starting to load");
+        console.log(accs);
         displayComponent = (
             //<div>{JSON.stringify(session)}</div>
-            
+
             <Loading
                 accounts={accs}
                 setGameState={setGameState}
                 colorToggle={toggle}
             />
-        );}
+        );
+    }
     if (gameState === 2)
         displayComponent = (
             <SubmitScore
@@ -95,6 +107,7 @@ function App() {
     return (
         <Box className="App">
             <Nav
+                setGameState={setGameState}
                 session={session}
                 setSession={setSession}
                 setToggle={setToggle}

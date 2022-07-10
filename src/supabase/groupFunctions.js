@@ -66,3 +66,25 @@ export const generateGroupID = (handles) => {
     }
     return handles.sort().join("");
 };
+
+/*
+    idToHandles - generates array of handles from unique group ID that already exists in table.
+    @param id - String representing the unique group ID
+    @return Array of twitter handles
+*/
+export const idToHandles = async (id) => {
+    const { data, error } = await supabase
+        .from("Group")
+        .select("*")
+        .eq("id", id);
+    if (error != null) return error;
+    if (data.length === 0) return "Group does not exist";
+
+    const ans = [];
+    for (const property in data[0]) {
+        if (property !== "id" && data[0][property] != null) {
+            ans.push(data[0][property]);
+        }
+    }
+    return ans;
+};

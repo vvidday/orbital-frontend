@@ -6,6 +6,7 @@ import {
     dataIfExists,
     updateLB,
     deleteLBEntry,
+    getProfileHelper,
 } from "../supabase/leaderboardFunctions";
 
 test("newLBEntryAnon correctly inserts an anoynmous entry in the leaderboard database that is detected by getGroupLB", () => {
@@ -92,6 +93,15 @@ test("updateLBEntry does not update when score is lower", () => {
         });
 });
 
+test("getProfileHelper correctly returns relevant info for user", () => {
+    return getProfileHelper("46a60792-a172-4f18-b737-376296165388").then(
+        (response) => {
+            expect(response.length).toBe(1);
+            expect(response[0]["groupID"]).toBe("JestTestGroup");
+            expect(response[0]["score"]).toBe(11);
+        }
+    );
+});
 test("Delete test entries for cleanup", () => {
     return deleteLBEntry(
         "JestTestGroup",
