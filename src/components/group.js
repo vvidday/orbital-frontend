@@ -10,13 +10,13 @@ export const Group = ({
 }) => {
     return (
         <Button
-            border = "1px"
-            borderRadius = "10px"
+            border="1px"
+            borderRadius="10px"
             flexDirection="column"
             height="auto"
             margin="30px 30px"
             padding="10px"
-            _hover={{ cursor: "pointer", background:"lightblue"}}
+            _hover={{ cursor: "pointer", background: "lightblue" }}
             onClick={async (e) => {
                 setLoading(true);
                 if (handles != []) {
@@ -28,15 +28,16 @@ export const Group = ({
         >
             <Heading paddingBottom="10px">{title}</Heading>
             {handles.map((handle, i) => {
-                return ( i < 5 ?
+                return i < 5 ? (
                     <Text key={i} fontStyle="italic">
                         @{handle}
-                    </Text> : ( i == handles.length - 1 ?
+                    </Text>
+                ) : i == handles.length - 1 ? (
                     <Text key={i} fontStyle="italic">
                         {"... +" + (handles.length - 5)}
-                    </Text> :
+                    </Text>
+                ) : (
                     <Text key={i}></Text>
-                    )                                
                 );
             })}
         </Button>

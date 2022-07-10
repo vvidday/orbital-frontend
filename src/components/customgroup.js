@@ -1,10 +1,8 @@
 import { Box, Button, Center, Flex, Input, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { getUserByUsername } from "../api/twitter";
-import {
-    isDuplicate,
-    newGroup,
-} from "../supabase/groupFunctions";
+import { isDuplicate, newGroup } from "../supabase/groupFunctions";
+import { createForGroup } from "../supabase/statisticsGroupFunctions";
 import { Loading } from "./loadingScreen";
 
 export const CustomGroup = ({ setGameState, setAccs }) => {
@@ -59,10 +57,12 @@ export const CustomGroup = ({ setGameState, setAccs }) => {
             const groupExists = await isDuplicate(handles);
 
             if (!groupExists) {
-                // Create group
-                newGroup(handles).then(() => {
-                    setGameState(1);
-                });
+                // Create group and statisticsGroup entries
+                newGroup(handles)
+                    .then(() => createForGroup(handles))
+                    .then(() => {
+                        setGameState(1);
+                    });
             }
             // Go next game state (start game)
             setGameState(1);
