@@ -96,7 +96,7 @@ export const CustomGroupImproved = ({ setGameState, setAccs }) => {
             }
             setError("");
             setAccounts([...accounts, res.data])
-            setHandles([...handles, {id:handles.length + 1, value:inputValue}]);
+            setHandles([...handles, {id:handles.length, value:inputValue}]);
             return true;
         } 
         return null

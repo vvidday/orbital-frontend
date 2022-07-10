@@ -17,9 +17,7 @@ export const DropDown = ({ inputs, setHandles}) => {
             
             {inputs.map((handles) => {
                 return (
-                    <HStack 
-                        key={handles.id}
-                    >
+                    <HStack key={handles.id}>
                         <Text
                             w="100%"
                             p="4px"
@@ -28,10 +26,13 @@ export const DropDown = ({ inputs, setHandles}) => {
                             icon={<DeleteIcon boxSize="5" color="red.500"/>}
                             isRound="true"
                             onClick = {() => {
+                                console.log(inputs)
+                                console.log(handles)
                                 inputs.splice(handles.id, 1);
                                 for (let i = 0; i < inputs.length; i++) {
                                     inputs[i].id = i;
                                 }
+                                console.log(inputs)
                                 setHandles([...inputs]);
                             }}
                             mr="2"
