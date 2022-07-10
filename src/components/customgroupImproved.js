@@ -103,9 +103,8 @@ export const CustomGroupImproved = ({ setGameState, setAccs }) => {
         
     }
 
-    
     return (
-        <VStack border="1px">{
+        <VStack>{
             <form onSubmit={(e)=>{
                 e.preventDefault();
                 checkAccount(inputValue);

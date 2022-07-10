@@ -152,7 +152,7 @@ export const Selection = ({ setGameState, accs, setAccs, session }) => {
                     />
                 </Flex>
             ) : (
-                <Box border="1px">
+                <Box>
                     <ButtonGroup 
                         display="flex"
                         justify="space-around"
