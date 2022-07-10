@@ -1,7 +1,8 @@
 import { Box, ButtonGroup, Wrap, Flex, CircularProgress } from "@chakra-ui/react";
 import { supabase } from "../supabase/supabaseClient";
 import { Group } from "./group";
-import { CustomGroup } from "./customgroup";
+//import { CustomGroup } from "./customgroup";
+import { CustomGroupImproved} from "./customgroupImproved"
 import { useEffect, useState } from "react";
 import { resetData } from "../data/bufferData";
 import { getFollowing } from "../api/twitter";
@@ -182,12 +183,12 @@ export const Selection = ({ setGameState, accs, setAccs, session }) => {
                     >
                         {handleArray}
                     </Wrap>
-                    <Flex border="1px" justify="center" align="center">
-                        <CustomGroup
+
+                    <CustomGroupImproved
                             setGameState={setGameState}
                             setAccs={setAccs}
-                        />
-                    </Flex>
+                    />
+
                 </Box>
             )}
         </Box>

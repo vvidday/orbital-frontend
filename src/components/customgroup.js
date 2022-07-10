@@ -1,4 +1,4 @@
-import { Box, Button, Center, Flex, Input, InputGroup, InputRightElement, Text } from "@chakra-ui/react";
+import { Box, Button, Center, Flex, Input, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { getUserByUsername } from "../api/twitter";
 import {
@@ -70,26 +70,6 @@ export const CustomGroup = ({ setGameState, setAccs }) => {
     };
 
     return (
-        <InputGroup 
-            size="md"
-            width="350px"
-            margin="30px"
-        >
-            <Input
-                pr="4.5rem"
-                placeholder="Input Twitter Handle/Username"
-            />
-            <InputRightElement width="5rem">
-                <Button h='1.75rem' size='sm'>
-                    Next
-                </Button>
-            </InputRightElement>
-
-        </InputGroup>
-    )
-};
-    /*
-    return (
         <Box align="center">
             Custom Group (Input 2-8 twitter handles/usernames)
             <Flex padding="20px" flexWrap={"wrap"} justifyContent={"center"}>
@@ -116,14 +96,7 @@ export const CustomGroup = ({ setGameState, setAccs }) => {
                             setLoading(true);
                             const handles = [];
                             arr.map((i) => {
-                                // check and remove first char value if its "@"
-                                if (i[0] != "") {
-                                    if (i[0].charAt(0) == "@") {
-                                        handles.push(i[0].substring(1));
-                                    } else {
-                                        handles.push(i[0]);
-                                    }
-                                } 
+                                if (i[0] != "") handles.push(i[0]);
                             });
                             console.log(handles);
                             playCustomGroup(handles);
@@ -139,4 +112,3 @@ export const CustomGroup = ({ setGameState, setAccs }) => {
         </Box>
     );
 };
-*/
