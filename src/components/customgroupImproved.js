@@ -95,7 +95,8 @@ export const CustomGroupImproved = ({ setGameState, setAccs }) => {
                 return null;
             }
             setError("");
-            setAccounts([...accounts, res.data])
+            setAccounts([...accounts, res.data]);
+            setInput("");
             setHandles([...handles, {id:handles.length, value:inputValue}]);
             return true;
         } 
@@ -126,6 +127,7 @@ export const CustomGroupImproved = ({ setGameState, setAccs }) => {
                         <Input
                             pr="4.5rem"
                             placeholder="Input Handle/Username"
+                            value={inputValue}
                             onChange={(e)=>{setInput(e.target.value)}}
                         />
                         <InputRightElement width="5rem">
