@@ -15,6 +15,7 @@ import {
     isDuplicate,
     newGroup,
 } from "../supabase/groupFunctions";
+import { createForGroup } from "../supabase/statisticsGroupFunctions";
 import { DropDown } from "./customgroupDropdown";
 
 export const CustomGroupImproved = ({ setGameState, setAccs }) => {
@@ -57,7 +58,7 @@ export const CustomGroupImproved = ({ setGameState, setAccs }) => {
         [eight, setEight],
     ];
 
-    const playCustomGroup = async (handles, accounts) => {
+    const playCustomGroup = async (handles) => {
         if (handles.length < 2) {
             setLoading(false);
             setError("Please input at least two usernames.");
@@ -70,7 +71,9 @@ export const CustomGroupImproved = ({ setGameState, setAccs }) => {
 
             if (!groupExists) {
                 // Create group
-                newGroup(handles).then(() => {
+                newGroup(handles)
+                .then(() => createForGroup(handles))
+                .then(() => {
                     setGameState(1);
                 });
             }
@@ -114,7 +117,7 @@ export const CustomGroupImproved = ({ setGameState, setAccs }) => {
             setError("");
             setAccounts([...accounts, res.data]);
             setInput("");
-            setHandles([...handles, {id:handles.length, value:handle}]);
+            setHandles([...handles, {id:handles.length, value:filteredHandle}]);
             return true;
         } 
         setError(`Empty input!`);
@@ -185,17 +188,10 @@ export const CustomGroupImproved = ({ setGameState, setAccs }) => {
                         id="play-btn"
                         onClick={(e) => {
                             setLoading(true);
-                            const outputHandles = [];
-                            handles.map((i) => {
-                                // check and remove first char value if its "@"
-                                if (i.value != "") {
-                                    if (i.value.charAt(0) == "@") {
-                                        outputHandles.push(i.value.substring(1));
-                                    } else {
-                                        outputHandles.push(i.value);
-                                    }
-                                } 
-                            });
+                            const outputHandles = []
+                            handles.map((handle) => {
+                                outputHandles.push(handle.value)
+                            })
                             console.log(outputHandles);
                             playCustomGroup(outputHandles);
                         }}
