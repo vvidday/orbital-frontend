@@ -21,6 +21,7 @@ import {
     HamburgerIcon, 
 } from '@chakra-ui/icons'
 import { signInWithTwitter, signOut } from "../logic/auth";
+import { contrast } from "@chakra-ui/theme-tools";
 
 export const Nav = ({ setToggle, session, setGameState }) => {
     const { colorMode, toggleColorMode } = useColorMode();
@@ -29,7 +30,22 @@ export const Nav = ({ setToggle, session, setGameState }) => {
     }, [colorMode]);
 
     return (
-        <Flex h="100px" padding="10px 30px" align="center">
+        <Flex 
+            h="70px" 
+            padding="10px 30px 10px 30px" 
+            align="center" 
+            bgColor={() => {
+                if (colorMode == "dark") {
+                    return "rgba(255, 255, 255, 0.1)"
+                }
+                return "rgba(105,105,105, 0.15)"
+            }}
+            backdropBlur = "20px"
+            saturate="160%"
+            contrast="45%"
+            brightness="140%"
+            borderRadius="0 0 15px 15px"
+        >
             <Flex as="nav" id="navbar" basis="100%" justify="space-between">
                 <Heading
                     as="h2"
@@ -85,6 +101,7 @@ export const Nav = ({ setToggle, session, setGameState }) => {
                                 aria-label='Options'
                                 icon={<HamburgerIcon />}
                                 variant='outline'
+                                bgColor="white"
                             />
                             <MenuList>
                                 <MenuItem 

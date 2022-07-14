@@ -177,7 +177,7 @@ export const GameImproved = (
             <Flex padding="10px" direction="column">
                 <Center fontSize="20px">Score: {score}</Center>
                 {
-                    <MainDisplay
+                    <MainDisplayImproved
                         key={post}
                         reloadEmbed={reloadEmbed}
                         embed={embed}
@@ -191,7 +191,9 @@ export const GameImproved = (
                     <ButtonGroup
                         gap="4"
                         display={"grid"}
-                        gridTemplateColumns="auto auto"
+                        gridTemplateColumns={{
+                            base:"auto", sm:"auto auto", md:"auto auto auto auto"
+                        }}
                         flexWrap={"wrap"}
                         justifyContent={"center"}
                         isAttached

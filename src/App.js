@@ -105,14 +105,27 @@ function App() {
         );
 
     return (
-        <Box className="App">
+        <Box 
+            className="App" 
+            bgGradient = {() => {
+                if (toggle == "dark") {
+                    //'linear(to-b, #091523 70%, #000000)'
+                    return 'linear(to-b, #091523 70%, #000000)'
+                }
+                //'linear(to-b, #00c6ff 70%, #0072ff)'
+            }}
+            h="100vh"
+        >
             <Nav
                 setGameState={setGameState}
                 session={session}
                 setSession={setSession}
                 setToggle={setToggle}
             />
-            {displayComponent}
+            <Box marginTop="30px">
+                {displayComponent}
+            </Box>
+            
         </Box>
     );
 }

@@ -2,15 +2,10 @@ import React, { useEffect, useState } from "react";
 import {
     Box,
     Center,
-    Text,
     SkeletonCircle,
     SkeletonText,
-    Image,
-    Button,
     Flex,
-    RadioGroup,
-    Stack,
-    Radio,
+    Container,
     VStack,
 } from "@chakra-ui/react";
 import { TwitterTweetEmbed } from "react-twitter-embed";
@@ -61,6 +56,7 @@ export const MainDisplayImproved = (
                         w={{ base: '90vw', sm:"80vw", md: '512px'}}
                         overflow={"hidden"}
                     >
+
                         <Flex 
                             paddingLeft="16px" 
                             marginTop="8px" 
@@ -85,6 +81,7 @@ export const MainDisplayImproved = (
                                 </SkeletonText>
                             </Box>
                         </Flex>
+
                         <MainDisplayImage post={post}/>
                     </VStack>
                 </Center>
