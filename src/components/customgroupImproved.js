@@ -13,7 +13,14 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { getUserByUsername } from "../api/twitter";
+<<<<<<< HEAD
 import { isDuplicate, newGroup } from "../supabase/groupFunctions";
+=======
+import {
+    isDuplicate,
+    newGroup,
+} from "../supabase/groupFunctions";
+>>>>>>> 828e504b80ab97072b44cc0921116530ea6477ff
 import { createForGroup } from "../supabase/statisticsGroupFunctions";
 import { DropDown } from "./customgroupDropdown";
 
@@ -61,7 +68,7 @@ export const CustomGroupImproved = ({ setGameState, setAccs }) => {
         [eight, setEight],
     ];
 
-    const playCustomGroup = async (handles, accounts) => {
+    const playCustomGroup = async (handles) => {
         if (handles.length < 2) {
             setLoading(false);
             setError("Please input at least two usernames.");
@@ -75,10 +82,17 @@ export const CustomGroupImproved = ({ setGameState, setAccs }) => {
             if (!groupExists) {
                 // Create group
                 newGroup(handles)
+<<<<<<< HEAD
                     .then(() => createForGroup(handles))
                     .then(() => {
                         setGameState(1);
                     });
+=======
+                .then(() => createForGroup(handles))
+                .then(() => {
+                    setGameState(1);
+                });
+>>>>>>> 828e504b80ab97072b44cc0921116530ea6477ff
             }
             // Go next game state (start game)
             setGameState(1);
@@ -120,7 +134,11 @@ export const CustomGroupImproved = ({ setGameState, setAccs }) => {
             setError("");
             setAccounts([...accounts, res.data]);
             setInput("");
+<<<<<<< HEAD
             setHandles([...handles, { id: handles.length, value: handle }]);
+=======
+            setHandles([...handles, {id:handles.length, value:filteredHandle}]);
+>>>>>>> 828e504b80ab97072b44cc0921116530ea6477ff
             return true;
         }
         setError(`Empty input!`);
@@ -198,6 +216,7 @@ export const CustomGroupImproved = ({ setGameState, setAccs }) => {
                         id="play-btn"
                         onClick={(e) => {
                             setLoading(true);
+<<<<<<< HEAD
                             const outputHandles = [];
                             handles.map((i) => {
                                 // check and remove first char value if its "@"
@@ -211,6 +230,12 @@ export const CustomGroupImproved = ({ setGameState, setAccs }) => {
                                     }
                                 }
                             });
+=======
+                            const outputHandles = []
+                            handles.map((handle) => {
+                                outputHandles.push(handle.value)
+                            })
+>>>>>>> 828e504b80ab97072b44cc0921116530ea6477ff
                             console.log(outputHandles);
                             playCustomGroup(outputHandles, accounts);
                         }}
