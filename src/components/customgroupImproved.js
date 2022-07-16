@@ -1,20 +1,20 @@
-import { Box, 
-    Button, 
-    Center, 
-    FormControl, 
-    Input, 
-    InputGroup, 
-    InputRightElement, 
-    Text, 
+import {
+    Box,
+    Button,
+    Center,
+    FormControl,
+    Input,
+    InputGroup,
+    InputRightElement,
+    Text,
     VStack,
     FormErrorMessage,
-    FormLabel } from "@chakra-ui/react";
+    FormLabel,
+} from "@chakra-ui/react";
 import { useState } from "react";
 import { getUserByUsername } from "../api/twitter";
-import {
-    isDuplicate,
-    newGroup,
-} from "../supabase/groupFunctions";
+import { isDuplicate, newGroup } from "../supabase/groupFunctions";
+import { createForGroup } from "../supabase/statisticsGroupFunctions";
 import { DropDown } from "./customgroupDropdown";
 
 export const CustomGroupImproved = ({ setGameState, setAccs }) => {
@@ -38,13 +38,17 @@ export const CustomGroupImproved = ({ setGameState, setAccs }) => {
     const [accounts, setAccounts] = useState([]);
 
     // State for all inputs
-    const [handles, setHandles] = useState([{id:0, value:"test"},{id:1, value:"test1"},{id:2, value:"test4"}]);
-    
+    const [handles, setHandles] = useState([
+        { id: 0, value: "test" },
+        { id: 1, value: "test1" },
+        { id: 2, value: "test4" },
+    ]);
+
     // State for current input
     const [inputValue, setInput] = useState("");
 
     // Error checking used by <Form></Form>
-    const isError = error != ""
+    const isError = error != "";
 
     const arr = [
         [one, setOne],
@@ -70,9 +74,11 @@ export const CustomGroupImproved = ({ setGameState, setAccs }) => {
 
             if (!groupExists) {
                 // Create group
-                newGroup(handles).then(() => {
-                    setGameState(1);
-                });
+                newGroup(handles)
+                    .then(() => createForGroup(handles))
+                    .then(() => {
+                        setGameState(1);
+                    });
             }
             // Go next game state (start game)
             setGameState(1);
@@ -81,20 +87,20 @@ export const CustomGroupImproved = ({ setGameState, setAccs }) => {
 
     // Checks the validity of a single account
     const checkAccount = async (handle) => {
-        let filteredHandle = handle
-        
+        let filteredHandle = handle;
+
         //if (handles.map((element)=> element.value).includes(handle)) {
-            //    setError(`Handle has already been added!`);
-            //    setLoading(false);
-            //    return null;
-            //}
+        //    setError(`Handle has already been added!`);
+        //    setLoading(false);
+        //    return null;
+        //}
 
         if (handle.charAt(0) == "@" && handle.length == 1) {
             // checks for single "@" character
             setError(`Empty handle!`);
             setLoading(false);
             return null;
-        } else if (handle.charAt(0) == "@") { 
+        } else if (handle.charAt(0) == "@") {
             // if account starts with "@", remove it
             filteredHandle = handle.substring(1);
         }
@@ -114,69 +120,76 @@ export const CustomGroupImproved = ({ setGameState, setAccs }) => {
             setError("");
             setAccounts([...accounts, res.data]);
             setInput("");
-            setHandles([...handles, {id:handles.length, value:handle}]);
+            setHandles([...handles, { id: handles.length, value: handle }]);
             return true;
-        } 
+        }
         setError(`Empty input!`);
         setLoading(false);
-        return null
-        
-    }
+        return null;
+    };
 
     return (
-        <VStack>{
-            <form onSubmit={(e)=>{
-                e.preventDefault();
-                checkAccount(inputValue);
-                }}
-                style={{
-                    display:"flex",
-                    width:"100vw",
-                    marginTop:"30px",
-                    justifyContent:"center"
-                }}
-            >  
-                <FormControl 
-                    isInvalid={isError} 
-                    w="100%"
-                    size="md"
-                    maxW={{ base: '80vw', sm: '70vw', lg: '50vw', xl: '30vw' }}
+        <VStack>
+            {
+                <form
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        checkAccount(inputValue);
+                    }}
+                    style={{
+                        display: "flex",
+                        width: "100vw",
+                        marginTop: "30px",
+                        justifyContent: "center",
+                    }}
                 >
-                    <FormLabel>
-                        Input Twitter Handle/Username (Limited to 8):
+                    <FormControl
+                        isInvalid={isError}
+                        w="100%"
+                        size="md"
+                        maxW={{
+                            base: "80vw",
+                            sm: "70vw",
+                            lg: "50vw",
+                            xl: "30vw",
+                        }}
+                    >
+                        <FormLabel>
+                            Input Twitter Handle/Username (Limited to 8):
                         </FormLabel>
-                    <InputGroup>
-                        <Input
-                            pr="4.5rem"
-                            placeholder="Input Handle/Username"
-                            value={inputValue}
-                            autoComplete="off"
-                            onChange={(e)=>{
-                                // updates user input and replace all spaces
-                                // Result: user CANNOT input spaces
-                                setInput(e.target.value.replace(/\s/g, ""))
-                            }}
-                        />
-                        <InputRightElement width="5rem">
-                            <Button 
-                                h='1.75rem' 
-                                size='sm' 
-                                onClick={()=>{
-                                    checkAccount(inputValue);
-                                }}>
+                        <InputGroup>
+                            <Input
+                                pr="4.5rem"
+                                placeholder="Input Handle/Username"
+                                value={inputValue}
+                                autoComplete="off"
+                                onChange={(e) => {
+                                    // updates user input and replace all spaces
+                                    // Result: user CANNOT input spaces
+                                    setInput(e.target.value.replace(/\s/g, ""));
+                                }}
+                            />
+                            <InputRightElement width="5rem">
+                                <Button
+                                    h="1.75rem"
+                                    size="sm"
+                                    onClick={() => {
+                                        checkAccount(inputValue);
+                                    }}
+                                >
                                     Next
-                            </Button>
-                        </InputRightElement>
-                    </InputGroup>
-                    {!isError ? (
-                        <Box></Box>
-                    ) : (
-                        <FormErrorMessage>{error}</FormErrorMessage>
-                    )}
-                </FormControl>
-            </form>
+                                </Button>
+                            </InputRightElement>
+                        </InputGroup>
+                        {!isError ? (
+                            <Box></Box>
+                        ) : (
+                            <FormErrorMessage>{error}</FormErrorMessage>
+                        )}
+                    </FormControl>
+                </form>
             }
-            <DropDown inputs={handles} setHandles={setHandles}/>
+            <DropDown inputs={handles} setHandles={setHandles} />
             <Center>
                 {loading ? (
                     <Text>Loading...</Text>
@@ -190,20 +203,22 @@ export const CustomGroupImproved = ({ setGameState, setAccs }) => {
                                 // check and remove first char value if its "@"
                                 if (i.value != "") {
                                     if (i.value.charAt(0) == "@") {
-                                        outputHandles.push(i.value.substring(1));
+                                        outputHandles.push(
+                                            i.value.substring(1)
+                                        );
                                     } else {
                                         outputHandles.push(i.value);
                                     }
-                                } 
+                                }
                             });
                             console.log(outputHandles);
-                            playCustomGroup(outputHandles);
+                            playCustomGroup(outputHandles, accounts);
                         }}
                     >
                         Play
                     </Button>
                 )}
-            </Center>        
+            </Center>
         </VStack>
-    )
+    );
 };
