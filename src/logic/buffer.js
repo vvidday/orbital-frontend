@@ -14,7 +14,7 @@ export async function buffer(accounts) {
     // Iterate through accounts and call API for each.
     for (let i = 0; i < accounts.length; i++) {
         const accountData = { account: { ...accounts[i] } };
-        const response = await getTimeline(accounts[i]["id"], true, true);
+        const response = await getTimeline(accounts[i]["id"], true, true, 50);
         const arr = response.data.data;
         accountData["tweets"] = [...arr];
         gameData.push(accountData);
