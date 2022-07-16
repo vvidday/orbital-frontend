@@ -1,10 +1,12 @@
 import { Nav } from "./components/nav";
 import { useEffect, useState } from "react";
 import { Highscores } from "./components/highscores";
+import { HighscoresImproved } from "./components/highscoresImproved";
 import { SubmitScore } from "./components/submitscore";
+import { SubmitScoreImproved } from "./components/submitscoreImproved";
 import { supabase } from "./supabase/supabaseClient";
 import { handleProfileOnLogin } from "./supabase/profileFunctions";
-import { Box} from "@chakra-ui/react";
+import { Box, Flex} from "@chakra-ui/react";
 import { Loading } from "./components/loadingScreen";
 import { Selection } from "./components/groupselection";
 import { Profile } from "./components/profile";
@@ -93,7 +95,7 @@ function App() {
     }
     if (gameState === 2)
         displayComponent = (
-            <SubmitScore
+            <SubmitScoreImproved
                 setGameState={setGameState}
                 accs={accs}
                 session={session}
@@ -101,7 +103,7 @@ function App() {
         );
     if (gameState === 3)
         displayComponent = (
-            <Highscores setGameState={setGameState} accs={accs} />
+            <HighscoresImproved setGameState={setGameState} accs={accs} />
         );
 
     return (
@@ -110,11 +112,12 @@ function App() {
             bgGradient = {() => {
                 if (toggle == "dark") {
                     //'linear(to-b, #091523 70%, #000000)'
-                    return 'linear(to-b, #091523 70%, #000000)'
+                    return 'linear(to-b, #091523, #000000)'
                 }
-                //'linear(to-b, #00c6ff 70%, #0072ff)'
+                //'linear(to-b, #00c6ff 70%, #0072ff)''linear(to-b, #eaeaea, #dbdbdb, #f2f2f2, #ada996)'
             }}
             h="100vh"
+            overflow="auto"
         >
             <Nav
                 setGameState={setGameState}
@@ -125,7 +128,6 @@ function App() {
             <Box marginTop="30px">
                 {displayComponent}
             </Box>
-            
         </Box>
     );
 }

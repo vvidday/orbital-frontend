@@ -191,11 +191,10 @@ export const GameImproved = (
                     <ButtonGroup
                         gap="4"
                         display={"grid"}
+
                         gridTemplateColumns={{
                             base:"auto", sm:"auto auto", md:"auto auto auto auto"
                         }}
-                        flexWrap={"wrap"}
-                        justifyContent={"center"}
                         isAttached
                     >
                         {
@@ -208,6 +207,7 @@ export const GameImproved = (
                                         className="option"
                                         key={key}
                                         isDisabled={disable}
+                                        borderRadius="0"
                                         onClick={(e) => {
                                             const res = buttonLogic(
                                                 result,

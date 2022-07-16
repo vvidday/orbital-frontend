@@ -18,9 +18,9 @@ test("navbar is rendered", () => {
     render(<App />);
     expect(screen.getByText("Who That?")).toBeInTheDocument();
     expect(screen.getByText("Tweeted")).toBeInTheDocument();
-    // expect(
-    //     screen.getByText("Toggle Mode", { selector: "button" })
-    // ).toBeInTheDocument();
+    expect(
+        screen.getByLabelText("ToggleMode", { selector: "button" })
+    ).toBeInTheDocument();
     expect(screen.getByText("Sign In", { selector: "button" }));
 });
 
@@ -33,10 +33,10 @@ test("default group is rendered", () => {
     expect(screen.getByText("@katyperry")).toBeInTheDocument();
 });
 
-// test("input form is rendered", () => {
-//     render(<App />);
-//     expect(screen.getAllByRole("textbox").length).toBe(8);
-//     expect(
-//         screen.getByText("Play", { selector: "button" })
-//     ).toBeInTheDocument();
-// });
+test("input form is rendered", () => {
+    render(<App />);
+    expect(screen.getByRole("textbox")).toBeInTheDocument();
+    expect(
+        screen.getByText("Play", { selector: "button" })
+    ).toBeInTheDocument();
+});

@@ -38,13 +38,9 @@ export const Nav = ({ setToggle, session, setGameState }) => {
                 if (colorMode == "dark") {
                     return "rgba(255, 255, 255, 0.1)"
                 }
-                return "rgba(105,105,105, 0.15)"
+                return "rgba(255, 255, 255, 0.2)"
             }}
-            backdropBlur = "20px"
-            saturate="160%"
-            contrast="45%"
-            brightness="140%"
-            borderRadius="0 0 15px 15px"
+            boxShadow = "rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset"
         >
             <Flex as="nav" id="navbar" basis="100%" justify="space-between">
                 <Heading
@@ -54,7 +50,10 @@ export const Nav = ({ setToggle, session, setGameState }) => {
                     onClick={() => setGameState(0)}
                 >
                     Who{" "}
-                    <Text as="span" color="#00acee">
+                    <Text 
+                        as="span" 
+                        color="#00acee"
+                    >
                         Tweeted
                     </Text>{" "}
                     That?
@@ -75,7 +74,7 @@ export const Nav = ({ setToggle, session, setGameState }) => {
                         </Box>
                         <Button
                             marginRight={"20px"}
-                            id="toggle"
+                            aria-label="ToggleMode"
                             onClick={() => {
                                 toggleColorMode();
                                 setToggle(colorMode);
@@ -98,10 +97,9 @@ export const Nav = ({ setToggle, session, setGameState }) => {
                         <Menu>
                             <MenuButton
                                 as={IconButton}
-                                aria-label='Options'
+                                aria-label="ToggleMode"
                                 icon={<HamburgerIcon />}
                                 variant='outline'
-                                bgColor="white"
                             />
                             <MenuList>
                                 <MenuItem 
