@@ -19,10 +19,11 @@ export async function getUserByUsername(username) {
 export async function getTimeline(
     userid,
     excReplies = false,
-    excRetweets = false
+    excRetweets = false,
+    resultNumber = 10
 ) {
     try {
-        const params = { id: userid };
+        const params = { id: userid, max_results: resultNumber };
         if (excReplies && excRetweets) {
             params["exclude"] = "retweets,replies";
         } else if (excReplies) {
