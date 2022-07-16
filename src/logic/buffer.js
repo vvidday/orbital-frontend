@@ -2,6 +2,27 @@ import { data } from "../data/bufferData";
 import { getUserByUsername, tweetLookup } from "../api/twitter";
 import { getTimeline } from "../api/twitter";
 import { setChoices } from "../logic/setChoices";
+
+/*
+    New Buffer Function
+    Makes API call for each account 
+*/
+export async function buffer(accounts) {
+    //console.log("here");
+    // Array to be returned
+    const gameData = [];
+    // Iterate through accounts and call API for each.
+    for (let i = 0; i < accounts.length; i++) {
+        const accountData = { account: { ...accounts[i] } };
+        const response = await getTimeline(accounts[i]["id"], true, true);
+        const arr = response.data.data;
+        accountData["tweets"] = [...arr];
+        gameData.push(accountData);
+    }
+    //console.log(gameData);
+    return gameData;
+}
+
 /*
     Buffers the data as an array in ../data/bufferData
     @params accounts - account info, assumed structure is in App.js
