@@ -14,6 +14,7 @@ import {
     Flex,
     useDisclosure,
     Fade,
+    CircularProgress,
 } from "@chakra-ui/react";
 import { data } from "../data/bufferData";
 import { ShowAnswer } from "./answer";
@@ -61,6 +62,9 @@ export const GameImproved = (
 
     // Keep track of groupID for advanced statistics
     const [groupID, setGroupID] = useState("");
+
+    // Used for loading screen
+    const [loading, setLoading] = useState(true);
 
     // Buffer of 1 - stores info for NEXT ROUND.
     /* stores:
@@ -181,21 +185,22 @@ export const GameImproved = (
 
     // Updated main game loop
     useEffect(() => {
-        console.log("starting game loop");
+        //console.log("starting game loop");
         // Set values from nextRoundData
         setResult(nextRoundData["result"]);
         allChoices(nextRoundData["choices"]);
         setPost(nextRoundData["post"]);
+        setLoading(false);
 
         // Process for next round
         const newNextRoundData = {};
         // Pick a random account from accounts array
         const index = Math.floor(Math.random() * accounts.length);
-        console.log(`account length ${accounts.length}, index ${index}`);
+        //console.log(`account length ${accounts.length}, index ${index}`);
         const randomAccount = accounts[index];
         // set result
         newNextRoundData["result"] = randomAccount;
-        console.log(`result set to ${randomAccount.name}`);
+        //console.log(`result set to ${randomAccount.name}`);
         // Iterate through gamedata to find corresponding account
         for (let i = 0; i < gameData.length; i++) {
             if (gameData[i]["account"]["id"] === randomAccount["id"]) {
@@ -204,7 +209,7 @@ export const GameImproved = (
                     Math.random() * gameData[i]["tweets"].length
                 );
                 const tweet = gameData[i]["tweets"][tweetIndex];
-                // Remove
+                // Remove tweet from gamedata
                 const x = [
                     ...gameData.slice(0, i),
                     {
@@ -216,7 +221,7 @@ export const GameImproved = (
                     },
                     ...gameData.slice(i + 1),
                 ];
-                console.log(x);
+                //console.log(x);
                 setGameData(x);
                 // Set tweet
                 tweetLookup(tweet["id"])
@@ -224,7 +229,7 @@ export const GameImproved = (
                         newNextRoundData["post"] = res;
                     })
                     .then(() => {
-                        console.log(`accounts: ${accounts}, index: ${index}`);
+                        //console.log(`accounts: ${accounts}, index: ${index}`);
                         const p = setChoices(index, accounts);
                         //console.log(p);
                         newNextRoundData["choices"] = p;
@@ -250,113 +255,124 @@ export const GameImproved = (
     // Chakra specific hook for fade transition.
     const { isOpen, onToggle } = useDisclosure();
     return (
-        <Box>
-            <Flex padding="10px" direction="column">
-                <Center fontSize="20px">Score: {score}</Center>
-                {
-                    <MainDisplay
-                        key={post}
-                        reloadEmbed={reloadEmbed}
-                        embed={embed}
-                        post={post}
-                        showAnswer={reloadDisable}
-                        onToggle={onToggle}
-                    />
-                }
-
-                <Center className="options" marginTop="15px">
-                    <ButtonGroup
-                        gap="4"
-                        display={"grid"}
-                        gridTemplateColumns="auto auto"
-                        flexWrap={"wrap"}
-                        justifyContent={"center"}
-                        isAttached
-                    >
+        <>
+            {loading ? (
+                <Flex justifyContent="center">
+                    <CircularProgress isIndeterminate color="#00acee" />
+                </Flex>
+            ) : (
+                <Box>
+                    <Flex padding="10px" direction="column">
+                        <Center fontSize="20px">Score: {score}</Center>
                         {
-                            // Reformat once we determine how accounts are stored
-                            choices.map((acc, key) => {
-                                return (
-                                    <Button
-                                        id={`choice${key}`}
-                                        variant="custom"
-                                        className="option"
-                                        key={key}
-                                        isDisabled={disable}
-                                        onClick={(e) => {
-                                            const res = buttonLogic(
-                                                result,
-                                                e,
-                                                accounts
-                                            );
-
-                                            // Wrong answer
-                                            if (res === false) {
-                                                // Show wrong button
-                                                setWrong(true);
-                                                // Update advanced statistics
-                                                statsWrong(
-                                                    groupID,
-                                                    result.username.toLowerCase()
-                                                );
-                                                // Clean up
-                                            } else {
-                                                // Update advanced statistics
-                                                statsCorrect(
-                                                    groupID,
-                                                    result.username.toLowerCase()
-                                                );
-                                            }
-                                            //onToggle();
-                                            setReloadDisable(!reloadDisable);
-                                        }}
-                                    >
-                                        {acc.name}
-                                    </Button>
-                                );
-                            })
+                            <MainDisplay
+                                key={post}
+                                reloadEmbed={reloadEmbed}
+                                embed={embed}
+                                post={post}
+                                showAnswer={reloadDisable}
+                                onToggle={onToggle}
+                            />
                         }
-                    </ButtonGroup>
-                </Center>
-            </Flex>
-            <Center className="answer">
-                <Fade in={isOpen}>
-                    {wrong ? (
-                        <Button
-                            id="wrong-btn"
-                            className="answer"
-                            colorScheme="twitter"
-                            variant="solid"
-                            onClick={() => {
-                                resetColor();
-                                onToggle();
-                                setReloadDisable(!reloadDisable);
-                                setReload(!reload);
-                                setGameState(2);
-                            }}
-                        >
-                            Next
-                        </Button>
-                    ) : (
-                        <Button
-                            id="next-btn"
-                            className="answer"
-                            colorScheme="twitter"
-                            variant="solid"
-                            onClick={() => {
-                                //resetColor(userChoice);
-                                resetColor();
-                                onToggle();
-                                setReloadDisable(!reloadDisable);
-                                setReload(!reload);
-                            }}
-                        >
-                            Next
-                        </Button>
-                    )}
-                </Fade>
-            </Center>
-            <ShowAnswer answer={result.name} />
-        </Box>
+
+                        <Center className="options" marginTop="15px">
+                            <ButtonGroup
+                                gap="4"
+                                display={"grid"}
+                                gridTemplateColumns="auto auto"
+                                flexWrap={"wrap"}
+                                justifyContent={"center"}
+                                isAttached
+                            >
+                                {
+                                    // Reformat once we determine how accounts are stored
+                                    choices.map((acc, key) => {
+                                        return (
+                                            <Button
+                                                id={`choice${key}`}
+                                                variant="custom"
+                                                className="option"
+                                                key={key}
+                                                isDisabled={disable}
+                                                onClick={(e) => {
+                                                    const res = buttonLogic(
+                                                        result,
+                                                        e,
+                                                        accounts
+                                                    );
+
+                                                    // Wrong answer
+                                                    if (res === false) {
+                                                        // Show wrong button
+                                                        setWrong(true);
+                                                        // Update advanced statistics
+                                                        statsWrong(
+                                                            groupID,
+                                                            result.username.toLowerCase()
+                                                        );
+                                                        // Clean up
+                                                    } else {
+                                                        // Update advanced statistics
+                                                        statsCorrect(
+                                                            groupID,
+                                                            result.username.toLowerCase()
+                                                        );
+                                                    }
+                                                    //onToggle();
+                                                    setReloadDisable(
+                                                        !reloadDisable
+                                                    );
+                                                }}
+                                            >
+                                                {acc.name}
+                                            </Button>
+                                        );
+                                    })
+                                }
+                            </ButtonGroup>
+                        </Center>
+                    </Flex>
+                    <Center className="answer">
+                        <Fade in={isOpen}>
+                            {wrong ? (
+                                <Button
+                                    id="wrong-btn"
+                                    className="answer"
+                                    colorScheme="twitter"
+                                    variant="solid"
+                                    onClick={() => {
+                                        resetColor();
+                                        onToggle();
+                                        setReloadDisable(!reloadDisable);
+                                        setReload(!reload);
+                                        setGameState(2);
+                                    }}
+                                >
+                                    Next
+                                </Button>
+                            ) : (
+                                <Button
+                                    id="next-btn"
+                                    className="answer"
+                                    colorScheme="twitter"
+                                    variant="solid"
+                                    onClick={() => {
+                                        //resetColor(userChoice);
+                                        resetColor();
+                                        onToggle();
+                                        setReloadDisable(!reloadDisable);
+                                        setReload(!reload);
+                                        setLoading(true);
+                                    }}
+                                >
+                                    Next
+                                </Button>
+                            )}
+                        </Fade>
+                    </Center>
+                    <ShowAnswer answer={result.name} />
+                </Box>
+            )}{" "}
+        </>
     );
 };
