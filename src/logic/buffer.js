@@ -2,6 +2,7 @@ import { data } from "../data/bufferData";
 import { getUserByUsername, tweetLookup } from "../api/twitter";
 import { getTimeline } from "../api/twitter";
 import { setChoices } from "../logic/setChoices";
+import { getTimelineNew } from "../api/twitter-new";
 
 /*
     New Buffer Function
@@ -14,12 +15,26 @@ export async function buffer(accounts) {
     // Iterate through accounts and call API for each.
     for (let i = 0; i < accounts.length; i++) {
         const accountData = { account: { ...accounts[i] } };
-        const response = await getTimeline(accounts[i]["id"], true, true, 50);
-        const arr = response.data.data;
-        accountData["tweets"] = [...arr];
-        gameData.push(accountData);
+        // Try new endpoint (go server)
+        const response = await getTimelineNew(accounts[i]["id"]);
+        if (response.data === null) {
+            const alternateresponse = await getTimeline(
+                accounts[i]["id"],
+                true,
+                true,
+                50
+            );
+            const arr = alternateresponse.data.data;
+            accountData["tweets"] = [...arr];
+            gameData.push(accountData);
+        } else {
+            console.log("here?");
+            const arr = response.data;
+            accountData["tweets"] = [...arr];
+            gameData.push(accountData);
+        }
     }
-    //console.log(gameData);
+    console.log(gameData);
     return gameData;
 }
 
