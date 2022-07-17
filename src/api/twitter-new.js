@@ -1,7 +1,6 @@
 import axios from "axios";
 
-const BASE =
-    "http://orbitalserver-env.eba-8dpksavz.us-west-2.elasticbeanstalk.com/";
+const BASE = "https://stormy-sierra-98399.herokuapp.com/";
 
 export async function getUserByUsernameNew(username) {
     try {

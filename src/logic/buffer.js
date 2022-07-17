@@ -28,7 +28,7 @@ export async function buffer(accounts) {
             accountData["tweets"] = [...arr];
             gameData.push(accountData);
         } else {
-            console.log("here?");
+            //console.log("here?");
             const arr = response.data;
             accountData["tweets"] = [...arr];
             gameData.push(accountData);
