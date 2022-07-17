@@ -1,4 +1,13 @@
-import { Box, Flex, Button, Heading, Text, Link } from "@chakra-ui/react";
+import { 
+    Box, 
+    Flex, 
+    Button, 
+    Heading, 
+    Text, 
+    Link, 
+    CircularProgress, 
+    Center 
+} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { handlesToAccs } from "../logic/helpers";
 import { idToHandles } from "../supabase/groupFunctions";
@@ -33,7 +42,12 @@ export const UserScores = ({ session, setGameState, setAccs }) => {
     return (
         <Box>
             {loading ? (
-                <>Loading...</>
+                <Center>
+                    <CircularProgress 
+                        isIndeterminate 
+                        color="#00acee"
+                    />
+                </Center>
             ) : (
                 <Flex margin="50px 50px" direction="column" justify="center">
                     <Flex margin="10px 0px" justify="space-between">

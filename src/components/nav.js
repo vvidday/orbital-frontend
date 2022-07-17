@@ -60,6 +60,16 @@ export const Nav = ({ setToggle, session, setGameState }) => {
                 </Heading>
                 <Flex alignItems="center">
                     <Hide below="sm">
+                        <Button
+                            marginRight={"20px"}
+                            aria-label="ToggleMode"
+                            onClick={() => {
+                                toggleColorMode();
+                                setToggle(colorMode);
+                            }}
+                        >{colorMode == "dark" ? 
+                            (<SunIcon/>):(<MoonIcon/>)}
+                        </Button>
                         <Box>
                             {session ? (
                                 <Button
@@ -72,16 +82,6 @@ export const Nav = ({ setToggle, session, setGameState }) => {
                                 <></>
                             )}
                         </Box>
-                        <Button
-                            marginRight={"20px"}
-                            aria-label="ToggleMode"
-                            onClick={() => {
-                                toggleColorMode();
-                                setToggle(colorMode);
-                            }}
-                        >{colorMode == "dark" ? 
-                            (<SunIcon/>):(<MoonIcon/>)}
-                        </Button>
                         <Box>
                             {session ? (
                                 <Button onClick={() => {
