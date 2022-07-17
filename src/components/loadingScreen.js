@@ -6,6 +6,7 @@ import { GameImproved } from "./gameImproved";
 import bufferData from "../logic/buffer";
 import { buffer } from "../logic/buffer";
 import { tweetLookup } from "../api/twitter";
+import { setChoices } from "../logic/setChoices";
 
 export const Loading = ({
     accounts,
@@ -32,7 +33,7 @@ export const Loading = ({
     // Contains result, post, choices.
     const [initialResult, setInitialResult] = useState({});
     const [initialPost, setInitialPost] = useState({});
-    const [initialChoices, setInitialChoices] = useState([...accounts]);
+    const [initialChoices, setInitialChoices] = useState([]);
 
     const [loading, setLoading] = useState(false);
 
@@ -46,6 +47,8 @@ export const Loading = ({
                 const randomAccount = accounts[index];
                 // Result
                 setInitialResult(randomAccount);
+                // Choices
+                setInitialChoices(setChoices(index, accounts));
                 // Iterate through data to find corresponding account
                 for (let i = 0; i < data.length; i++) {
                     if (data[i]["account"]["id"] === randomAccount["id"]) {
