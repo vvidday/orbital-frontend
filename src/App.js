@@ -9,6 +9,7 @@ import { handleProfileOnLogin } from "./supabase/profileFunctions";
 import { Box, Flex} from "@chakra-ui/react";
 import { Loading } from "./components/loadingScreen";
 import { Selection } from "./components/groupselection";
+import { SelectionImproved } from "./components/groupSelectionImproved";
 import { Profile } from "./components/profile";
 
 function App() {
@@ -72,7 +73,7 @@ function App() {
     }
     if (gameState === 0) {
         displayComponent = (
-            <Selection
+            <SelectionImproved
                 session={session}
                 setGameState={setGameState}
                 accs={accs}

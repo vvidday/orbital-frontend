@@ -32,11 +32,18 @@ test("default group is rendered", () => {
     expect(screen.getByText("@justinbieber")).toBeInTheDocument();
     expect(screen.getByText("@katyperry")).toBeInTheDocument();
 });
-
+/*
 test("input form is rendered", () => {
     render(<App />);
     expect(screen.getByRole("textbox")).toBeInTheDocument();
     expect(
         screen.getByText("Play", { selector: "button" })
+    ).toBeInTheDocument();
+});
+*/
+test("custom group is rendered", () => {
+    render(<App />);
+    expect(
+        screen.getByText("Build Custom Group", { selector: "button" })
     ).toBeInTheDocument();
 });

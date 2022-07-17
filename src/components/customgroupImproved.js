@@ -19,15 +19,6 @@ import { createForGroup } from "../supabase/statisticsGroupFunctions";
 import { DropDown } from "./customgroupDropdown";
 
 export const CustomGroupImproved = ({ setGameState, setAccs }) => {
-    // States of the eight input fields.
-    const [one, setOne] = useState("");
-    const [two, setTwo] = useState("");
-    const [three, setThree] = useState("");
-    const [four, setFour] = useState("");
-    const [five, setFive] = useState("");
-    const [six, setSix] = useState("");
-    const [seven, setSeven] = useState("");
-    const [eight, setEight] = useState("");
 
     // State to keep track & display error message for users
     const [error, setError] = useState("");
@@ -46,17 +37,6 @@ export const CustomGroupImproved = ({ setGameState, setAccs }) => {
 
     // Error checking used by <Form></Form>
     const isError = error != ""
-
-    const arr = [
-        [one, setOne],
-        [two, setTwo],
-        [three, setThree],
-        [four, setFour],
-        [five, setFive],
-        [six, setSix],
-        [seven, setSeven],
-        [eight, setEight],
-    ];
 
     const playCustomGroup = async (handles) => {
         if (handles.length < 2) {
@@ -85,18 +65,19 @@ export const CustomGroupImproved = ({ setGameState, setAccs }) => {
     // Checks the validity of a single account
     const checkAccount = async (handle) => {
         let filteredHandle = handle
-        
+        // Checks for duplicate
         //if (handles.map((element)=> element.value).includes(handle)) {
             //    setError(`Handle has already been added!`);
             //    setLoading(false);
             //    return null;
             //}
-
+        // Checks for Empty or singular "@" input
         if (handle.charAt(0) == "@" && handle.length == 1) {
             // checks for single "@" character
             setError(`Empty handle!`);
             setLoading(false);
             return null;
+        // removes "@" at the beginning if the user inputs it 
         } else if (handle.charAt(0) == "@") { 
             // if account starts with "@", remove it
             filteredHandle = handle.substring(1);
@@ -107,6 +88,7 @@ export const CustomGroupImproved = ({ setGameState, setAccs }) => {
             setLoading(false);
             return null;
         }
+        // update dropdown if input is still not empty
         if (filteredHandle != "") {
             const res = await getUserByUsername(filteredHandle);
             if (res.data.id == null) {

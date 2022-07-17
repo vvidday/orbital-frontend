@@ -16,7 +16,6 @@ export const Group = ({
                 borderRadius = "10px"
                 flexDirection="column"
                 height="100%"
-                boxShadow="0"
                 width={{base: "60vw", sm:"auto"}}
                 minWidth = "50px"
                 justifyContent="space-between"
