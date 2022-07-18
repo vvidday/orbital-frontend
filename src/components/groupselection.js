@@ -1,7 +1,8 @@
-import { Box, ButtonGroup } from "@chakra-ui/react";
+import { Box, ButtonGroup, Wrap, Flex, CircularProgress } from "@chakra-ui/react";
 import { supabase } from "../supabase/supabaseClient";
 import { Group } from "./group";
-import { CustomGroup } from "./customgroup";
+//import { CustomGroup } from "./customgroup";
+import { CustomGroupImproved} from "./customgroupImproved"
 import { useEffect, useState } from "react";
 import { resetData } from "../data/bufferData";
 import { getFollowing } from "../api/twitter";
@@ -144,7 +145,12 @@ export const Selection = ({ setGameState, accs, setAccs, session }) => {
     return (
         <Box>
             {loading ? (
-                <Box>Loading...</Box>
+                <Flex justifyContent="center">
+                    <CircularProgress 
+                        isIndeterminate 
+                        color="#00acee"
+                    />
+                </Flex>
             ) : (
                 <Box>
                     <ButtonGroup 
@@ -167,12 +173,22 @@ export const Selection = ({ setGameState, accs, setAccs, session }) => {
                                     setLoading={setLoading}
                                 />
                             );
-                        })*/handleArray}
+                        })handleArray*/}
                     </ButtonGroup>
-                    <CustomGroup
-                        setGameState={setGameState}
-                        setAccs={setAccs}
+                    <Wrap 
+                        spacing="20px" 
+                        justify="center"
+                        align={{base:"center", sm:"stretch"}}
+                        direction={{base:"column", sm:"row"}}
+                    >
+                        {handleArray}
+                    </Wrap>
+
+                    <CustomGroupImproved
+                            setGameState={setGameState}
+                            setAccs={setAccs}
                     />
+
                 </Box>
             )}
         </Box>

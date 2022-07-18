@@ -1,4 +1,4 @@
-import { Box, Button, Input } from "@chakra-ui/react";
+import { Box, Button, Input, CircularProgress, Flex } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { newLBEntryAnon, updateLB } from "../supabase/leaderboardFunctions";
 import { accsToHandles } from "../logic/helpers";
@@ -35,7 +35,12 @@ export const SubmitScore = ({ setGameState, accs, session }) => {
     return (
         <Box>
             {session ? (
-                <Box>Loading...</Box>
+                <Flex justifyContent="center">
+                    <CircularProgress 
+                        isIndeterminate 
+                        color="#00acee"
+                    />
+                </Flex>
             ) : (
                 <>
                     <Input

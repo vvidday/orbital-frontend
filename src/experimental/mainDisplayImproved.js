@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
     Box,
     Center,
@@ -15,24 +15,26 @@ import {
 import { TwitterTweetEmbed } from "react-twitter-embed";
 
 // Modified Game Component that uses hardcoded values instead of pulling from the API.
-export const MainDisplay = (
+export const MainDisplayImproved = (
     // Twitter accounts selected by the player is passed in as props (hardcode for now)
     { reloadEmbed, embed, post, showAnswer, onToggle}
 ) => {
     // Index of currently shown image
     const [img, setImg] = useState(0);
+    const [hiddenTweet, setHiddenTweet] = useState(<Box></Box>);
     // Total number of images in tweet
     const [totalImg, setTotalImg] = useState(0);
+
+    let buttonComp;
 
     useEffect(() => {
         // Set current index to 0 on new post
         setImg(0);
     }, [post]);
 
-    return (
-        <Box minHeight="250px">
-            {!showAnswer ? (
-                <Center display="flex">
+    useEffect(() => {
+        setHiddenTweet(
+            <Center display="flex">
                     <Box
                         border="2px"
                         borderColor="grey"
@@ -126,22 +128,26 @@ export const MainDisplay = (
                             )}
                         </Box>
                     </Box>
-                </Center>
-            ) : (
-                
-                <TwitterTweetEmbed
-                    onLoad={function noRefCheck() {onToggle()}}
-                    placeholder="Loading"
-                    key={reloadEmbed}
-                    tweetId={post.id}
-                    options={{
-                        theme: embed,
-                        align: "center",
-                    }}
-                />
-                
-                //<Box>{preLoad}</Box>
-            )}
+            </Center>
+        );
+    }, [post]);
+
+    return (
+        <Box minHeight="250px">
+            {!showAnswer ? (
+                <Box>{hiddenTweet}</Box>
+            ):(
+            <TwitterTweetEmbed
+                onLoad={function noRefCheck() {onToggle();}}
+                placeholder={hiddenTweet}
+                key={reloadEmbed}
+                tweetId={post.id}
+                options={{
+                    theme: embed,
+                    align: "center",
+                }}
+            />
+            )}   
         </Box>
     );
 };

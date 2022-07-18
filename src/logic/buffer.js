@@ -2,6 +2,42 @@ import { data } from "../data/bufferData";
 import { getUserByUsername, tweetLookup } from "../api/twitter";
 import { getTimeline } from "../api/twitter";
 import { setChoices } from "../logic/setChoices";
+import { getTimelineNew } from "../api/twitter-new";
+
+/*
+    New Buffer Function
+    Makes API call for each account 
+*/
+export async function buffer(accounts) {
+    //console.log("here");
+    // Array to be returned
+    const gameData = [];
+    // Iterate through accounts and call API for each.
+    for (let i = 0; i < accounts.length; i++) {
+        const accountData = { account: { ...accounts[i] } };
+        // Try new endpoint (go server)
+        const response = await getTimelineNew(accounts[i]["id"]);
+        if (response.data === null) {
+            const alternateresponse = await getTimeline(
+                accounts[i]["id"],
+                true,
+                true,
+                50
+            );
+            const arr = alternateresponse.data.data;
+            accountData["tweets"] = [...arr];
+            gameData.push(accountData);
+        } else {
+            //console.log("here?");
+            const arr = response.data;
+            accountData["tweets"] = [...arr];
+            gameData.push(accountData);
+        }
+    }
+    console.log(gameData);
+    return gameData;
+}
+
 /*
     Buffers the data as an array in ../data/bufferData
     @params accounts - account info, assumed structure is in App.js
@@ -33,6 +69,7 @@ function bufferData(accounts, bufferSize) {
                 ];
             // Get full tweet object including media for the post
             dictionary["post"] = await tweetLookup(randomRecentPost.id);
+            //dictionary["id"] = randomRecentPost.id;
             return;
         } catch (error) {
             console.log(error);

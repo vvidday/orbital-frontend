@@ -6,8 +6,20 @@ import {
     Text,
     Button,
     useColorMode,
+    Menu,
+    MenuButton,
+    IconButton,
+    MenuList,
+    MenuItem,
+    Show,
+    Hide,
+    Tooltip
 } from "@chakra-ui/react";
-
+import { 
+    MoonIcon, 
+    SunIcon, 
+    HamburgerIcon, 
+} from '@chakra-ui/icons'
 import { signInWithTwitter, signOut } from "../logic/auth";
 
 export const Nav = ({ setToggle, session, setGameState }) => {
@@ -22,6 +34,7 @@ export const Nav = ({ setToggle, session, setGameState }) => {
                 <Heading
                     as="h2"
                     cursor="pointer"
+                    fontSize={{base: "7vw", sm: "4.5vw", md: "30px"}}
                     onClick={() => setGameState(0)}
                 >
                     Who{" "}
@@ -30,44 +43,83 @@ export const Nav = ({ setToggle, session, setGameState }) => {
                     </Text>{" "}
                     That?
                 </Heading>
-                <Flex>
-                    <Box>
-                        {session ? (
-                            <Button
-                                onClick={() => setGameState(-1)}
-                                marginRight="20px"
-                            >
-                                Profile
-                            </Button>
-                        ) : (
-                            <></>
-                        )}
-                    </Box>
-
-                    <Button
-                        marginRight={"20px"}
-                        id="toggle"
-                        onClick={() => {
-                            toggleColorMode();
-                            setToggle(colorMode);
-                        }}
-                    >
-                        Toggle Mode
-                    </Button>
-                    <Box>
-                        {session ? (
-                            <Button
-                                onClick={() => {
+                <Flex alignItems="center">
+                    <Hide below="sm">
+                        <Box>
+                            {session ? (
+                                <Button
+                                    onClick={() => setGameState(-1)}
+                                    marginRight="20px"
+                                >
+                                    Profile
+                                </Button>
+                            ) : (
+                                <></>
+                            )}
+                        </Box>
+                        <Button
+                            marginRight={"20px"}
+                            id="toggle"
+                            onClick={() => {
+                                toggleColorMode();
+                                setToggle(colorMode);
+                            }}
+                        >{colorMode == "dark" ? 
+                            (<SunIcon/>):(<MoonIcon/>)}
+                        </Button>
+                        <Box>
+                            {session ? (
+                                <Button onClick={() => {
                                     signOut();
                                     window.location.reload(false);
-                                }}
-                            >
-                                Sign Out
-                            </Button>
-                        ) : (
-                            <Button onClick={signInWithTwitter}>Sign In</Button>
-                        )}
-                    </Box>
+                                }}>Sign Out</Button>
+                            ) : (
+                                <Button onClick={signInWithTwitter}>Sign In</Button>
+                            )}
+                        </Box>
+                    </Hide>
+                    <Show below="sm">
+                        <Menu>
+                            <MenuButton
+                                as={IconButton}
+                                aria-label='Options'
+                                icon={<HamburgerIcon />}
+                                variant='outline'
+                            />
+                            <MenuList>
+                                <MenuItem 
+                                    onClick={() => {
+                                        toggleColorMode();
+                                        setToggle(colorMode);
+                                    }}
+                                >
+                                        Toggle
+                                </MenuItem>
+                                <Box>
+                                    {session ? (
+                                        <MenuItem
+                                            onClick={() => setGameState(-1)}
+                                            marginRight="20px"
+                                        >
+                                            Profile
+                                        </MenuItem>
+                                    ) : (
+                                        <></>
+                                    )}
+                                </Box>
+                                <Box>
+                                    {session ? (
+                                        <MenuItem onClick={() => {
+                                            signOut();
+                                            window.location.reload(false);
+                                        }}>Sign Out</MenuItem>
+                                    ) : (
+                                        <MenuItem onClick={signInWithTwitter}>Sign In</MenuItem>
+                                    )}
+                                </Box>
+                            </MenuList>
+                        </Menu>
+                    </Show>
                 </Flex>
                 {/*
                     <Box>

@@ -3,10 +3,8 @@ import { useEffect, useState } from "react";
 import { Highscores } from "./components/highscores";
 import { SubmitScore } from "./components/submitscore";
 import { supabase } from "./supabase/supabaseClient";
-
 import { handleProfileOnLogin } from "./supabase/profileFunctions";
-import { GameTest } from "./components/gameTesting";
-import { Box, ChakraProvider, extendTheme } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { Loading } from "./components/loadingScreen";
 import { Selection } from "./components/groupselection";
 import { Profile } from "./components/profile";
@@ -46,6 +44,12 @@ function App() {
     // Referring to color toggle(?) to be controlled in nav for now
     const [toggle, setToggle] = useState();
 
+    // New state to store game data
+    /**
+     * {account: {id: name: username:}, tweets: [{id: text: }]}
+     */
+    const [gameData, setGameData] = useState([]);
+
     // useEffect that sets up supabase to update session everytime auth updates
     useEffect(() => {
         // Taken from supabase docs - sets session
@@ -60,7 +64,6 @@ function App() {
             setGameState(0);
         });
     }, []);
-
     let displayComponent;
     if (gameState === -1) {
         displayComponent = (
@@ -82,8 +85,8 @@ function App() {
         );
     }
     if (gameState === 1) {
-        console.log("starting to load");
-        console.log(accs);
+        //console.log("starting to load");
+        //console.log(accs);
         displayComponent = (
             //<div>{JSON.stringify(session)}</div>
 
@@ -91,6 +94,8 @@ function App() {
                 accounts={accs}
                 setGameState={setGameState}
                 colorToggle={toggle}
+                gameData={gameData}
+                setGameData={setGameData}
             />
         );
     }

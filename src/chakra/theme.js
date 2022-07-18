@@ -5,8 +5,8 @@ export const theme = extendTheme({
     styles: {
         global: (props) => ({
             body: {
-                backgroundColor: mode("white", "#212224ff")(props),
-                color: mode("black", "white")(props),
+                backgroundColor: mode("white", "#091523")(props),
+                color: mode("black", "whiteAlpha.800")(props),
                 colorScheme: "transparent",
             },
         }),

@@ -24,3 +24,8 @@ test("correctly fetches tweet info", () => {
     });
 });
 
+test("user timeline correctly returns different number of tweets", () => {
+    return getTimeline("813286", true, true, 32).then((response) => {
+        expect(response.data.data.length).toBe(32);
+    });
+});
