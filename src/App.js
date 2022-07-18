@@ -47,6 +47,12 @@ function App() {
     // Referring to color toggle(?) to be controlled in nav for now
     const [toggle, setToggle] = useState();
 
+    // New state to store game data
+    /**
+     * {account: {id: name: username:}, tweets: [{id: text: }]}
+     */
+    const [gameData, setGameData] = useState([]);
+
     // useEffect that sets up supabase to update session everytime auth updates
     useEffect(() => {
         // Taken from supabase docs - sets session
@@ -82,8 +88,8 @@ function App() {
         );
     }
     if (gameState === 1) {
-        console.log("starting to load");
-        console.log(accs);
+        //console.log("starting to load");
+        //console.log(accs);
         displayComponent = (
             //<div>{JSON.stringify(session)}</div>
 
@@ -91,6 +97,8 @@ function App() {
                 accounts={accs}
                 setGameState={setGameState}
                 colorToggle={toggle}
+                gameData={gameData}
+                setGameData={setGameData}
             />
         );
     }

@@ -1,3 +1,4 @@
+import { getUserByUsernameNew } from "../api/twitter-new";
 import { supabase } from "./supabaseClient";
 
 /*
@@ -20,6 +21,8 @@ export const newGroup = async (handles) => {
     handles.map((handle, i) => {
         const key = `user${i + 1}`;
         row[key] = handle;
+        // Create objects in go server
+        getUserByUsernameNew(handle);
     });
 
     // Insert object into database via supabase client

@@ -1,20 +1,19 @@
-import { Box, 
-    Button, 
-    Center, 
-    FormControl, 
-    Input, 
-    InputGroup, 
-    InputRightElement, 
-    Text, 
+import {
+    Box,
+    Button,
+    Center,
+    FormControl,
+    Input,
+    InputGroup,
+    InputRightElement,
+    Text,
     VStack,
     FormErrorMessage,
-    FormLabel } from "@chakra-ui/react";
+    FormLabel,
+} from "@chakra-ui/react";
 import { useState } from "react";
 import { getUserByUsername } from "../api/twitter";
-import {
-    isDuplicate,
-    newGroup,
-} from "../supabase/groupFunctions";
+import { isDuplicate, newGroup } from "../supabase/groupFunctions";
 import { createForGroup } from "../supabase/statisticsGroupFunctions";
 import { DropDown } from "./customgroupDropdown";
 
@@ -30,13 +29,17 @@ export const CustomGroupImproved = ({ setGameState, setAccs }) => {
     const [accounts, setAccounts] = useState([]);
 
     // State for all inputs
-    const [handles, setHandles] = useState([{id:0, value:"test"},{id:1, value:"test1"},{id:2, value:"test4"}]);
-    
+    const [handles, setHandles] = useState([
+        { id: 0, value: "test" },
+        { id: 1, value: "test1" },
+        { id: 2, value: "test4" },
+    ]);
+
     // State for current input
     const [inputValue, setInput] = useState("");
 
     // Error checking used by <Form></Form>
-    const isError = error != ""
+    const isError = error != "";
 
     const playCustomGroup = async (handles) => {
         if (handles.length < 2) {
@@ -52,10 +55,10 @@ export const CustomGroupImproved = ({ setGameState, setAccs }) => {
             if (!groupExists) {
                 // Create group
                 newGroup(handles)
-                .then(() => createForGroup(handles))
-                .then(() => {
-                    setGameState(1);
-                });
+                    .then(() => createForGroup(handles))
+                    .then(() => {
+                        setGameState(1);
+                    });
             }
             // Go next game state (start game)
             setGameState(1);
@@ -99,69 +102,79 @@ export const CustomGroupImproved = ({ setGameState, setAccs }) => {
             setError("");
             setAccounts([...accounts, res.data]);
             setInput("");
-            setHandles([...handles, {id:handles.length, value:filteredHandle}]);
+            setHandles([
+                ...handles,
+                { id: handles.length, value: filteredHandle },
+            ]);
             return true;
-        } 
+        }
         setError(`Empty input!`);
         setLoading(false);
-        return null
-        
-    }
+        return null;
+    };
 
     return (
-        <VStack>{
-            <form onSubmit={(e)=>{
-                e.preventDefault();
-                checkAccount(inputValue);
-                }}
-                style={{
-                    display:"flex",
-                    width:"100vw",
-                    marginTop:"30px",
-                    justifyContent:"center"
-                }}
-            >  
-                <FormControl 
-                    isInvalid={isError} 
-                    w="100%"
-                    size="md"
-                    maxW={{ base: '80vw', sm: '70vw', lg: '50vw', xl: '30vw' }}
+        <VStack>
+            {
+                <form
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        checkAccount(inputValue);
+                    }}
+                    style={{
+                        display: "flex",
+                        width: "100vw",
+                        marginTop: "30px",
+                        justifyContent: "center",
+                    }}
                 >
-                    <FormLabel>
-                        Input Twitter Handle/Username (Limited to 8):
+                    <FormControl
+                        isInvalid={isError}
+                        w="100%"
+                        size="md"
+                        maxW={{
+                            base: "80vw",
+                            sm: "70vw",
+                            lg: "50vw",
+                            xl: "30vw",
+                        }}
+                    >
+                        <FormLabel>
+                            Input Twitter Handle/Username (Limited to 8):
                         </FormLabel>
-                    <InputGroup>
-                        <Input
-                            pr="4.5rem"
-                            placeholder="Input Handle/Username"
-                            value={inputValue}
-                            autoComplete="off"
-                            onChange={(e)=>{
-                                // updates user input and replace all spaces
-                                // Result: user CANNOT input spaces
-                                setInput(e.target.value.replace(/\s/g, ""))
-                            }}
-                        />
-                        <InputRightElement width="5rem">
-                            <Button 
-                                h='1.75rem' 
-                                size='sm' 
-                                onClick={()=>{
-                                    checkAccount(inputValue);
-                                }}>
+                        <InputGroup>
+                            <Input
+                                pr="4.5rem"
+                                placeholder="Input Handle/Username"
+                                value={inputValue}
+                                autoComplete="off"
+                                onChange={(e) => {
+                                    // updates user input and replace all spaces
+                                    // Result: user CANNOT input spaces
+                                    setInput(e.target.value.replace(/\s/g, ""));
+                                }}
+                            />
+                            <InputRightElement width="5rem">
+                                <Button
+                                    h="1.75rem"
+                                    size="sm"
+                                    onClick={() => {
+                                        checkAccount(inputValue);
+                                    }}
+                                >
                                     Next
-                            </Button>
-                        </InputRightElement>
-                    </InputGroup>
-                    {!isError ? (
-                        <Box></Box>
-                    ) : (
-                        <FormErrorMessage>{error}</FormErrorMessage>
-                    )}
-                </FormControl>
-            </form>
+                                </Button>
+                            </InputRightElement>
+                        </InputGroup>
+                        {!isError ? (
+                            <Box></Box>
+                        ) : (
+                            <FormErrorMessage>{error}</FormErrorMessage>
+                        )}
+                    </FormControl>
+                </form>
             }
-            <DropDown inputs={handles} setHandles={setHandles}/>
+            <DropDown inputs={handles} setHandles={setHandles} />
             <Center>
                 {loading ? (
                     <Text>Loading...</Text>
@@ -170,18 +183,18 @@ export const CustomGroupImproved = ({ setGameState, setAccs }) => {
                         id="play-btn"
                         onClick={(e) => {
                             setLoading(true);
-                            const outputHandles = []
+                            const outputHandles = [];
                             handles.map((handle) => {
-                                outputHandles.push(handle.value)
-                            })
+                                outputHandles.push(handle.value);
+                            });
                             console.log(outputHandles);
-                            playCustomGroup(outputHandles);
+                            playCustomGroup(outputHandles, accounts);
                         }}
                     >
                         Play
                     </Button>
                 )}
-            </Center>        
+            </Center>
         </VStack>
-    )
+    );
 };
