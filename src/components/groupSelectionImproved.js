@@ -62,13 +62,14 @@ export const SelectionImproved = ({ setGameState, accs, setAccs, session }) => {
     );
     // State for custom group collapse
     const { isOpen, onToggle } = useDisclosure();
-
+/*
     useEffect(() => {
         if (session != null && supabase.auth.user() != null) {
             // gets user id if logged in
             const fetchData = async () => {
                 const userID = session.user.user_metadata.provider_id
                 //const response = await getFollowing(userID);
+                //console.log(response);
                 const response = ["xQc", "summit1g", "shroud", "loltyler1", "timthetatman",
                 "AOC", "BernieSanders", "tedcruz", "POTUS", "DonaldjTrumpJR","BarackObama", 
                 "Cristiano", "justinbieber", "katyperry"];
@@ -90,12 +91,12 @@ export const SelectionImproved = ({ setGameState, accs, setAccs, session }) => {
             fetchData().catch(console.error);
         }
     }, [session]);
-
+*/
     // Reset data on load... change to state!!!
     useEffect(() => {
         resetData();
     });
-
+/*
     // maps Your Following button to the selection when the user logs in
         // if user logs out, it is removed
         // if user logs in at any time, the button is added
@@ -131,7 +132,7 @@ export const SelectionImproved = ({ setGameState, accs, setAccs, session }) => {
                             );
                         })));
                     } else {
-                    */
+                    ----------------------------------
                         setHandle(
                             DEFAULT_GROUPS.map((group, i) => {
                             return (
@@ -159,7 +160,7 @@ export const SelectionImproved = ({ setGameState, accs, setAccs, session }) => {
             }
         }
     },[accs, session]);
-
+*/
     // Update Custom Button text upon collapse / show
     useEffect(() => {
         if (isOpen) {

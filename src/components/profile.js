@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { resetData } from "../data/bufferData";
 import { Box } from "@chakra-ui/react";
-import { UserInfo } from "./userInfo";
-import { UserScores } from "./userScores";
+import { UserInfo } from "./previous_versions/userInfo";
+import { UserScores } from "./previous_versions/userScores";
 import { UserScoresImproved } from "./userScoresImproved";
 import { UserInfoImproved } from "./userInfoImproved";
 

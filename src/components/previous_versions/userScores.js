@@ -9,9 +9,9 @@ import {
     Center 
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { handlesToAccs } from "../logic/helpers";
-import { idToHandles } from "../supabase/groupFunctions";
-import { getProfileHelper } from "../supabase/leaderboardFunctions";
+import { handlesToAccs } from "../../logic/helpers";
+import { idToHandles } from "../../supabase/groupFunctions";
+import { getProfileHelper } from "../../supabase/leaderboardFunctions";
 
 export const UserScores = ({ session, setGameState, setAccs }) => {
     // State to store the groups that the user has played in before

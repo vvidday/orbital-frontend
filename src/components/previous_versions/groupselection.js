@@ -1,15 +1,15 @@
 import { Box, ButtonGroup, Wrap, Flex, CircularProgress } from "@chakra-ui/react";
-import { supabase } from "../supabase/supabaseClient";
-import { Group } from "./group";
+import { supabase } from "../../supabase/supabaseClient";
+import { Group } from "../group";
 //import { CustomGroup } from "./customgroup";
-import { CustomGroupImproved} from "./customgroupImproved"
+import { CustomGroupImproved} from "../customgroupImproved"
 import { useEffect, useState } from "react";
-import { resetData } from "../data/bufferData";
-import { getFollowing } from "../api/twitter";
+import { resetData } from "../../data/bufferData";
+import { getFollowing } from "../../api/twitter";
 import {
     isDuplicate,
     newGroup,
-} from "../supabase/groupFunctions";
+} from "../../supabase/groupFunctions";
 
 const DEFAULT_GROUPS = [
     {

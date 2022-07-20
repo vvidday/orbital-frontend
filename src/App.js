@@ -1,16 +1,17 @@
 import { Nav } from "./components/nav";
 import { useEffect, useState } from "react";
-import { Highscores } from "./components/highscores";
+import { Highscores } from "./components/previous_versions/highscores";
 import { HighscoresImproved } from "./components/highscoresImproved";
-import { SubmitScore } from "./components/submitscore";
+import { SubmitScore } from "./components/previous_versions/submitscore";
 import { SubmitScoreImproved } from "./components/submitscoreImproved";
 import { supabase } from "./supabase/supabaseClient";
 import { handleProfileOnLogin } from "./supabase/profileFunctions";
 import { Box, Flex} from "@chakra-ui/react";
 import { Loading } from "./components/loadingScreen";
-import { Selection } from "./components/groupselection";
+import { Selection } from "./components/previous_versions/groupselection";
 import { SelectionImproved } from "./components/groupSelectionImproved";
 import { Profile } from "./components/profile";
+
 
 function App() {
     const accounts = [

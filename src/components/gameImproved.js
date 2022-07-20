@@ -18,7 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { data } from "../data/bufferData";
 import { ShowAnswer } from "./answer";
-import { MainDisplay } from "./mainDisplay";
+import { MainDisplay } from "./previous_versions/mainDisplay";
 import { MainDisplayImproved } from "./mainDisplayImproved";
 import { accsToHandles } from "../logic/helpers";
 import { generateGroupID } from "../supabase/groupFunctions";

@@ -12,8 +12,7 @@ import {
     MenuList,
     MenuItem,
     Show,
-    Hide,
-    Tooltip
+    Hide
 } from "@chakra-ui/react";
 import { 
     MoonIcon, 

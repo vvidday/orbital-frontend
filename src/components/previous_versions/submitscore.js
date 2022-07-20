@@ -1,10 +1,10 @@
 import { Box, Button, Input, CircularProgress, Flex } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { newLBEntryAnon, updateLB } from "../supabase/leaderboardFunctions";
-import { accsToHandles } from "../logic/helpers";
-import { generateGroupID } from "../supabase/groupFunctions";
+import { newLBEntryAnon, updateLB } from "../../supabase/leaderboardFunctions";
+import { accsToHandles } from "../../logic/helpers";
+import { generateGroupID } from "../../supabase/groupFunctions";
 // Change score to state...
-import { score } from "./score";
+import { score } from "../score";
 
 export const SubmitScore = ({ setGameState, accs, session }) => {
     const [name, setName] = useState("");

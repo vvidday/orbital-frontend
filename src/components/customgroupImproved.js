@@ -29,11 +29,7 @@ export const CustomGroupImproved = ({ setGameState, setAccs }) => {
     const [accounts, setAccounts] = useState([]);
 
     // State for all inputs
-    const [handles, setHandles] = useState([
-        { id: 0, value: "test" },
-        { id: 1, value: "test1" },
-        { id: 2, value: "test4" },
-    ]);
+    const [handles, setHandles] = useState([]);
 
     // State for current input
     const [inputValue, setInput] = useState("");
@@ -140,7 +136,7 @@ export const CustomGroupImproved = ({ setGameState, setAccs }) => {
                         }}
                     >
                         <FormLabel>
-                            Input Twitter Handle/Username (Limited to 8):
+                            Input Twitter Handle / Username (Limited to 8):
                         </FormLabel>
                         <InputGroup>
                             <Input
