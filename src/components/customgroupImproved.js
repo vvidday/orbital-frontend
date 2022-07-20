@@ -65,11 +65,11 @@ export const CustomGroupImproved = ({ setGameState, setAccs }) => {
     const checkAccount = async (handle) => {
         let filteredHandle = handle
         // Checks for duplicate
-        //if (handles.map((element)=> element.value).includes(handle)) {
-            //    setError(`Handle has already been added!`);
-            //    setLoading(false);
-            //    return null;
-            //}
+        if (handles.map((element)=> element.value).includes(handle)) {
+                setError(`Handle has already been added!`);
+                setLoading(false);
+                return null;
+            }
         // Checks for Empty or singular "@" input
         if (handle.charAt(0) == "@" && handle.length == 1) {
             // checks for single "@" character
