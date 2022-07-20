@@ -7,7 +7,6 @@ import { BrowserRouter, Route, Routes, useParams } from "react-router-dom";
 
 export const Index = () => {
     const { code } = useParams();
-    console.log(code);
     return (
         <>
             <ChakraProvider theme={theme}>

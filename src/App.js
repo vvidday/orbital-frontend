@@ -9,6 +9,7 @@ import { Loading } from "./components/loadingScreen";
 import { Selection } from "./components/groupselection";
 import { Profile } from "./components/profile";
 import { GameCodePlay } from "./components/gameCodePlay";
+import { GameCodeGenerate } from "./components/gameCodeGenerate";
 
 function App({ code }) {
     const accounts = [
@@ -31,6 +32,7 @@ function App({ code }) {
     */
     const [accs, setAccs] = useState([]);
     /* State of game to determine which component to render
+    -3 - GameCodeGenerate page
     -2 - GameCodePlay page
     -1 - Profile page
     0 - Default, render group select screen [DEFAULT]
@@ -38,7 +40,7 @@ function App({ code }) {
     2 - On submit score screen
     3 - On highscore screen
     */
-    const [gameState, setGameState] = useState(0);
+    const [gameState, setGameState] = useState(-3);
 
     // State to store session data
     const [session, setSession] = useState(null);
@@ -71,6 +73,9 @@ function App({ code }) {
         }
     }, []);
     let displayComponent;
+    if (gameState === -3) {
+        displayComponent = <GameCodeGenerate />;
+    }
     if (gameState === -2) {
         displayComponent = (
             <GameCodePlay
