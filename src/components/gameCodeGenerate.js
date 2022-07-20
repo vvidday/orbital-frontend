@@ -11,14 +11,7 @@ import {
     VStack,
     FormErrorMessage,
     FormLabel,
-    AlertDialog,
     useDisclosure,
-    AlertDialogOverlay,
-    AlertDialogContent,
-    AlertDialogFooter,
-    useClipboard,
-    Flex,
-    AlertDialogHeader,
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { getUserByUsername } from "../api/twitter";
@@ -143,6 +136,14 @@ export const GameCodeGenerate = ({ setGameState }) => {
                 onClose={onClose}
                 gameLink={gameLink}
             />
+            <Center
+                fontSize={{ base: "md", sm: "xl", lg: "2xl" }}
+                align="center"
+                m="10px"
+            >
+                Generate a link based on a custom group to share with your
+                friends!
+            </Center>
             <VStack>
                 {
                     <form

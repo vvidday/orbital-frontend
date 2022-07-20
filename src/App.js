@@ -30,12 +30,7 @@ function App({ code }) {
         { id: "155659213", name: "Cristiano Ronaldo", username: "Cristiano" },
     ]);
     */
-    const [accs, setAccs] = useState([
-        { id: "27260086", name: "Justin Bieber", username: "justinbieber" },
-        { id: "813286", name: "Barack Obama", username: "BarackObama" },
-        { id: "21447363", name: "KATY PERRY", username: "katyperry" },
-        { id: "155659213", name: "Cristiano Ronaldo", username: "Cristiano" },
-    ]);
+    const [accs, setAccs] = useState([]);
     /* State of game to determine which component to render
     -3 - GameCodeGenerate page
     -2 - GameCodePlay page
@@ -45,7 +40,7 @@ function App({ code }) {
     2 - On submit score screen
     3 - On highscore screen
     */
-    const [gameState, setGameState] = useState(3);
+    const [gameState, setGameState] = useState(0);
 
     // State to store session data
     const [session, setSession] = useState(null);

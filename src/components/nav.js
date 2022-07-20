@@ -13,13 +13,9 @@ import {
     MenuItem,
     Show,
     Hide,
-    Tooltip
+    Tooltip,
 } from "@chakra-ui/react";
-import { 
-    MoonIcon, 
-    SunIcon, 
-    HamburgerIcon, 
-} from '@chakra-ui/icons'
+import { MoonIcon, SunIcon, HamburgerIcon } from "@chakra-ui/icons";
 import { signInWithTwitter, signOut } from "../logic/auth";
 
 export const Nav = ({ setToggle, session, setGameState }) => {
@@ -34,7 +30,7 @@ export const Nav = ({ setToggle, session, setGameState }) => {
                 <Heading
                     as="h2"
                     cursor="pointer"
-                    fontSize={{base: "7vw", sm: "4.5vw", md: "30px"}}
+                    fontSize={{ base: "7vw", sm: "4.5vw", md: "30px" }}
                     onClick={() => setGameState(0)}
                 >
                     Who{" "}
@@ -58,23 +54,36 @@ export const Nav = ({ setToggle, session, setGameState }) => {
                             )}
                         </Box>
                         <Button
+                            mr="20px"
+                            id="codeGenerate-btn"
+                            onClick={() => setGameState(-3)}
+                        >
+                            Share
+                        </Button>
+                        <Button
                             marginRight={"20px"}
                             id="toggle"
                             onClick={() => {
                                 toggleColorMode();
                                 setToggle(colorMode);
                             }}
-                        >{colorMode == "dark" ? 
-                            (<SunIcon/>):(<MoonIcon/>)}
+                        >
+                            {colorMode == "dark" ? <SunIcon /> : <MoonIcon />}
                         </Button>
                         <Box>
                             {session ? (
-                                <Button onClick={() => {
-                                    signOut();
-                                    window.location.reload(false);
-                                }}>Sign Out</Button>
+                                <Button
+                                    onClick={() => {
+                                        signOut();
+                                        window.location.reload(false);
+                                    }}
+                                >
+                                    Sign Out
+                                </Button>
                             ) : (
-                                <Button onClick={signInWithTwitter}>Sign In</Button>
+                                <Button onClick={signInWithTwitter}>
+                                    Sign In
+                                </Button>
                             )}
                         </Box>
                     </Hide>
@@ -82,18 +91,18 @@ export const Nav = ({ setToggle, session, setGameState }) => {
                         <Menu>
                             <MenuButton
                                 as={IconButton}
-                                aria-label='Options'
+                                aria-label="Options"
                                 icon={<HamburgerIcon />}
-                                variant='outline'
+                                variant="outline"
                             />
                             <MenuList>
-                                <MenuItem 
+                                <MenuItem
                                     onClick={() => {
                                         toggleColorMode();
                                         setToggle(colorMode);
                                     }}
                                 >
-                                        Toggle
+                                    Toggle
                                 </MenuItem>
                                 <Box>
                                     {session ? (
@@ -107,14 +116,23 @@ export const Nav = ({ setToggle, session, setGameState }) => {
                                         <></>
                                     )}
                                 </Box>
+                                <MenuItem onClick={() => setGameState(-3)}>
+                                    Share
+                                </MenuItem>
                                 <Box>
                                     {session ? (
-                                        <MenuItem onClick={() => {
-                                            signOut();
-                                            window.location.reload(false);
-                                        }}>Sign Out</MenuItem>
+                                        <MenuItem
+                                            onClick={() => {
+                                                signOut();
+                                                window.location.reload(false);
+                                            }}
+                                        >
+                                            Sign Out
+                                        </MenuItem>
                                     ) : (
-                                        <MenuItem onClick={signInWithTwitter}>Sign In</MenuItem>
+                                        <MenuItem onClick={signInWithTwitter}>
+                                            Sign In
+                                        </MenuItem>
                                     )}
                                 </Box>
                             </MenuList>
