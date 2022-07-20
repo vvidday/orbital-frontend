@@ -49,16 +49,41 @@ export const GameCodePlay = ({ code, setAccs, setGameState }) => {
             ) : (
                 <Box>
                     {error === "" ? (
-                        <Box>
-                            <Text>You've been invited to play a game</Text>
-                            {localHandles.map((handle, i) => (
-                                <Text key={i}>@{handle}</Text>
-                            ))}
-                            <Button onClick={startGame}>Yes, start game</Button>
-                            <Button onClick={backToHomeScreen}>
-                                No, take me back
-                            </Button>
-                        </Box>
+                        <Flex direction="column" align="center">
+                            <Text
+                                fontSize={{
+                                    base: "large",
+                                    sm: "2xl",
+                                }}
+                            >
+                                You've been invited to play a game
+                            </Text>
+                            <Flex
+                                direction={{ base: "column", sm: "row" }}
+                                margin="10px"
+                            >
+                                {localHandles.map((handle, i) => (
+                                    <Text
+                                        key={i}
+                                        margin="5px"
+                                        fontStyle="italic"
+                                    >
+                                        @{handle}
+                                    </Text>
+                                ))}
+                            </Flex>
+                            <Flex>
+                                <Button margin="20px" onClick={startGame}>
+                                    Start Game
+                                </Button>
+                                <Button
+                                    margin="20px"
+                                    onClick={backToHomeScreen}
+                                >
+                                    Home
+                                </Button>
+                            </Flex>
+                        </Flex>
                     ) : (
                         <Box>
                             {error}
