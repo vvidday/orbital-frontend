@@ -29,38 +29,31 @@ import {
 } from "../supabase/groupFunctions";
 import { createForGroup } from "../supabase/statisticsGroupFunctions";
 import { DropDown } from "./customgroupDropdown";
+import { GameCodePopup } from "./gameCodePopup";
 
 // Code taken from customgroupimproved, only modified action on submit.
 export const GameCodeGenerate = ({ setGameState }) => {
+    /* --- START OF COPIED CODE from customgroupImproved */
     // State to keep track & display error message for users
     const [error, setError] = useState("");
-
     // State for loading, just to disable button while async calls are running.
     const [loading, setLoading] = useState(false);
-
     // State for all valid accounts added
     const [accounts, setAccounts] = useState([]);
-
     // State for all inputs
     const [handles, setHandles] = useState([]);
-
     // State for current input
     const [inputValue, setInput] = useState("");
-    const inputRef = useRef(null);
-
-    // State for game link to be generated for user
-    const [gameLink, setGameLink] = useState("test");
-
-    // For alert popup
-    const { isOpen, onOpen, onClose } = useDisclosure();
-    const cancelRef = useRef();
-    // For copy
-    const { hasCopied, onCopy } = useClipboard(gameLink);
-
-    const BASE_URL = "https://orbital-frontend-orcin.vercel.app/";
-
     // Error checking used by <Form></Form>
     const isError = error != "";
+    /* --- END OF COPIED CODE from customgroupImproved */
+
+    const inputRef = useRef(null);
+    // State for game link to be generated for user
+    const [gameLink, setGameLink] = useState("test");
+    // For alert popup
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const BASE_URL = "https://orbital-frontend-orcin.vercel.app/";
 
     // Is called upon submission of the form.
     // Creates group if it doesn't exist (GROUP - newGroup, STATS - createForGroup)
@@ -90,12 +83,13 @@ export const GameCodeGenerate = ({ setGameState }) => {
             }
         }
     };
-    // Handle reset of loading on close (in case user presses escape or clicks outside)
+    // Handle reset of loading on close (in case user presses escape or clicks outside) [FOR GAMECODEPOPUP]
     useEffect(() => {
         setLoading(isOpen);
     }, [isOpen]);
 
     // Checks the validity of a single account
+    // Copied code
     const checkAccount = async (handle) => {
         let filteredHandle = handle;
 
@@ -143,42 +137,12 @@ export const GameCodeGenerate = ({ setGameState }) => {
 
     return (
         <>
-            <AlertDialog
+            <GameCodePopup
                 isOpen={isOpen}
+                onOpen={onOpen}
                 onClose={onClose}
-                leastDestructiveRef={cancelRef}
-            >
-                <AlertDialogOverlay>
-                    <AlertDialogContent>
-                        <AlertDialogHeader>
-                            Game link generated!
-                        </AlertDialogHeader>
-                        <Flex padding="20px">
-                            <Input
-                                isReadOnly
-                                value={gameLink}
-                                ref={cancelRef}
-                            />
-                            <Button onClick={onCopy} ml="10px">
-                                {hasCopied ? "Copied" : "Copy"}
-                            </Button>
-                        </Flex>
-
-                        <AlertDialogFooter>
-                            <Flex align="center">
-                                <Button
-                                    marginLeft="20px"
-                                    onClick={() => {
-                                        onClose();
-                                    }}
-                                >
-                                    Close
-                                </Button>
-                            </Flex>
-                        </AlertDialogFooter>
-                    </AlertDialogContent>
-                </AlertDialogOverlay>
-            </AlertDialog>
+                gameLink={gameLink}
+            />
             <VStack>
                 {
                     <form
