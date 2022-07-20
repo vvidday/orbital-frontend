@@ -8,8 +8,9 @@ import { Box } from "@chakra-ui/react";
 import { Loading } from "./components/loadingScreen";
 import { Selection } from "./components/groupselection";
 import { Profile } from "./components/profile";
+import { GameCodePlay } from "./components/gameCodePlay";
 
-function App() {
+function App({ code }) {
     const accounts = [
         { id: "27260086", name: "Justin Bieber", username: "justinbieber" },
         { id: "813286", name: "Barack Obama", username: "BarackObama" },
@@ -30,6 +31,7 @@ function App() {
     */
     const [accs, setAccs] = useState([]);
     /* State of game to determine which component to render
+    -2 - GameCodePlay page
     -1 - Profile page
     0 - Default, render group select screen [DEFAULT]
     1 - Start of game 
@@ -63,8 +65,21 @@ function App() {
             // Back to selection
             setGameState(0);
         });
+        // Check if user accessed from a game code
+        if (code !== undefined) {
+            setGameState(-2);
+        }
     }, []);
     let displayComponent;
+    if (gameState === -2) {
+        displayComponent = (
+            <GameCodePlay
+                code={code}
+                setAccs={setAccs}
+                setGameState={setGameState}
+            />
+        );
+    }
     if (gameState === -1) {
         displayComponent = (
             <Profile
