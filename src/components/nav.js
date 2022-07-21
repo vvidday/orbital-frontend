@@ -74,6 +74,7 @@ export const Nav = ({ setToggle, session, setGameState }) => {
                         <Button
                             marginRight={"20px"}
                             id="toggle"
+                            aria-label="ToggleMode"
                             onClick={() => {
                                 toggleColorMode();
                                 setToggle(colorMode);
