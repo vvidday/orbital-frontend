@@ -9,6 +9,7 @@ import {
     Collapse,
     Text
 } from "@chakra-ui/react";
+import { updateFollowings, getFollowingSaved } from "../supabase/yourFollowingFunctions";
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import { supabase } from "../supabase/supabaseClient";
 import { Group } from "./group";
@@ -17,6 +18,8 @@ import { CustomGroupImproved} from "./customgroupImproved"
 import { useEffect, useState } from "react";
 import { resetData } from "../data/bufferData";
 import { createForGroup } from "../supabase/statisticsGroupFunctions";
+import { isDuplicate, newGroup } from "../supabase/groupFunctions";
+import { doesProfileExist } from "../supabase/profileFunctions";
 
 const DEFAULT_GROUPS = [
     {
@@ -37,9 +40,10 @@ const DEFAULT_GROUPS = [
     }
 ];
 
-export const SelectionImproved = ({ setGameState, accs, setAccs, session }) => {
+export const SelectionImprovedV2 = ({ setGameState, accs, setAccs, session }) => {
     // Loading state to disable buttons / clickables when loading the async calls.
     const [loading, setLoading] = useState(false);
+    const [yourFollowing, setYourFollowing] = useState(false);
     const [customButton, setCustomButton] = useState("Build Custom Group");
     const [handleArray, setHandle] = useState(
         DEFAULT_GROUPS.map((group, i) => {
@@ -57,41 +61,49 @@ export const SelectionImproved = ({ setGameState, accs, setAccs, session }) => {
     );
     // State for custom group collapse
     const { isOpen, onToggle } = useDisclosure();
-/*
+
     useEffect(() => {
         if (session != null && supabase.auth.user() != null) {
             // gets user id if logged in
             const fetchData = async () => {
                 const userID = session.user.user_metadata.provider_id
-                //const response = await getFollowing(userID);
-                //console.log(response);
-                const response = ["xQc", "summit1g", "shroud", "loltyler1", "timthetatman",
-                "AOC", "BernieSanders", "tedcruz", "POTUS", "DonaldjTrumpJR","BarackObama", 
-                "Cristiano", "justinbieber", "katyperry"];
-                if (response.length > 8) {
-                    const newAccs = [];
-                    let i = 0;
-                    while (i < 8) {
-                        const random = Math.floor(Math.random() * response.length);
-                        newAccs.push(response[random]);
-                        response.splice(random, 1);
-                        i+=1;
-                    }
-                    console.log(newAccs);
-                    setAccs(newAccs);
+                const response = await updateFollowings(session);
+                const exists = await doesProfileExist(session);
+                // if response is false and its a new user
+                // this means that the data is not yet uploaded into system yet
+                if (!response && !exists) {
+                    setYourFollowing(false)
                 } else {
-                    setAccs(response);
+                    setYourFollowing(true)
+                    const res = await getFollowingSaved(session);
+                    const userFollowing = res[0].followings
+
+                    console.log(res)
+                    if (userFollowing.length > 8) {
+                        const newAccs = [];
+                        let i = 0;
+                        while (i < 8) {
+                            const random = Math.floor(Math.random() * userFollowing.length);
+                            newAccs.push(userFollowing[random]);
+                            userFollowing.splice(random, 1);
+                            i+=1;
+                        }
+                        console.log(newAccs);
+                        setAccs(newAccs);
+                    } else {
+                        setAccs(userFollowing);
+                    }
                 }
             }
             fetchData().catch(console.error);
         }
     }, [session]);
-*/
+
     // Reset data on load... change to state!!!
     useEffect(() => {
         resetData();
     });
-/*
+
     // maps Your Following button to the selection when the user logs in
         // if user logs out, it is removed
         // if user logs in at any time, the button is added
@@ -99,15 +111,12 @@ export const SelectionImproved = ({ setGameState, accs, setAccs, session }) => {
         if (supabase.auth.user() != null) {
             if (DEFAULT_GROUPS[DEFAULT_GROUPS.length-1].title == "Your Following") {
                 //const userHandles = accs.map((i) => i.username)
-                const userHandles = accs.map((i) => i)
+                const userHandles = accs
                 DEFAULT_GROUPS[DEFAULT_GROUPS.length-1] = {
                     title: "Your Following",
                     handles: userHandles
                 }
                 const playUserGroup = async (currentHandles) => {
-                    /*
-                    console.log("Current Handle");
-                    console.log(currentHandles)
                     const groupExists = await isDuplicate(currentHandles);
                     if (!groupExists) {
                         // Create group
@@ -127,7 +136,6 @@ export const SelectionImproved = ({ setGameState, accs, setAccs, session }) => {
                             );
                         })));
                     } else {
-                    ----------------------------------
                         setHandle(
                             DEFAULT_GROUPS.map((group, i) => {
                             return (
@@ -141,7 +149,7 @@ export const SelectionImproved = ({ setGameState, accs, setAccs, session }) => {
                                 />
                             );
                         }));
-                    //}
+                    }
                 };
                 playUserGroup(userHandles);
             } else {
@@ -155,7 +163,7 @@ export const SelectionImproved = ({ setGameState, accs, setAccs, session }) => {
             }
         }
     },[accs, session]);
-*/
+
     // Update Custom Button text upon collapse / show
     useEffect(() => {
         if (isOpen) {

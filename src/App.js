@@ -5,13 +5,13 @@ import { HighscoresImproved } from "./components/highscoresImproved";
 import { SubmitScore } from "./components/previous_versions/submitscore";
 import { SubmitScoreImproved } from "./components/submitscoreImproved";
 import { supabase } from "./supabase/supabaseClient";
-import { handleProfileOnLogin } from "./supabase/profileFunctions";
+import { handleProfileOnLogin} from "./supabase/profileFunctions";
 import { Box, Flex} from "@chakra-ui/react";
 import { Loading } from "./components/loadingScreen";
 import { Selection } from "./components/previous_versions/groupselection";
 import { SelectionImproved } from "./components/groupSelectionImproved";
 import { Profile } from "./components/profile";
-
+import { SelectionImprovedV2 } from "./components/groupSelectionImprovedV2";
 
 function App() {
     const accounts = [
@@ -68,6 +68,7 @@ function App() {
             setGameState(0);
         });
     }, []);
+
     let displayComponent;
     if (gameState === -1) {
         displayComponent = (

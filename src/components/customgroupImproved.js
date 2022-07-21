@@ -11,6 +11,7 @@ import {
     FormErrorMessage,
     FormLabel,
 } from "@chakra-ui/react";
+import { AddIcon } from '@chakra-ui/icons'
 import { useState } from "react";
 import { getUserByUsername } from "../api/twitter";
 import { isDuplicate, newGroup } from "../supabase/groupFunctions";
@@ -158,7 +159,7 @@ export const CustomGroupImproved = ({ setGameState, setAccs }) => {
                                         checkAccount(inputValue);
                                     }}
                                 >
-                                    Next
+                                    <AddIcon />
                                 </Button>
                             </InputRightElement>
                         </InputGroup>
