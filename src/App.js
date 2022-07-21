@@ -81,7 +81,7 @@ function App() {
     }
     if (gameState === 0) {
         displayComponent = (
-            <SelectionImproved
+            <SelectionImprovedV2
                 session={session}
                 setGameState={setGameState}
                 accs={accs}

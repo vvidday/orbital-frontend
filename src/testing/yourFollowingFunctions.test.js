@@ -1,12 +1,5 @@
-import {
-    newProfile,
-    doesProfileExist,
-    deleteProfile,
-    handleProfileOnLogin,
-    addNewUser, 
-    doesNewUserExist,
-    deductNewUser,
-} from "../supabase/profileFunctions";
+import { addNewUser, doesNewUserExist } from "../supabase/profileFunctions";
+import { deductNewUser } from "../supabase/yourFollowingFunctions";
 
 const mockSession = {
     access_token: "",
@@ -64,43 +57,3 @@ const mockSession = {
     },
     expires_at: 1655620575,
 };
-
-test("newProfile successfully creates new entry in profile table on database", () => {
-    return newProfile(mockSession)
-        .then((result) => {
-            return doesProfileExist(mockSession);
-        })
-        .then((result) => expect(result).toBe(true));
-});
-
-test("deleteProfile successfully deletes entry in profile table on database", () => {
-    return doesProfileExist(mockSession)
-        .then((result) => {
-            expect(result).toBe(true);
-            return deleteProfile(mockSession);
-        })
-        .then((result) => doesProfileExist(mockSession))
-        .then((result) => {
-            expect(result).toBe(false);
-        });
-});
-
-test("newProfile successfully creates new entry in profile table on database", () => {
-    return addNewUser(mockSession)
-        .then((result) => {
-            return doesNewUserExist(mockSession);
-        })
-        .then((result) => expect(result).toBe(true));
-});
-
-test("deleteProfile successfully deletes entry in profile table on database", () => {
-    return doesNewUserExist(mockSession)
-        .then((result) => {
-            expect(result).toBe(true);
-            return deductNewUser(mockSession);
-        })
-        .then((result) => doesNewUserExist(mockSession))
-        .then((result) => {
-            expect(result).toBe(false);
-        });
-});
