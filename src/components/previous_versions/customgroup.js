@@ -1,9 +1,9 @@
 import { Box, Button, Center, Flex, Input, Text } from "@chakra-ui/react";
 import { useState } from "react";
-import { getUserByUsername } from "../api/twitter";
-import { isDuplicate, newGroup } from "../supabase/groupFunctions";
-import { createForGroup } from "../supabase/statisticsGroupFunctions";
-import { Loading } from "./loadingScreen";
+import { getUserByUsername } from "../../api/twitter";
+import { isDuplicate, newGroup } from "../../supabase/groupFunctions";
+import { createForGroup } from "../../supabase/statisticsGroupFunctions";
+import { Loading } from "../loadingScreen";
 
 export const CustomGroup = ({ setGameState, setAccs }) => {
     // States of the eight input fields.

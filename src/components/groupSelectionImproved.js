@@ -1,4 +1,15 @@
-import { Box, ButtonGroup, Wrap, Flex, CircularProgress } from "@chakra-ui/react";
+import { 
+    Box, 
+    Wrap, 
+    Flex, 
+    CircularProgress, 
+    useDisclosure, 
+    Button, 
+    Center,
+    Collapse,
+    Text
+} from "@chakra-ui/react";
+import { ArrowBackIcon } from '@chakra-ui/icons'
 import { supabase } from "../supabase/supabaseClient";
 import { Group } from "./group";
 //import { CustomGroup } from "./customgroup";
@@ -10,6 +21,7 @@ import {
     isDuplicate,
     newGroup,
 } from "../supabase/groupFunctions";
+import { createForGroup } from "../supabase/statisticsGroupFunctions";
 
 const DEFAULT_GROUPS = [
     {
@@ -30,9 +42,10 @@ const DEFAULT_GROUPS = [
     }
 ];
 
-export const Selection = ({ setGameState, accs, setAccs, session }) => {
+export const SelectionImproved = ({ setGameState, accs, setAccs, session }) => {
     // Loading state to disable buttons / clickables when loading the async calls.
     const [loading, setLoading] = useState(false);
+    const [customButton, setCustomButton] = useState("Build Custom Group");
     const [handleArray, setHandle] = useState(
         DEFAULT_GROUPS.map((group, i) => {
             return (
@@ -47,14 +60,16 @@ export const Selection = ({ setGameState, accs, setAccs, session }) => {
             );
         })
     );
+    // State for custom group collapse
+    const { isOpen, onToggle } = useDisclosure();
 /*
     useEffect(() => {
-        accs = []
         if (session != null && supabase.auth.user() != null) {
             // gets user id if logged in
             const fetchData = async () => {
                 const userID = session.user.user_metadata.provider_id
                 //const response = await getFollowing(userID);
+                //console.log(response);
                 const response = ["xQc", "summit1g", "shroud", "loltyler1", "timthetatman",
                 "AOC", "BernieSanders", "tedcruz", "POTUS", "DonaldjTrumpJR","BarackObama", 
                 "Cristiano", "justinbieber", "katyperry"];
@@ -72,10 +87,8 @@ export const Selection = ({ setGameState, accs, setAccs, session }) => {
                 } else {
                     setAccs(response);
                 }
-                console.log(accs);
             }
             fetchData().catch(console.error);
-            console.log(accs);
         }
     }, [session]);
 */
@@ -90,44 +103,50 @@ export const Selection = ({ setGameState, accs, setAccs, session }) => {
     useEffect(() => {
         if (supabase.auth.user() != null) {
             if (DEFAULT_GROUPS[DEFAULT_GROUPS.length-1].title == "Your Following") {
-                const userHandles = accs.map((i) => i.username)
+                //const userHandles = accs.map((i) => i.username)
+                const userHandles = accs.map((i) => i)
                 DEFAULT_GROUPS[DEFAULT_GROUPS.length-1] = {
                     title: "Your Following",
                     handles: userHandles
                 }
                 const playUserGroup = async (currentHandles) => {
+                    /*
+                    console.log("Current Handle");
+                    console.log(currentHandles)
                     const groupExists = await isDuplicate(currentHandles);
                     if (!groupExists) {
                         // Create group
-                        newGroup(currentHandles).then(() => {
-                            setHandle(
-                                DEFAULT_GROUPS.map((group, i) => {
-                                return (
-                                    <Group
-                                        key={i}
-                                        title={group.title}
-                                        handles={group.handles}
-                                        setAccs={setAccs}
-                                        setGameState={setGameState}
-                                        setLoading={setLoading}
-                                    />
-                                );
-                            }));
-                        });
-                    }
-                    setHandle(
-                        DEFAULT_GROUPS.map((group, i) => {
-                        return (
-                            <Group
-                                key={i}
-                                title={group.title}
-                                handles={group.handles}
-                                setAccs={setAccs}
-                                setGameState={setGameState}
-                                setLoading={setLoading}
-                            />
-                        );
-                    }));
+                        newGroup(currentHandles)
+                        .then(() => createForGroup(currentHandles))
+                        .then(() => setHandle(
+                            DEFAULT_GROUPS.map((group, i) => {
+                            return (
+                                <Group
+                                    key={i}
+                                    title={group.title}
+                                    handles={group.handles}
+                                    setAccs={setAccs}
+                                    setGameState={setGameState}
+                                    setLoading={setLoading}
+                                />
+                            );
+                        })));
+                    } else {
+                    ----------------------------------
+                        setHandle(
+                            DEFAULT_GROUPS.map((group, i) => {
+                            return (
+                                <Group
+                                    key={i}
+                                    title={group.title}
+                                    handles={group.handles}
+                                    setAccs={setAccs}
+                                    setGameState={setGameState}
+                                    setLoading={setLoading}
+                                />
+                            );
+                        }));
+                    //}
                 };
                 playUserGroup(userHandles);
             } else {
@@ -142,6 +161,17 @@ export const Selection = ({ setGameState, accs, setAccs, session }) => {
         }
     },[accs, session]);
 */
+    // Update Custom Button text upon collapse / show
+    useEffect(() => {
+        if (isOpen) {
+            setCustomButton(<Center>
+                                <ArrowBackIcon/> 
+                                <Text>Back To Selection</Text>
+                            </Center>)
+        } else {
+            setCustomButton("Build Custom Group");
+        }
+    },[isOpen]);
     return (
         <Box>
             {loading ? (
@@ -153,42 +183,39 @@ export const Selection = ({ setGameState, accs, setAccs, session }) => {
                 </Flex>
             ) : (
                 <Box>
-                    <ButtonGroup 
-                        display="flex"
-                        justify="space-around"
-                        flexFlow="row wrap"
-                        justifyContent="center"
-                    >
-                        {/*DEFAULT_GROUPS.map((group, i) => {
-                            console.log("below");
-                            console.log(group);
-                            console.log("above");
-                            return (
-                                <Group
-                                    key={i}
-                                    title={group.title}
-                                    handles={group.handles}
-                                    setAccs={setAccs}
-                                    setGameState={setGameState}
-                                    setLoading={setLoading}
-                                />
-                            );
-                        })handleArray*/}
-                    </ButtonGroup>
-                    <Wrap 
-                        spacing="20px" 
-                        justify="center"
-                        align={{base:"center", sm:"stretch"}}
-                        direction={{base:"column", sm:"row"}}
-                    >
-                        {handleArray}
-                    </Wrap>
-
-                    <CustomGroupImproved
-                            setGameState={setGameState}
-                            setAccs={setAccs}
-                    />
-
+                    <Collapse in={!isOpen} animateOpacity>
+                        <Wrap 
+                            spacing="20px" 
+                            justify="center"
+                            align={{base:"center", sm:"stretch"}}
+                            direction={{base:"column", sm:"row"}}
+                        >
+                            {handleArray}
+                        </Wrap>
+                    </Collapse>
+                    <Center>
+                        <Button
+                            border = "1px"
+                            borderRadius = "10px"
+                            flexDirection="column"
+                            height="100%"
+                            width={{base: "60vw", sm:"auto"}}
+                            minWidth = "50px"
+                            justifyContent="space-between"
+                            padding="10px"
+                            margin="10px"
+                            _hover={{ cursor: "pointer", background:"whiteAlpha.300"}}
+                            onClick={onToggle}
+                        >
+                        {customButton}
+                        </Button>
+                    </Center>
+                    <Collapse in={isOpen} animateOpacity>
+                        <CustomGroupImproved
+                                setGameState={setGameState}
+                                setAccs={setAccs}
+                        />
+                    </Collapse>
                 </Box>
             )}
         </Box>

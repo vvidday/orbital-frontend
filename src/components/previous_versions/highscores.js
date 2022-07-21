@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { accsToHandles } from "../logic/helpers";
-import { generateGroupID } from "../supabase/groupFunctions";
-import { getGroupLB } from "../supabase/leaderboardFunctions";
+import { accsToHandles } from "../../logic/helpers";
+import { generateGroupID } from "../../supabase/groupFunctions";
+import { getGroupLB } from "../../supabase/leaderboardFunctions";
 import {
     Box,
     Grid,
@@ -13,7 +13,7 @@ import {
     Center,
     Tooltip,
 } from "@chakra-ui/react";
-import { advancedStats } from "../supabase/statisticsGroupFunctions";
+import { advancedStats } from "../../supabase/statisticsGroupFunctions";
 
 export const Highscores = ({ accs, setGameState }) => {
     const [data, setData] = useState([]);

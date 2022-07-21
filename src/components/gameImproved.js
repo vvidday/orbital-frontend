@@ -18,7 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { data } from "../data/bufferData";
 import { ShowAnswer } from "./answer";
-import { MainDisplay } from "./mainDisplay";
+import { MainDisplay } from "./previous_versions/mainDisplay";
 import { MainDisplayImproved } from "./mainDisplayImproved";
 import { accsToHandles } from "../logic/helpers";
 import { generateGroupID } from "../supabase/groupFunctions";
@@ -265,7 +265,7 @@ export const GameImproved = (
                     <Flex padding="10px" direction="column">
                         <Center fontSize="20px">Score: {score}</Center>
                         {
-                            <MainDisplay
+                            <MainDisplayImproved
                                 key={post}
                                 reloadEmbed={reloadEmbed}
                                 embed={embed}
@@ -279,9 +279,11 @@ export const GameImproved = (
                             <ButtonGroup
                                 gap="4"
                                 display={"grid"}
-                                gridTemplateColumns="auto auto"
-                                flexWrap={"wrap"}
-                                justifyContent={"center"}
+                                gridTemplateColumns={{
+                                    base: "auto",
+                                    sm: "auto auto",
+                                    md: "auto auto auto auto",
+                                }}
                                 isAttached
                             >
                                 {
@@ -292,6 +294,7 @@ export const GameImproved = (
                                                 id={`choice${key}`}
                                                 variant="custom"
                                                 className="option"
+                                                borderRadius="0"
                                                 key={key}
                                                 isDisabled={disable}
                                                 onClick={(e) => {
