@@ -43,7 +43,7 @@ export const GameCodeGenerate = ({ setGameState }) => {
 
     const inputRef = useRef(null);
     // State for game link to be generated for user
-    const [gameLink, setGameLink] = useState("test");
+    const [gameLink, setGameLink] = useState("");
     // For alert popup
     const { isOpen, onOpen, onClose } = useDisclosure();
     const BASE_URL = "https://orbital-frontend-orcin.vercel.app/";
