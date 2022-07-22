@@ -65,6 +65,7 @@ export const YourFollowing = ({ setGameState, accs, setAccs, session, following,
                     padding="10px"
                     margin="10px"
                     _hover={{ cursor: "pointer", background:"whiteAlpha.300"}}
+                    aria-label="YourFollowing"
                     onClick={async (e) => {
                         setLoading(true);
                         if (accs != []) {
@@ -93,14 +94,14 @@ export const YourFollowing = ({ setGameState, accs, setAccs, session, following,
                         minWidth = "50px"
                         justifyContent="space-between"
                         padding="10px"
-                        _hover={{ cursor: "pointer", background:"whiteAlpha.300"}}
+                        aria-label="YourFollowing"
                         isLoading
                     >
                         <Spinner size="m"/>
                     </Button>
                     <Popover trigger="hover">
                         <PopoverTrigger>
-                            <QuestionIcon position="absolute" top="0px" right="0px"/>
+                            <QuestionIcon aria-label="YFHelp" position="absolute" top="0px" right="0px"/>
                         </PopoverTrigger>
                         <Portal>
                             <PopoverContent>

@@ -1,8 +1,10 @@
 import { supabase } from "./supabaseClient";
+import { getCurrentTime } from "./yourFollowingFunctions";
 
 // Private function to create a new profile in the database. (Exported only for testing, not to be used elsewhere)
-export const newProfile = async (session) => {
-    const currentTime = ((new Date()).toISOString()).toLocaleString('en-SG')
+// By default, setTime is empty, used only for testing purposes
+export const newProfile = async (session, setTime="") => {
+    const currentTime = getCurrentTime(setTime);
     const row = {
         id: session["user"]["id"],
         username: session["user"]["user_metadata"]["user_name"],
@@ -11,6 +13,7 @@ export const newProfile = async (session) => {
         lastUpdate: currentTime
     };
     const { data, error } = await supabase.from("profiles").insert(row);
+    console.log("Added User")
     if (error != null) {
         console.log(error);
         return false;
@@ -52,7 +55,9 @@ export const handleProfileOnLogin = async (session) => {
     const doesExistNewUser = await doesNewUserExist(session);
     if (!doesExistProfile && !doesExistNewUser) {
         const successNewUser = await addNewUser(session);
+        console.log("New User detected")
         const successProfile = await newProfile(session);
+        console.log("New profile created")
         return successNewUser && successProfile;
     }
     return true;

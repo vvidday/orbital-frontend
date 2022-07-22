@@ -15,8 +15,6 @@ import {
     Those in system needs to wait for new users to clear.
 */
 export const checkLimit = async (session) => {
-    // Fetches the current time
-    const currentTime = ((new Date()).toISOString()).toLocaleString('en-SG')
     // check the amount of awaiting new users in system
     const newUsers = await checkNewUsers();
     const doesExistNewUser = await doesNewUserExist(session);
@@ -39,9 +37,7 @@ export const checkLimit = async (session) => {
     return false;
 }
 
-/*
-    Update user followings.
-*/
+// Update user followings
 export const updateFollowings = async (session) => {
     const userID = session.user.user_metadata.provider_id
     const response = await getFollowing(userID); //-> [{id:String, name:String, username:String}]
@@ -58,9 +54,7 @@ export const updateFollowings = async (session) => {
     return true
 }
 
-/*
-    Gets the followings of a user from the database
-*/
+// Gets the followings of a user from the database
 export const getFollowingSaved = async (session) => {
     const {data, error } = await supabase
         .from("profiles")
@@ -74,8 +68,9 @@ export const getFollowingSaved = async (session) => {
 }
 
 // Updates the profile time in the database
-export const updateProfileTime = async (session) => {
-    const currentTime = ((new Date()).toISOString()).toLocaleString('en-SG')
+// By default, setTime is empty, used only for testing purposes
+export const updateProfileTime = async (session, setTime="") => {
+    const currentTime = getCurrentTime(setTime);
     const { data, error } = await supabase
             .from('profiles')
             .update({ lastUpdate: currentTime })
@@ -88,16 +83,18 @@ export const updateProfileTime = async (session) => {
 }
 
 // Main function to get the time differnce between the current time and individual profile time
-export const profileTimeDifference = async (session) => {
-    const currentTime = ((new Date()).toISOString()).toLocaleString('en-SG')
+// By default, setTime is empty, used only for testing purposes
+export const profileTimeDifference = async (session, setTime="") => {
+    const currentTime = getCurrentTime(setTime);
     //console.log(currentTime)
-    const previous_update = await lastProfileUpdateTime(session)
+    const previous_update = await lastProfileUpdateTime(session);
     
-    const date1 = new Date(currentTime)
-    const date2 = new Date(previous_update + "Z")
+    // Stored time is no timezone, additional "Z" is to indicate to change to current timezone
+    const date1 = new Date(currentTime);
+    const date2 = new Date(previous_update + "Z");
     //console.log(date1)
     //console.log(date2)
-    return (date1 - date2) / (1000*60)
+    return (date1 - date2) / (1000*60);
 }
 
 // Checks the last individual profile call to Twitter
@@ -105,6 +102,15 @@ export const lastProfileUpdateTime = async (session) => {
     const { data, error } = await supabase
         .from("profiles")
         .select("lastUpdate")
-        .match({id: session["user"]["id"]})
-    return data[0].lastUpdate
+        .match({id: session["user"]["id"]});
+    return data[0].lastUpdate;
+}
+
+// Returns the current time
+// By default, setTime is empty, used only for testing purposes
+export const getCurrentTime = (setTime = "") => {
+    if (setTime === "") {
+        return ((new Date()).toISOString()).toLocaleString('en-SG');
+    }
+    return setTime;
 }

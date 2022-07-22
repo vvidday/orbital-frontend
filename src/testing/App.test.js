@@ -47,3 +47,15 @@ test("custom group is rendered", () => {
         screen.getByText("Build Custom Group", { selector: "button" })
     ).toBeInTheDocument();
 });
+
+test("Your Following helper popover is rendered", () => {
+    render(<App />);
+    expect(screen.getByLabelText("YFHelp")).toBeInTheDocument();
+});
+
+test("Your Following is rendered", () => {
+    render(<App />);
+    expect(
+        screen.getByLabelText("YourFollowing", { selector: "button" })
+    ).toBeInTheDocument();
+});

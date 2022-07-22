@@ -6,6 +6,7 @@ import { SubmitScore } from "./components/previous_versions/submitscore";
 import { SubmitScoreImproved } from "./components/submitscoreImproved";
 import { supabase } from "./supabase/supabaseClient";
 import { handleProfileOnLogin} from "./supabase/profileFunctions";
+import { getCurrentTime } from "./supabase/yourFollowingFunctions";
 import { Box, Flex} from "@chakra-ui/react";
 import { Loading } from "./components/loadingScreen";
 import { Selection } from "./components/previous_versions/groupselection";
@@ -68,7 +69,6 @@ function App() {
             setGameState(0);
         });
     }, []);
-
     let displayComponent;
     if (gameState === -1) {
         displayComponent = (
