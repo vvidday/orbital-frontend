@@ -16,7 +16,7 @@ export const AvatarDropdown = ({ session, setGameState }) => {
                 <MenuButton
                     as={IconButton}
                     borderRadius="3xl"
-                    aria-label="ToggleMode"
+                    aria-label="Sign In"
                     icon={
                         <Avatar 
                             name={session["user"]["user_metadata"]["full_name"]} 
