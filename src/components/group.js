@@ -8,6 +8,7 @@ export const Group = ({
     setGameState,
     setLoading,
 }) => {
+
     return (
         <WrapItem>
             <Button
@@ -19,7 +20,7 @@ export const Group = ({
                 minWidth = "50px"
                 justifyContent="space-between"
                 padding="10px"
-                _hover={{ cursor: "pointer", background:"lightblue"}}
+                _hover={{ cursor: "pointer", background:"whiteAlpha.300"}}
                 onClick={async (e) => {
                     setLoading(true);
                     if (handles != []) {

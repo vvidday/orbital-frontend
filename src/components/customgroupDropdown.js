@@ -7,12 +7,14 @@ export const DropDown = ({ inputs, setHandles}) => {
         <VStack 
             divider={<StackDivider/>}
             borderWidth="2px" 
-            borderColor="gray.300" 
+            borderColor="gray.600" 
             borderRadius="lg"
             p="4"
             maxW={{ base: '80vw', sm: '70vw', lg: '50vw', xl: '30vw' }}
             w="100%"
             alignItems="stretch"
+            boxShadow="rgba(99, 99, 99, 0.2) 0px 2px 8px 0px"
+            bgColor="rgba(255,255,255, 0.09)"
         >
             
             {inputs.map((handles) => {

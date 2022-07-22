@@ -1,15 +1,20 @@
 import { Nav } from "./components/nav";
 import { useEffect, useState } from "react";
-import { Highscores } from "./components/highscores";
-import { SubmitScore } from "./components/submitscore";
+import { Highscores } from "./components/previous_versions/highscores";
+import { HighscoresImproved } from "./components/highscoresImproved";
+import { SubmitScore } from "./components/previous_versions/submitscore";
+import { SubmitScoreImproved } from "./components/submitscoreImproved";
 import { supabase } from "./supabase/supabaseClient";
 import { handleProfileOnLogin } from "./supabase/profileFunctions";
-import { Box } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { Loading } from "./components/loadingScreen";
-import { Selection } from "./components/groupselection";
+import { Selection } from "./components/previous_versions/groupselection";
+import { SelectionImproved } from "./components/groupSelectionImproved";
 import { Profile } from "./components/profile";
+import { GameCodePlay } from "./components/gameCodePlay";
+import { GameCodeGenerate } from "./components/gameCodeGenerate";
 
-function App() {
+function App({ code }) {
     const accounts = [
         { id: "27260086", name: "Justin Bieber", username: "justinbieber" },
         { id: "813286", name: "Barack Obama", username: "BarackObama" },
@@ -30,6 +35,8 @@ function App() {
     */
     const [accs, setAccs] = useState([]);
     /* State of game to determine which component to render
+    -3 - GameCodeGenerate page
+    -2 - GameCodePlay page
     -1 - Profile page
     0 - Default, render group select screen [DEFAULT]
     1 - Start of game 
@@ -63,8 +70,24 @@ function App() {
             // Back to selection
             setGameState(0);
         });
+        // Check if user accessed from a game code
+        if (code !== undefined) {
+            setGameState(-2);
+        }
     }, []);
     let displayComponent;
+    if (gameState === -3) {
+        displayComponent = <GameCodeGenerate />;
+    }
+    if (gameState === -2) {
+        displayComponent = (
+            <GameCodePlay
+                code={code}
+                setAccs={setAccs}
+                setGameState={setGameState}
+            />
+        );
+    }
     if (gameState === -1) {
         displayComponent = (
             <Profile
@@ -76,7 +99,7 @@ function App() {
     }
     if (gameState === 0) {
         displayComponent = (
-            <Selection
+            <SelectionImproved
                 session={session}
                 setGameState={setGameState}
                 accs={accs}
@@ -101,7 +124,7 @@ function App() {
     }
     if (gameState === 2)
         displayComponent = (
-            <SubmitScore
+            <SubmitScoreImproved
                 setGameState={setGameState}
                 accs={accs}
                 session={session}
@@ -109,18 +132,29 @@ function App() {
         );
     if (gameState === 3)
         displayComponent = (
-            <Highscores setGameState={setGameState} accs={accs} />
+            <HighscoresImproved setGameState={setGameState} accs={accs} />
         );
 
     return (
-        <Box className="App">
+        <Box
+            className="App"
+            bgGradient={() => {
+                if (toggle == "dark") {
+                    //'linear(to-b, #091523 70%, #000000)'
+                    return "linear(to-b, #091523, #000000)";
+                }
+                //'linear(to-b, #00c6ff 70%, #0072ff)''linear(to-b, #eaeaea, #dbdbdb, #f2f2f2, #ada996)'
+            }}
+            h="100vh"
+            overflow="auto"
+        >
             <Nav
                 setGameState={setGameState}
                 session={session}
                 setSession={setSession}
                 setToggle={setToggle}
             />
-            {displayComponent}
+            <Box marginTop="30px">{displayComponent}</Box>
         </Box>
     );
 }

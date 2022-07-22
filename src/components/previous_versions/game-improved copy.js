@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { setChoices } from "../logic/setChoices";
-import { getUserByUsername } from "../api/twitter";
-import { getTimeline } from "../api/twitter";
-import buttonLogic from "../logic/button";
-import { score, setDefault } from "./score";
+import { setChoices } from "../../logic/setChoices";
+import { getUserByUsername } from "../../api/twitter";
+import { getTimeline } from "../../api/twitter";
+import buttonLogic from "../../logic/button";
+import { score, setDefault } from "../score";
 import {
     Box,
     Button,
@@ -16,8 +16,8 @@ import {
     Fade,
 } from "@chakra-ui/react";
 
-import { data } from "../data/bufferData";
-import { bufferData } from "../logic/buffer";
+import { data } from "../../data/bufferData";
+import { bufferData } from "../../logic/buffer";
 
 export const GameImproved = (
     // Twitter accounts selected by the player is passed in as props (hardcode for now)

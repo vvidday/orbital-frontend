@@ -23,6 +23,11 @@ export const theme = extendTheme({
                     outlineColor: "#00acee",
                 },
             },
+            baseStyle: {
+                _focus: {
+                  boxShadow: "none"
+                }
+              }
         },
     },
 });

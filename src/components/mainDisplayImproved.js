@@ -2,16 +2,12 @@ import React, { useEffect, useState } from "react";
 import {
     Box,
     Center,
-    Text,
     SkeletonCircle,
     SkeletonText,
-    Image,
-    Button,
     Flex,
-    RadioGroup,
-    Stack,
-    Radio,
+    Container,
     VStack,
+    CircularProgress
 } from "@chakra-ui/react";
 import { TwitterTweetEmbed } from "react-twitter-embed";
 import { MainDisplayImage } from "./mainDisplayImage";
@@ -21,17 +17,10 @@ export const MainDisplayImproved = (
     // Twitter accounts selected by the player is passed in as props (hardcode for now)
     { reloadEmbed, embed, post, showAnswer, onToggle}
 ) => {
-    // Index of currently shown image
-    const [img, setImg] = useState(0);
-    // Total number of images in tweet
-    const [totalImg, setTotalImg] = useState(0);
+
     const [preLoad, setPreLoadEmbed] = useState(<Box></Box>);
     const [loaded, setLoaded] = useState(false);
 
-    useEffect(() => {
-        // Set current index to 0 on new post
-        setImg(0);
-    }, [post]);
 /*
     useEffect(() => {
         setPreLoadEmbed(
@@ -51,19 +40,21 @@ export const MainDisplayImproved = (
     }, [post]);
 */
     return (
-        <Box minHeight="250px" border="1px">
+        <Box minHeight="250px">
             {!showAnswer ? (
                 <Center>
                     <VStack
-                        border="2px"
-                        borderColor="grey"
                         borderRadius="lg"
                         w={{ base: '90vw', sm:"80vw", md: '512px'}}
                         overflow={"hidden"}
+                        backdropFilter="auto"
+                        boxShadow= "rgba(0, 0, 0, 0.35) 0px 5px 15px"
+                        bgColor="rgba(255,255,255, 0.1)"
                     >
+
                         <Flex 
                             paddingLeft="16px" 
-                            marginTop="8px" 
+                            marginTop="15px" 
                             alignSelf="flex-start"
                         >
                             <SkeletonCircle
@@ -85,13 +76,20 @@ export const MainDisplayImproved = (
                                 </SkeletonText>
                             </Box>
                         </Flex>
-                        <MainDisplayImage post={post}/>
+                            <MainDisplayImage post={post}/>
                     </VStack>
                 </Center>
             ) : (
                 <TwitterTweetEmbed
                     onLoad={function noRefCheck() {onToggle()}}
-                    placeholder="Loading"
+                    placeholder={
+                    <Center>
+                        <CircularProgress 
+                            isIndeterminate 
+                            color="#00acee"
+                        />
+                    </Center>
+                    }
                     key={reloadEmbed}
                     tweetId={post.id}
                     options={{
@@ -99,7 +97,6 @@ export const MainDisplayImproved = (
                         align: "center",
                     }}
                 />
-                
                 //<Box>{preLoad}</Box>
             )}
         </Box>

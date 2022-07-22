@@ -7,6 +7,7 @@ import {
     RadioGroup,
     Stack,
     Radio,
+    Center
 } from "@chakra-ui/react";
 
 // Modified Game Component that uses hardcoded values instead of pulling from the API.
@@ -36,17 +37,21 @@ export const MainDisplayImage = (
                 {post.text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, "")}
             </Box>
             
+            <Center>
+                {post.media.length > 0 ? (
+                    <Image 
+                        //w={{ base: '90vw', sm:"80vw", md: '512px'}}
 
-            {post.media.length > 0 ? (
-                <Image 
-                    w={{ base: '90vw', sm:"80vw", md: '512px'}}
-                    src={post.media[img]}
-                    borderRadius="lg"
-                    ></Image>
-            ) : (
-                <></>
-            )}
-
+                        w="auto"
+                        maxH = "40vh"
+                        marginBottom="15px"
+                        src={post.media[img]}
+                        borderRadius="lg"
+                        ></Image>
+                ) : (
+                    <></>
+                )}
+            </Center>
             {post.media.length > 0 ? (
                 <Flex justify="space-between" align="center">
                     <Button
@@ -71,6 +76,7 @@ export const MainDisplayImage = (
                                         <Radio
                                             cursor="not-allowed"
                                             value={key}
+                                            key={key}
                                         ></Radio>
                                     );
                                 })}
