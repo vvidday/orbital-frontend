@@ -17,6 +17,7 @@ import {
 import { MoonIcon, SunIcon, HamburgerIcon } from "@chakra-ui/icons";
 import { signInWithTwitter, signOut } from "../logic/auth";
 import { contrast } from "@chakra-ui/theme-tools";
+import { AvatarDropdown } from "./avatarDrodown";
 
 export const Nav = ({ setToggle, session, setGameState }) => {
     const { colorMode, toggleColorMode } = useColorMode();
@@ -52,18 +53,6 @@ export const Nav = ({ setToggle, session, setGameState }) => {
                 </Heading>
                 <Flex alignItems="center">
                     <Hide below="sm">
-                        <Box>
-                            {session ? (
-                                <Button
-                                    onClick={() => setGameState(-1)}
-                                    marginRight="20px"
-                                >
-                                    Profile
-                                </Button>
-                            ) : (
-                                <></>
-                            )}
-                        </Box>
                         <Button
                             mr="20px"
                             id="codeGenerate-btn"
@@ -84,14 +73,7 @@ export const Nav = ({ setToggle, session, setGameState }) => {
                         </Button>
                         <Box>
                             {session ? (
-                                <Button
-                                    onClick={() => {
-                                        signOut();
-                                        window.location.reload(false);
-                                    }}
-                                >
-                                    Sign Out
-                                </Button>
+                                <AvatarDropdown session={session} setGameState={setGameState}/>
                             ) : (
                                 <Button onClick={signInWithTwitter}>
                                     Sign In
@@ -116,6 +98,9 @@ export const Nav = ({ setToggle, session, setGameState }) => {
                                 >
                                     Toggle
                                 </MenuItem>
+                                <MenuItem onClick={() => setGameState(-3)}>
+                                    Share
+                                </MenuItem>
                                 <Box>
                                     {session ? (
                                         <MenuItem
@@ -128,9 +113,6 @@ export const Nav = ({ setToggle, session, setGameState }) => {
                                         <></>
                                     )}
                                 </Box>
-                                <MenuItem onClick={() => setGameState(-3)}>
-                                    Share
-                                </MenuItem>
                                 <Box>
                                     {session ? (
                                         <MenuItem

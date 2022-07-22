@@ -14,7 +14,10 @@ import {
     Tooltip,
     Divider,
     useDisclosure,
-    Collapse,
+    Drawer,
+    DrawerOverlay,
+    DrawerContent,
+    DrawerCloseButton,
 } from "@chakra-ui/react";
 import { advancedStats } from "../supabase/statisticsGroupFunctions";
 import { GameCodePopup } from "./gameCodePopup";
@@ -33,6 +36,12 @@ export const HighscoresImproved = ({ accs, setGameState }) => {
         isOpen: isOpen2,
         onOpen: onOpen2,
         onClose: onClose2,
+    } = useDisclosure();
+    // Disclosure for game links + state for game links.
+    const {
+        isOpen: isOpen3,
+        onOpen: onOpen3,
+        onClose: onClose3,
     } = useDisclosure();
     const [gameLink, setGameLink] = useState("");
     const BASE_URL = "https://orbital-frontend-orcin.vercel.app/";
@@ -155,52 +164,60 @@ export const HighscoresImproved = ({ accs, setGameState }) => {
                 </Button>
             </Box>
             <Center>
-                <Button onClick={onToggle} marginTop="10px">
+                <Button onClick={onOpen3} marginTop="10px">
                     {hsbutton}
                 </Button>
             </Center>
 
-            <Collapse in={isOpen} animateOpacity>
-                <Box marginTop="30px">
-                    <Grid
-                        templateColumns="repeat(2, 1fr)"
-                        align="center"
-                        paddingBottom="20px"
-                    >
-                        <GridItem>
-                            <Heading size="lg">Player</Heading>
-                        </GridItem>
-                        <GridItem>
-                            <Heading size="lg">Score</Heading>
-                        </GridItem>
-                    </Grid>
-                    {data.map((entry, i) => {
-                        return (
-                            <Box key={`hs${i}`}>
-                                <Grid
-                                    id={`hsentry${i}`}
-                                    templateColumns="repeat(2, 1fr)"
-                                    align="center"
-                                    key={i}
-                                >
-                                    <GridItem id={`name${i}`}>
-                                        {entry.playerName ??
-                                            entry.playerNameAnon}{" "}
-                                    </GridItem>
-                                    <GridItem id={`score${i}`}>
-                                        {entry.score}
-                                    </GridItem>
-                                </Grid>
-                                <Center key={`hsdivider${i}`}>
-                                    <Divider
-                                        width={{ base: "100vw", md: "75vw" }}
-                                    />
-                                </Center>
-                            </Box>
-                        );
-                    })}
-                </Box>
-            </Collapse>
+            <Drawer 
+                size="lg" 
+                placement="right"
+                onClose={onClose3} isOpen={isOpen3}
+            >
+                <DrawerOverlay/>
+                <DrawerContent overflow="scroll">
+                    <DrawerCloseButton/>
+                    <Box marginTop="30px">
+                        <Grid
+                            templateColumns="repeat(2, 1fr)"
+                            align="center"
+                            paddingBottom="20px"
+                        >
+                            <GridItem>
+                                <Heading size="lg">Player</Heading>
+                            </GridItem>
+                            <GridItem>
+                                <Heading size="lg">Score</Heading>
+                            </GridItem>
+                        </Grid>
+                        {data.map((entry, i) => {
+                            return (
+                                <Box key={`hs${i}`}>
+                                    <Grid
+                                        id={`hsentry${i}`}
+                                        templateColumns="repeat(2, 1fr)"
+                                        align="center"
+                                        key={i}
+                                    >
+                                        <GridItem id={`name${i}`}>
+                                            {entry.playerName ??
+                                                entry.playerNameAnon}{" "}
+                                        </GridItem>
+                                        <GridItem id={`score${i}`}>
+                                            {entry.score}
+                                        </GridItem>
+                                    </Grid>
+                                    <Center key={`hsdivider${i}`}>
+                                        <Divider
+                                            width={{ base: "100vw", md: "75vw" }}
+                                        />
+                                    </Center>
+                                </Box>
+                            );
+                        })}
+                    </Box>
+                </DrawerContent>
+            </Drawer>
         </Box>
     );
 };

@@ -147,13 +147,17 @@ export const SelectionImprovedV2 = ({ setGameState, accs, setAccs, session }) =>
                             {customButton}
                             </Button>
                             <Collapse in={!isOpen} animateOpacity>
-                                <YourFollowing 
+                                {session ? (
+                                    <YourFollowing 
                                         setGameState = {setGameState} 
                                         accs = {accs} 
                                         setAccs = {setAccs}
                                         session = {session}
                                         following = {yourFollowing}
                                         setLoading={setLoading}/>
+                                ) : (
+                                    <></>
+                                )}
                             </Collapse>
                         </Flex>
                     </Center>
