@@ -12,13 +12,9 @@ import {
     MenuList,
     MenuItem,
     Show,
-    Hide
+    Hide,
 } from "@chakra-ui/react";
-import { 
-    MoonIcon, 
-    SunIcon, 
-    HamburgerIcon, 
-} from '@chakra-ui/icons'
+import { MoonIcon, SunIcon, HamburgerIcon } from "@chakra-ui/icons";
 import { signInWithTwitter, signOut } from "../logic/auth";
 import { contrast } from "@chakra-ui/theme-tools";
 
@@ -29,46 +25,33 @@ export const Nav = ({ setToggle, session, setGameState }) => {
     }, [colorMode]);
 
     return (
-        <Flex 
-            h="70px" 
-            padding="10px 30px 10px 30px" 
-            align="center" 
+        <Flex
+            h="70px"
+            padding="10px 30px 10px 30px"
+            align="center"
             bgColor={() => {
                 if (colorMode == "dark") {
-                    return "rgba(255, 255, 255, 0.1)"
+                    return "rgba(255, 255, 255, 0.1)";
                 }
-                return "rgba(255, 255, 255, 0.2)"
+                return "rgba(255, 255, 255, 0.2)";
             }}
-            boxShadow = "rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset"
+            boxShadow="rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset"
         >
             <Flex as="nav" id="navbar" basis="100%" justify="space-between">
                 <Heading
                     as="h2"
                     cursor="pointer"
-                    fontSize={{base: "7vw", sm: "4.5vw", md: "30px"}}
+                    fontSize={{ base: "7vw", sm: "4.5vw", md: "30px" }}
                     onClick={() => setGameState(0)}
                 >
                     Who{" "}
-                    <Text 
-                        as="span" 
-                        color="#00acee"
-                    >
+                    <Text as="span" color="#00acee">
                         Tweeted
                     </Text>{" "}
                     That?
                 </Heading>
                 <Flex alignItems="center">
                     <Hide below="sm">
-                        <Button
-                            marginRight={"20px"}
-                            aria-label="ToggleMode"
-                            onClick={() => {
-                                toggleColorMode();
-                                setToggle(colorMode);
-                            }}
-                        >{colorMode == "dark" ? 
-                            (<SunIcon/>):(<MoonIcon/>)}
-                        </Button>
                         <Box>
                             {session ? (
                                 <Button
@@ -81,14 +64,38 @@ export const Nav = ({ setToggle, session, setGameState }) => {
                                 <></>
                             )}
                         </Box>
+                        <Button
+                            mr="20px"
+                            id="codeGenerate-btn"
+                            onClick={() => setGameState(-3)}
+                        >
+                            Share
+                        </Button>
+                        <Button
+                            marginRight={"20px"}
+                            id="toggle"
+                            aria-label="ToggleMode"
+                            onClick={() => {
+                                toggleColorMode();
+                                setToggle(colorMode);
+                            }}
+                        >
+                            {colorMode == "dark" ? <SunIcon /> : <MoonIcon />}
+                        </Button>
                         <Box>
                             {session ? (
-                                <Button onClick={() => {
-                                    signOut();
-                                    window.location.reload(false);
-                                }}>Sign Out</Button>
+                                <Button
+                                    onClick={() => {
+                                        signOut();
+                                        window.location.reload(false);
+                                    }}
+                                >
+                                    Sign Out
+                                </Button>
                             ) : (
-                                <Button onClick={signInWithTwitter}>Sign In</Button>
+                                <Button onClick={signInWithTwitter}>
+                                    Sign In
+                                </Button>
                             )}
                         </Box>
                     </Hide>
@@ -98,16 +105,16 @@ export const Nav = ({ setToggle, session, setGameState }) => {
                                 as={IconButton}
                                 aria-label="ToggleMode"
                                 icon={<HamburgerIcon />}
-                                variant='outline'
+                                variant="outline"
                             />
                             <MenuList>
-                                <MenuItem 
+                                <MenuItem
                                     onClick={() => {
                                         toggleColorMode();
                                         setToggle(colorMode);
                                     }}
                                 >
-                                        Toggle
+                                    Toggle
                                 </MenuItem>
                                 <Box>
                                     {session ? (
@@ -121,14 +128,23 @@ export const Nav = ({ setToggle, session, setGameState }) => {
                                         <></>
                                     )}
                                 </Box>
+                                <MenuItem onClick={() => setGameState(-3)}>
+                                    Share
+                                </MenuItem>
                                 <Box>
                                     {session ? (
-                                        <MenuItem onClick={() => {
-                                            signOut();
-                                            window.location.reload(false);
-                                        }}>Sign Out</MenuItem>
+                                        <MenuItem
+                                            onClick={() => {
+                                                signOut();
+                                                window.location.reload(false);
+                                            }}
+                                        >
+                                            Sign Out
+                                        </MenuItem>
                                     ) : (
-                                        <MenuItem onClick={signInWithTwitter}>Sign In</MenuItem>
+                                        <MenuItem onClick={signInWithTwitter}>
+                                            Sign In
+                                        </MenuItem>
                                     )}
                                 </Box>
                             </MenuList>
