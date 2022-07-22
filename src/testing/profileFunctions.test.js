@@ -98,12 +98,16 @@ test("gets the correct time right after insert inside database", () => {
     return lastProfileUpdateTime(mockSession)
         .then((result) => expect(result).toBe(testTime));
 });
-
+    
 test("gets the correct time after updating the time inside the database", () => {
     const testTime = ((new Date()).toISOString()).toLocaleString('en-SG');
     return updateProfileTime(mockSession, testTime)
         .then((result) => lastProfileUpdateTime(mockSession))
-        .then((result) => expect(result + "Z").toBe(testTime));
+        .then((result) => {
+            const test = new Date(testTime);
+            const date = new Date(result + "Z");
+            return expect(date).toStrictEqual(test)
+        });
 });
 
 test("deleteProfile successfully deletes entry in profile table on database", () => {
