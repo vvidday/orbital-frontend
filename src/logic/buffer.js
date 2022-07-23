@@ -3,6 +3,7 @@ import { getUserByUsername, tweetLookup } from "../api/twitter";
 import { getTimeline } from "../api/twitter";
 import { setChoices } from "../logic/setChoices";
 import { getTimelineNew } from "../api/twitter-new";
+import { getTimelineSupabase } from "../supabase/tweetFunctions";
 
 /*
     New Buffer Function
@@ -16,8 +17,10 @@ export async function buffer(accounts) {
     for (let i = 0; i < accounts.length; i++) {
         const accountData = { account: { ...accounts[i] } };
         // Try new endpoint (go server)
-        const response = await getTimelineNew(accounts[i]["id"]);
-        if (response.data === null) {
+        //const response = await getTimelineNew(accounts[i]["id"]);
+        // New supabase tweets
+        const response = await getTimelineSupabase(accounts[i]["id"]);
+        if (response === null) {
             const alternateresponse = await getTimeline(
                 accounts[i]["id"],
                 true,
@@ -29,7 +32,7 @@ export async function buffer(accounts) {
             gameData.push(accountData);
         } else {
             //console.log("here?");
-            const arr = response.data;
+            const arr = response;
             accountData["tweets"] = [...arr];
             gameData.push(accountData);
         }
