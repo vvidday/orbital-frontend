@@ -252,8 +252,9 @@ export const GameImproved = (
         setReloadEmbed(!reloadEmbed);
     }, [colorToggle]);
 
-    // Chakra specific hook for fade transition.
-    const { isOpen, onToggle } = useDisclosure();
+    // State to conditionally render next button
+    const [showNextButton, setShowNextButton] = useState(false);
+
     return (
         <>
             {loading ? (
@@ -262,6 +263,10 @@ export const GameImproved = (
                 </Flex>
             ) : (
                 <Box>
+                    {showNextButton.toString()}
+                    <button onClick={() => setShowNextButton(!showNextButton)}>
+                        X
+                    </button>
                     <Flex padding="10px" direction="column">
                         <Center fontSize="20px">Score: {score}</Center>
                         {
@@ -271,7 +276,8 @@ export const GameImproved = (
                                 embed={embed}
                                 post={post}
                                 showAnswer={reloadDisable}
-                                onToggle={onToggle}
+                                showNextButton={showNextButton}
+                                setShowNextButton={setShowNextButton}
                             />
                         }
 
@@ -321,7 +327,6 @@ export const GameImproved = (
                                                             result.username.toLowerCase()
                                                         );
                                                     }
-                                                    //onToggle();
                                                     setReloadDisable(
                                                         !reloadDisable
                                                     );
@@ -336,42 +341,44 @@ export const GameImproved = (
                         </Center>
                     </Flex>
                     <Center className="answer">
-                        <Fade in={isOpen}>
-                            {wrong ? (
-                                <Button
-                                    id="wrong-btn"
-                                    className="answer"
-                                    colorScheme="twitter"
-                                    variant="solid"
-                                    onClick={() => {
-                                        resetColor();
-                                        onToggle();
-                                        setReloadDisable(!reloadDisable);
-                                        setReload(!reload);
-                                        setGameState(2);
-                                    }}
-                                >
-                                    Next
-                                </Button>
-                            ) : (
-                                <Button
-                                    id="next-btn"
-                                    className="answer"
-                                    colorScheme="twitter"
-                                    variant="solid"
-                                    onClick={() => {
-                                        //resetColor(userChoice);
-                                        resetColor();
-                                        onToggle();
-                                        setReloadDisable(!reloadDisable);
-                                        setReload(!reload);
-                                        setLoading(true);
-                                    }}
-                                >
-                                    Next
-                                </Button>
-                            )}
-                        </Fade>
+                        {showNextButton === false ? (
+                            <></>
+                        ) : (
+                            <>
+                                {wrong ? (
+                                    <Button
+                                        id="wrong-btn"
+                                        className="answer"
+                                        colorScheme="twitter"
+                                        variant="solid"
+                                        onClick={() => {
+                                            resetColor();
+                                            setReloadDisable(!reloadDisable);
+                                            setReload(!reload);
+                                            setGameState(2);
+                                        }}
+                                    >
+                                        Next
+                                    </Button>
+                                ) : (
+                                    <Button
+                                        id="next-btn"
+                                        className="answer"
+                                        colorScheme="twitter"
+                                        variant="solid"
+                                        onClick={() => {
+                                            resetColor();
+                                            setShowNextButton(false);
+                                            setReloadDisable(!reloadDisable);
+                                            setReload(!reload);
+                                            setLoading(true);
+                                        }}
+                                    >
+                                        Next
+                                    </Button>
+                                )}
+                            </>
+                        )}
                     </Center>
                     <ShowAnswer answer={result.name} />
                 </Box>

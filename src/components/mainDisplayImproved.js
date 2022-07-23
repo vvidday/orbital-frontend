@@ -7,7 +7,7 @@ import {
     Flex,
     Container,
     VStack,
-    CircularProgress
+    CircularProgress,
 } from "@chakra-ui/react";
 import { TwitterTweetEmbed } from "react-twitter-embed";
 import { MainDisplayImage } from "./mainDisplayImage";
@@ -15,13 +15,12 @@ import { MainDisplayImage } from "./mainDisplayImage";
 // Modified Game Component that uses hardcoded values instead of pulling from the API.
 export const MainDisplayImproved = (
     // Twitter accounts selected by the player is passed in as props (hardcode for now)
-    { reloadEmbed, embed, post, showAnswer, onToggle}
+    { reloadEmbed, embed, post, showAnswer, showNextButton, setShowNextButton }
 ) => {
-
     const [preLoad, setPreLoadEmbed] = useState(<Box></Box>);
     const [loaded, setLoaded] = useState(false);
 
-/*
+    /*
     useEffect(() => {
         setPreLoadEmbed(
         <TwitterTweetEmbed
@@ -45,16 +44,15 @@ export const MainDisplayImproved = (
                 <Center>
                     <VStack
                         borderRadius="lg"
-                        w={{ base: '90vw', sm:"80vw", md: '512px'}}
+                        w={{ base: "90vw", sm: "80vw", md: "512px" }}
                         overflow={"hidden"}
                         backdropFilter="auto"
-                        boxShadow= "rgba(0, 0, 0, 0.35) 0px 5px 15px"
+                        boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px"
                         bgColor="rgba(255,255,255, 0.1)"
                     >
-
-                        <Flex 
-                            paddingLeft="16px" 
-                            marginTop="15px" 
+                        <Flex
+                            paddingLeft="16px"
+                            marginTop="15px"
                             alignSelf="flex-start"
                         >
                             <SkeletonCircle
@@ -76,21 +74,23 @@ export const MainDisplayImproved = (
                                 </SkeletonText>
                             </Box>
                         </Flex>
-                            <MainDisplayImage post={post}/>
+                        <MainDisplayImage post={post} />
                     </VStack>
                 </Center>
             ) : (
                 <TwitterTweetEmbed
-                    onLoad={function noRefCheck() {onToggle()}}
-                    placeholder={
-                    <Center>
-                        <CircularProgress 
-                            isIndeterminate 
-                            color="#00acee"
-                        />
-                    </Center>
-                    }
                     key={reloadEmbed}
+                    onLoad={function noRefCheck() {
+                        if (showNextButton === false) {
+                            setShowNextButton(true);
+                        }
+                    }}
+                    placeholder={
+                        <Center>
+                            <CircularProgress isIndeterminate color="#00acee" />
+                        </Center>
+                    }
+                    //key={reloadEmbed}
                     tweetId={post.id}
                     options={{
                         theme: embed,
