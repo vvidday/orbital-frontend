@@ -111,7 +111,7 @@ export const UserScoresImproved = ({ session, setGameState, setAccs }) => {
                                     <Wrap width="80%">
                                         {group.handles.map((handle, i) => {
                                             return (
-                                                <WrapItem>
+                                                <WrapItem key={i}>
                                                     <Text
                                                         fontStyle="italic"
                                                         key={i}
