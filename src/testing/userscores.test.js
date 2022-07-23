@@ -28,7 +28,7 @@ test("Correctly renders group information based on session", async () => {
             setAccs={null}
         />
     );
-    await waitFor(() => screen.findByText("Group"), { timeout: 5000 });
+    await waitFor(() => screen.findByText("Group"), { timeout: 10000 });
     expect(screen.getByText("Group")).toBeInTheDocument();
     expect(screen.getByText("@justinbieber")).toBeInTheDocument();
     expect(screen.getAllByText("Play").length).toBeGreaterThan(0);

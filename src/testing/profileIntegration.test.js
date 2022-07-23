@@ -37,7 +37,7 @@ test("userScores is rendered, and clicking on share button correctly renders gam
     render(
         <Profile session={newMockSession} setGameState={null} setAccs={null} />
     );
-    await waitFor(() => screen.findByText("Group"), { timeout: 5000 });
+    await waitFor(() => screen.findByText("Group"), { timeout: 10000 });
     expect(screen.getByText("Group")).toBeInTheDocument();
     expect(screen.getByText("Score")).toBeInTheDocument();
     // Set up user
