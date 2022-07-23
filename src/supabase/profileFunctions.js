@@ -1,14 +1,19 @@
 import { supabase } from "./supabaseClient";
-import { getFollowing } from "../api/twitter";
+import { getCurrentTime } from "./yourFollowingFunctions";
 
 // Private function to create a new profile in the database. (Exported only for testing, not to be used elsewhere)
-export const newProfile = async (session) => {
+// By default, setTime is empty, used only for testing purposes
+export const newProfile = async (session, setTime="") => {
+    const currentTime = getCurrentTime(setTime);
     const row = {
         id: session["user"]["id"],
         username: session["user"]["user_metadata"]["user_name"],
         avatar_url: session["user"]["user_metadata"]["avatar_url"],
+        followings: [],
+        lastUpdate: currentTime
     };
     const { data, error } = await supabase.from("profiles").insert(row);
+    console.log("Added User")
     if (error != null) {
         console.log(error);
         return false;
@@ -40,56 +45,63 @@ export const deleteProfile = async (session) => {
 };
 
 /*
-    handleProfileOnLogin - Checks if current session is a new user, and creates a new entry in "profiles" table if so.
+    handleProfileOnLogin - Checks if current session is a new user, 
+    and creates a new entry in "profiles" and "newUsers" table if so.
     @params session - Session of current user.
     @return Boolean value representing success/failure of operation.
 */
 export const handleProfileOnLogin = async (session) => {
-    const doesExist = await doesProfileExist(session);
-    if (!doesExist) {
-        const success = await newProfile(session);
-        return success;
+    const doesExistProfile = await doesProfileExist(session);
+    if (!doesExistProfile) {
+        const successNewUser = await addNewUser(session);
+        //console.log("New User detected")
+        const successProfile = await newProfile(session);
+        //console.log("New profile created")
+        return successNewUser && successProfile;
     }
     return true;
 };
 
-// Private function to create a new profile in the database. (WIP)
-export const newProfileWithFollowing = async (session, followers) => {
+// Adds a new user to the waiting list of new users
+export const addNewUser = async (session) => {
     const row = {
         id: session["user"]["id"],
-        username: session["user"]["user_metadata"]["user_name"],
-        avatar_url: session["user"]["user_metadata"]["avatar_url"],
-        following: followers
     };
-    const { data, error } = await supabase.from("profiles").insert(row);
+    const { data, error } = await supabase.from("newUsers").insert(row);
     if (error != null) {
         console.log(error);
         return false;
     }
     return true;
+}
+
+// Checks if the user exists in the waiting list
+export const doesNewUserExist = async (session) => {
+    const { data, error } = await supabase
+        .from("newUsers")
+        .select("*")
+        .eq("id", session["user"]["id"]);
+    if (data.length === 1) return true;
+    return false;
 };
 
-/*
-    Update following without going over rate limit (WIP)
-*/
-export const updateFollowings = async (session) => {
-    const userID = session.user.user_metadata.provider_id
-    const doesExist = await doesProfileExist(session);
-    const checkLimit = await checkLimit(doesExist)
-    if (!checkLimit) {
-        return false
+// Removes new user from the waiting list
+export const deductNewUser = async (session) => {
+    const { data, error } = await supabase
+        .from("newUsers")
+        .delete()
+        .eq("id", session["user"]["id"]);
+    if (error != null) {
+        console.log(error);
+        return false;
     }
-    const response = await getFollowing(userID); //-> [{id:String, name:String, username:String}]
-    const id_array = response.map((i) => i.id)
-    
-    if (!doesExist) {
-        const success = await newProfileWithFollowing(session, id_array);
-        return success;
-    } else {
-        const { data, error } = await supabase
-            .from('profiles')
-            .update({ following: id_array })
-            .match({ id: session["user"]["id"] })
-    }
-    return true
+    return true;
+}
+
+// Checks the number of new users in the system
+export const checkNewUsers = async () => {
+    const { data, error } = await supabase
+        .from("newUsers")
+        .select("id", {count: "exact"})
+    return data
 }

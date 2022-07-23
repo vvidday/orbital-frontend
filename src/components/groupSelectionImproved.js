@@ -16,11 +16,6 @@ import { Group } from "./group";
 import { CustomGroupImproved} from "./customgroupImproved"
 import { useEffect, useState } from "react";
 import { resetData } from "../data/bufferData";
-import { getFollowing } from "../api/twitter";
-import {
-    isDuplicate,
-    newGroup,
-} from "../supabase/groupFunctions";
 import { createForGroup } from "../supabase/statisticsGroupFunctions";
 
 const DEFAULT_GROUPS = [

@@ -13,6 +13,7 @@ import {
     FormLabel,
     useDisclosure,
 } from "@chakra-ui/react";
+import { AddIcon } from '@chakra-ui/icons'
 import { useEffect, useRef, useState } from "react";
 import { getUserByUsername } from "../api/twitter";
 import {
@@ -196,7 +197,7 @@ export const GameCodeGenerate = ({ setGameState }) => {
                                             inputRef.current.focus();
                                         }}
                                     >
-                                        Next
+                                        <AddIcon />
                                     </Button>
                                 </InputRightElement>
                             </InputGroup>
