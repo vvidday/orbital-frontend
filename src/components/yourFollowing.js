@@ -54,6 +54,7 @@ export const YourFollowing = ({ setGameState, accs, setAccs, session, following,
     return (
         <Box visibility={() => {if (session == null) {return "hidden"}return "show";}}>
             {following ? (
+                <Box margin="10px" position="relative" paddingRight="1.1em">
                 <Button
                     border = "1px"
                     borderRadius = "10px"
@@ -63,7 +64,6 @@ export const YourFollowing = ({ setGameState, accs, setAccs, session, following,
                     minWidth = "50px"
                     justifyContent="space-between"
                     padding="10px"
-                    margin="10px"
                     _hover={{ cursor: "pointer", background:"whiteAlpha.300"}}
                     aria-label="Your Following"
                     onClick={async (e) => {
@@ -83,6 +83,24 @@ export const YourFollowing = ({ setGameState, accs, setAccs, session, following,
                 >
                     <Text>Your Following</Text>
                 </Button>
+                <Popover isLazy>
+                    <PopoverTrigger>
+                        <QuestionIcon aria-label="Your Following Helper" position="absolute" top="0px" right="0px" />
+                    </PopoverTrigger>
+                    <Portal>
+                        <PopoverContent>
+                            <PopoverHeader pt={4} fontWeight='bold'>
+                                What is this?
+                            </PopoverHeader>
+                            <PopoverArrow />
+                            <PopoverCloseButton />
+                            <PopoverBody>
+                                Play a game based on some of the accounts you are following!
+                            </PopoverBody>
+                        </PopoverContent>
+                    </Portal>   
+                </Popover>
+            </Box>
             ) : (
                 <Box margin="10px" position="relative" paddingRight="1.1em">
                     <Button
@@ -99,7 +117,7 @@ export const YourFollowing = ({ setGameState, accs, setAccs, session, following,
                     >
                         <Spinner size="m"/>
                     </Button>
-                    <Popover trigger="hover">
+                    <Popover isLazy>
                         <PopoverTrigger>
                             <QuestionIcon aria-label="Your Following Helper" position="absolute" top="0px" right="0px"/>
                         </PopoverTrigger>
