@@ -87,11 +87,11 @@ export const GameCodeGenerate = ({ setGameState }) => {
     const checkAccount = async (handle) => {
         let filteredHandle = handle;
 
-        //if (handles.map((element)=> element.value).includes(handle)) {
-        //    setError(`Handle has already been added!`);
-        //    setLoading(false);
-        //    return null;
-        //}
+        if (handles.map((element) => element.value).includes(handle)) {
+            setError(`Handle has already been added!`);
+            setLoading(false);
+            return null;
+        }
 
         if (handle.charAt(0) == "@" && handle.length == 1) {
             // checks for single "@" character
