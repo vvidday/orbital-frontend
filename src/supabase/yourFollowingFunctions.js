@@ -28,7 +28,6 @@ export const checkLimit = async (session) => {
             return true;
         }
     } else { // its a new user
-        const addingUser = await handleProfileOnLogin(session); // add user if he is not already in
         const updateDatabase = await updateFollowings(session); // tries to update user's following
         const deletingNewUser = await deductNewUser(session); // deletes new users
         const updatingTime = await updateProfileTime(session);// updates the update time in table

@@ -52,12 +52,11 @@ export const deleteProfile = async (session) => {
 */
 export const handleProfileOnLogin = async (session) => {
     const doesExistProfile = await doesProfileExist(session);
-    const doesExistNewUser = await doesNewUserExist(session);
-    if (!doesExistProfile && !doesExistNewUser) {
+    if (!doesExistProfile) {
         const successNewUser = await addNewUser(session);
-        console.log("New User detected")
+        //console.log("New User detected")
         const successProfile = await newProfile(session);
-        console.log("New profile created")
+        //console.log("New profile created")
         return successNewUser && successProfile;
     }
     return true;
@@ -82,7 +81,6 @@ export const doesNewUserExist = async (session) => {
         .from("newUsers")
         .select("*")
         .eq("id", session["user"]["id"]);
-    const doesExistProfile = await doesProfileExist(session);
     if (data.length === 1) return true;
     return false;
 };

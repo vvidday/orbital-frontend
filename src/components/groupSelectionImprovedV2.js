@@ -78,8 +78,7 @@ export const SelectionImprovedV2 = ({ setGameState, accs, setAccs, session }) =>
                         // which we fetch an older following data
                     // or its a new user, which the new user needs to continue to wait
                     const doesExistNewUser = await doesNewUserExist(session);
-                    const doesExistProfile = await doesProfileExist(session);
-                    if (doesExistProfile && !doesExistNewUser) { // user already exists
+                    if (!doesExistNewUser) { // user already exists
                         setYourFollowing(true);
                     } else { // its a new user
                         setYourFollowing(false);
