@@ -1,21 +1,32 @@
-import {
-    render,
-    screen,
-    waitFor,
-    waitForElementToBeRemoved,
-} from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import App from "../App";
 import userEvent from "@testing-library/user-event";
 import "../mocks/matchMedia";
+import { SelectionImproved } from "../components/groupSelectionImproved";
 
 test("renders without crashing", () => {
     const div = document.createElement("div");
-    render(<App />, div);
+    render(
+        <SelectionImproved
+            setGameState={null}
+            accs={null}
+            setAccs={null}
+            session={null}
+        />,
+        div
+    );
 });
 
 test("Group selection component correctly renders default groups", () => {
-    render(<App />);
+    render(
+        <SelectionImproved
+            setGameState={null}
+            accs={null}
+            setAccs={null}
+            session={null}
+        />
+    );
     expect(screen.getByText("Default")).toBeInTheDocument();
     expect(screen.getByText("MMA")).toBeInTheDocument();
     expect(screen.getByText("US Politics")).toBeInTheDocument();
@@ -23,7 +34,14 @@ test("Group selection component correctly renders default groups", () => {
 });
 
 test("App, group selection and custom group components correctly work together", async () => {
-    render(<App />);
+    render(
+        <SelectionImproved
+            setGameState={null}
+            accs={null}
+            setAccs={null}
+            session={null}
+        />
+    );
     const user = userEvent.setup();
     // Checking for custom group component to be rendered with App
     const customGroupButton = screen.getByText("Build Custom Group");
@@ -37,17 +55,3 @@ test("App, group selection and custom group components correctly work together",
     const inputs = screen.getAllByRole("textbox");
     expect(inputs.length).toBe(1);
 });
-
-// test("Custom group component correctly integrates with API", async () => {
-//     render(<App />);
-//     const user = userEvent.setup();
-//     const customGroupButton = screen.getByText("Build Custom Group");
-//     await user.click(customGroupButton);
-//     await waitFor(() => screen.findByText("Play"));
-//     const inputs = screen.getAllByRole("textbox");
-//     const userinput = inputs[0];
-//     // Focus on input
-//     userinput.focus();
-//     // Use keyboard to type
-//     await user.keyboard("barackobama");
-// });
