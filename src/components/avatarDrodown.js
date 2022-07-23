@@ -1,4 +1,4 @@
-import { 
+import {
     Box,
     Avatar,
     Menu,
@@ -16,14 +16,13 @@ export const AvatarDropdown = ({ session, setGameState }) => {
                 <MenuButton
                     as={IconButton}
                     borderRadius="3xl"
-                    aria-label="Sign In"
+                    aria-label="Sign Out"
                     icon={
-                        <Avatar 
-                            name={session["user"]["user_metadata"]["full_name"]} 
-                            src = {session["user"]["user_metadata"]["avatar_url"].replace(
-                                    "_normal",
-                                    ""
-                                )}
+                        <Avatar
+                            name={session["user"]["user_metadata"]["full_name"]}
+                            src={session["user"]["user_metadata"][
+                                "avatar_url"
+                            ].replace("_normal", "")}
                             size="sm"
                         />
                     }
