@@ -16,7 +16,6 @@ test("insertTweets should properly insert tweets that are detected by retrieveTw
         })
         .then((res) => {
             expect(res.length).toBe(3);
-            expect(res[0]["id"]).toBe("testID1");
         });
 });
 
