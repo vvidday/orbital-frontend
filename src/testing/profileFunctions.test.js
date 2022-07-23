@@ -7,6 +7,11 @@ import {
     deductNewUser,
 } from "../supabase/profileFunctions";
 import mockSession from "../data/mockSession";
+import {
+    lastProfileUpdateTime,
+    getFollowingSaved,
+    updateProfileTime,
+} from "../supabase/yourFollowingFunctions";
 
 test("newProfile successfully creates new entry in profile table on database", () => {
     const testTime = "2022-06-19T05:36:16.82744";
