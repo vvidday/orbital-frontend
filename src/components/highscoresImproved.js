@@ -58,7 +58,7 @@ export const HighscoresImproved = ({ accs, setGameState }) => {
     }, []);
 
     useEffect(() => {
-        console.log(hsbutton);
+        //console.log(hsbutton);
         if (isOpen === true) {
             setHighscoreButton("Hide Highscore");
         } else {
