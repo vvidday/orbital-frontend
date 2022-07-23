@@ -263,10 +263,6 @@ export const GameImproved = (
                 </Flex>
             ) : (
                 <Box>
-                    {showNextButton.toString()}
-                    <button onClick={() => setShowNextButton(!showNextButton)}>
-                        X
-                    </button>
                     <Flex padding="10px" direction="column">
                         <Center fontSize="20px">Score: {score}</Center>
                         {
@@ -380,7 +376,6 @@ export const GameImproved = (
                             </>
                         )}
                     </Center>
-                    <ShowAnswer answer={result.name} />
                 </Box>
             )}{" "}
         </>
