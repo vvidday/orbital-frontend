@@ -20,7 +20,7 @@ import { idToHandles } from "../supabase/groupFunctions";
 import { getProfileHelper } from "../supabase/leaderboardFunctions";
 import { GameCodePopup } from "./gameCodePopup";
 
-export const UserScoresImp = ({ session, setGameState, setAccs }) => {
+export const UserScores = ({ session, setGameState, setAccs }) => {
     // State to store the groups that the user has played in before
     const [groups, setGroups] = useState([]);
     // State to handle initial loading of groups
@@ -154,7 +154,7 @@ export const UserScoresImp = ({ session, setGameState, setAccs }) => {
                                         </Text>
                                     </Box>
                                     <Center>
-                                    <Stack direction={{base: "column", md:"row"}} border="1px">
+                                    <Stack direction={{base: "column", md:"row"}}>
                                         <Button
                                             onClick={async () => {
                                                 setLoading(true);
