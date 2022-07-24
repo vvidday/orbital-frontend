@@ -18,15 +18,6 @@ test("renders correct elements", () => {
     expect(screen.getByRole("textbox")).toBeInTheDocument();
 });
 
-test("renders correct elements", () => {
-    render(<GameCodeGenerate setGameState={null} />);
-    expect(screen.getByText("Generate Link")).toBeInTheDocument();
-    expect(
-        screen.getByText("Input Twitter Handle/Username (Limited to 8):")
-    ).toBeInTheDocument();
-    expect(screen.getByRole("textbox")).toBeInTheDocument();
-});
-
 test("correctly accepts valid twitter username and with wrong capitalization", async () => {
     const user = userEvent.setup();
     render(<GameCodeGenerate setGameState={null} />);

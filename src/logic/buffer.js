@@ -14,30 +14,24 @@ export async function buffer(accounts) {
     // Array to be returned
     const gameData = [];
     // Iterate through accounts and call API for each.
+    // array to hold all promises
+    const promises = [];
     for (let i = 0; i < accounts.length; i++) {
-        const accountData = { account: { ...accounts[i] } };
-        // Try new endpoint (go server)
-        //const response = await getTimelineNew(accounts[i]["id"]);
-        // New supabase tweets
-        const response = await getTimelineSupabase(accounts[i]["id"]);
-        if (response === null) {
-            const alternateresponse = await getTimeline(
-                accounts[i]["id"],
-                true,
-                true,
-                50
-            );
-            const arr = alternateresponse.data.data;
-            accountData["tweets"] = [...arr];
-            gameData.push(accountData);
-        } else {
-            //console.log("here?");
-            const arr = response;
-            accountData["tweets"] = [...arr];
-            gameData.push(accountData);
-        }
+        promises.push(
+            getTimelineSupabase(accounts[i]["id"]).then((res) => {
+                const accountData = { account: { ...accounts[i] } };
+                accountData["tweets"] = res;
+                return accountData;
+            })
+        );
     }
-    console.log(gameData);
+    // Await all promises
+    let responses = await Promise.all(promises);
+    // Iterate over responses and populate gameData array
+    responses.map((res) => {
+        gameData.push(res);
+    });
+    //console.log(gameData);
     return gameData;
 }
 

@@ -91,7 +91,7 @@ export async function tweetsLookup(tweetIDs) {
             "media.fields": "type,url,width,height,preview_image_url",
         };
         const data = await axios.get(BASE + "tweet", { params: params });
-        console.log(data);
+        //console.log(data);
         return data;
     } catch (error) {
         console.log(error);
@@ -133,7 +133,7 @@ export async function tweetLookup(tweetID) {
         } else {
             returnObj["media"] = [];
         }
-        console.log(returnObj);
+        //console.log(returnObj);
         return returnObj;
     } catch (error) {
         console.log(error);

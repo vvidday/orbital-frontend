@@ -3,12 +3,12 @@ import "@testing-library/jest-dom";
 import App from "../App";
 import userEvent from "@testing-library/user-event";
 import "../mocks/matchMedia";
-import { SelectionImproved } from "../components/groupSelectionImproved";
+import { Selection } from "../components/groupSelection";
 
 test("renders without crashing", () => {
     const div = document.createElement("div");
     render(
-        <SelectionImproved
+        <Selection
             setGameState={null}
             accs={null}
             setAccs={null}
@@ -20,7 +20,7 @@ test("renders without crashing", () => {
 
 test("Group selection component correctly renders default groups", () => {
     render(
-        <SelectionImproved
+        <Selection
             setGameState={null}
             accs={null}
             setAccs={null}
@@ -35,7 +35,7 @@ test("Group selection component correctly renders default groups", () => {
 
 test("App, group selection and custom group components correctly work together", async () => {
     render(
-        <SelectionImproved
+        <Selection
             setGameState={null}
             accs={null}
             setAccs={null}

@@ -22,7 +22,7 @@ import {
 import { advancedStats } from "../supabase/statisticsGroupFunctions";
 import { GameCodePopup } from "./gameCodePopup";
 
-export const HighscoresImproved = ({ accs, setGameState }) => {
+export const Highscores = ({ accs, setGameState }) => {
     const [data, setData] = useState([]);
     /* Advanced statistics */
     // Least Predictable - LOWEST percentage. Stored as object
@@ -169,14 +169,15 @@ export const HighscoresImproved = ({ accs, setGameState }) => {
                 </Button>
             </Center>
 
-            <Drawer 
-                size="lg" 
+            <Drawer
+                size="lg"
                 placement="right"
-                onClose={onClose3} isOpen={isOpen3}
+                onClose={onClose3}
+                isOpen={isOpen3}
             >
-                <DrawerOverlay/>
+                <DrawerOverlay />
                 <DrawerContent overflow="scroll">
-                    <DrawerCloseButton/>
+                    <DrawerCloseButton />
                     <Box marginTop="30px">
                         <Grid
                             templateColumns="repeat(2, 1fr)"
@@ -209,7 +210,10 @@ export const HighscoresImproved = ({ accs, setGameState }) => {
                                     </Grid>
                                     <Center key={`hsdivider${i}`}>
                                         <Divider
-                                            width={{ base: "100vw", md: "75vw" }}
+                                            width={{
+                                                base: "100vw",
+                                                md: "75vw",
+                                            }}
                                         />
                                     </Center>
                                 </Box>

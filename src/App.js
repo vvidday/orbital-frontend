@@ -1,18 +1,13 @@
-//import { Highscores } from "./components/previous_versions/highscores";
-//import { SubmitScore } from "./components/previous_versions/submitscore";
-//import { Selection } from "./components/previous_versions/groupselection";
-//import { SelectionImproved } from "./components/groupSelectionImproved";
-
 import { Nav } from "./components/nav";
 import { useEffect, useState } from "react";
-import { HighscoresImproved } from "./components/highscoresImproved";
-import { SubmitScoreImproved } from "./components/submitscoreImproved";
+import { Highscores } from "./components/highscores";
+import { SubmitScore } from "./components/submitscore";
 import { supabase } from "./supabase/supabaseClient";
 import { handleProfileOnLogin } from "./supabase/profileFunctions";
-import { Box} from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { Loading } from "./components/loadingScreen";
 import { Profile } from "./components/profile";
-import { SelectionImprovedV2 } from "./components/groupSelectionImprovedV2";
+import { Selection } from "./components/groupSelection";
 import { GameCodePlay } from "./components/gameCodePlay";
 import { GameCodeGenerate } from "./components/gameCodeGenerate";
 
@@ -101,7 +96,7 @@ function App({ code }) {
     }
     if (gameState === 0) {
         displayComponent = (
-            <SelectionImprovedV2
+            <Selection
                 session={session}
                 setGameState={setGameState}
                 accs={accs}
@@ -126,7 +121,7 @@ function App({ code }) {
     }
     if (gameState === 2)
         displayComponent = (
-            <SubmitScoreImproved
+            <SubmitScore
                 setGameState={setGameState}
                 accs={accs}
                 session={session}
@@ -134,7 +129,7 @@ function App({ code }) {
         );
     if (gameState === 3)
         displayComponent = (
-            <HighscoresImproved setGameState={setGameState} accs={accs} />
+            <Highscores setGameState={setGameState} accs={accs} />
         );
 
     return (

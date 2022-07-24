@@ -13,7 +13,7 @@ import {
     FormLabel,
     useDisclosure,
 } from "@chakra-ui/react";
-import { AddIcon } from '@chakra-ui/icons'
+import { AddIcon } from "@chakra-ui/icons";
 import { useEffect, useRef, useState } from "react";
 import { getUserByUsername } from "../api/twitter";
 import {
@@ -222,7 +222,7 @@ export const GameCodeGenerate = ({ setGameState }) => {
                                 handles.map((handle) => {
                                     outputHandles.push(handle.value);
                                 });
-                                console.log(outputHandles);
+                                //console.log(outputHandles);
                                 generateGameCode(outputHandles);
                             }}
                         >

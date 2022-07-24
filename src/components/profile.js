@@ -1,10 +1,8 @@
 import { useEffect } from "react";
 import { resetData } from "../data/bufferData";
 import { Box } from "@chakra-ui/react";
-import { UserInfo } from "./previous_versions/userInfo";
-import { UserScores } from "./previous_versions/userScores";
-import { UserScoresImproved } from "./userScoresImproved";
-import { UserInfoImproved } from "./userInfoImproved";
+import { UserScores } from "./userScores";
+import { UserInfo } from "./userInfo";
 
 export const Profile = ({ session, setGameState, setAccs }) => {
     // On load, reset game data - because players may access profile page while active game is running.
@@ -18,8 +16,8 @@ export const Profile = ({ session, setGameState, setAccs }) => {
 
     return (
         <Box>
-            <UserInfoImproved session={session} />
-            <UserScoresImproved
+            <UserInfo session={session} />
+            <UserScores
                 session={session}
                 setGameState={setGameState}
                 setAccs={setAccs}

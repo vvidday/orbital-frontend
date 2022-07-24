@@ -18,7 +18,7 @@ import { idToHandles } from "../supabase/groupFunctions";
 import { getProfileHelper } from "../supabase/leaderboardFunctions";
 import { GameCodePopup } from "./gameCodePopup";
 
-export const UserScoresImproved = ({ session, setGameState, setAccs }) => {
+export const UserScores = ({ session, setGameState, setAccs }) => {
     // State to store the groups that the user has played in before
     const [groups, setGroups] = useState([]);
     // State to handle initial loading of groups
