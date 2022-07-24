@@ -150,7 +150,7 @@ export const UserScores = ({ session, setGameState, setAccs }) => {
                                             visibility="hidden"
                                             height="0"
                                         >
-                                            Score
+                                            Sigma
                                         </Text>
                                     </Box>
                                     <Center>
