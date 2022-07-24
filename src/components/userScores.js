@@ -99,8 +99,8 @@ export const UserScores = ({ session, setGameState, setAccs }) => {
                                     <Button height = "0" visibility="hidden">
                                         Play
                                     </Button>
-                                    <Button height = "0"visibility="hidden">
-                                        Share
+                                    <Button height = "0" visibility="hidden">
+                                        Sigma
                                     </Button>
                                 </Stack>
                             </HStack>
@@ -109,77 +109,76 @@ export const UserScores = ({ session, setGameState, setAccs }) => {
                     </Center>
                     {groups.map((group, i) => {
                         return (
-                            <Center>
-                            <Box>
-                                <HStack
-                                    margin="10px 0px"
-                                    justify="space-between"
-                                    key={i}
-                                    align="stretch"
-                                    width={{base:"90vw", lg: "70vw"}}
-                                >
-                                    <Box width="80%">
-                                    <Wrap>
-                                        {group.handles.map((handle, i) => {
-                                            return (
-                                                <WrapItem key={i}>
-                                                    <Text
-                                                        fontStyle="italic"
-                                                        key={i}
-                                                        as="span"
-                                                        marginRight="10px"
-                                                        fontSize={{
-                                                            base: "15px",
-                                                            sm: "16px",
-                                                        }}
-                                                    >
-                                                        @{handle}
-                                                    </Text>
-                                                </WrapItem>
-                                            );
-                                        })}
-                                    </Wrap>
-                                    </Box>
-                                    <Box>
-                                        <Center height="100%">
-                                            {group.score}
+                            <Center key={i}>
+                                <Box>
+                                    <HStack
+                                        margin="10px 0px"
+                                        justify="space-between"
+                                        align="stretch"
+                                        width={{base:"90vw", lg: "70vw"}}
+                                    >
+                                        <Box width="80%">
+                                        <Wrap>
+                                            {group.handles.map((handle, i) => {
+                                                return (
+                                                    <WrapItem key={i}>
+                                                        <Text
+                                                            fontStyle="italic"
+                                                            key={i}
+                                                            as="span"
+                                                            marginRight="10px"
+                                                            fontSize={{
+                                                                base: "15px",
+                                                                sm: "16px",
+                                                            }}
+                                                        >
+                                                            @{handle}
+                                                        </Text>
+                                                    </WrapItem>
+                                                );
+                                            })}
+                                        </Wrap>
+                                        </Box>
+                                        <Box>
+                                            <Center height="100%">
+                                                {group.score}
+                                            </Center>
+                                            <Text
+                                                fontSize={{ base: "16px", sm: "24px" }}
+                                                fontWeight="bold"
+                                                visibility="hidden"
+                                                height="0"
+                                            >
+                                                Sigma
+                                            </Text>
+                                        </Box>
+                                        <Center>
+                                        <Stack direction={{base: "column", md:"row"}}>
+                                            <Button
+                                                onClick={async () => {
+                                                    setLoading(true);
+                                                    const accs =
+                                                        await handlesToAccs(
+                                                            group.handles
+                                                        );
+                                                    setAccs(accs);
+                                                    setGameState(1);
+                                                }}
+                                            >
+                                                Play
+                                            </Button>
+                                            <Button
+                                                onClick={() =>
+                                                    generateGameCode(group.groupID)
+                                                }
+                                            >
+                                                Share
+                                            </Button>
+                                        </Stack>
                                         </Center>
-                                        <Text
-                                            fontSize={{ base: "16px", sm: "24px" }}
-                                            fontWeight="bold"
-                                            visibility="hidden"
-                                            height="0"
-                                        >
-                                            Sigma
-                                        </Text>
-                                    </Box>
-                                    <Center>
-                                    <Stack direction={{base: "column", md:"row"}}>
-                                        <Button
-                                            onClick={async () => {
-                                                setLoading(true);
-                                                const accs =
-                                                    await handlesToAccs(
-                                                        group.handles
-                                                    );
-                                                setAccs(accs);
-                                                setGameState(1);
-                                            }}
-                                        >
-                                            Play
-                                        </Button>
-                                        <Button
-                                            onClick={() =>
-                                                generateGameCode(group.groupID)
-                                            }
-                                        >
-                                            Share
-                                        </Button>
-                                    </Stack>
-                                    </Center>
-                                </HStack>
-                                <Divider size="xl" />
-                            </Box>
+                                    </HStack>
+                                    <Divider size="xl" />
+                                </Box>
                             </Center>
                         );
                     })}
