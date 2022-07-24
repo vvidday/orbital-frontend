@@ -183,7 +183,7 @@ export const CustomGroup = ({ setGameState, setAccs }) => {
                             handles.map((handle) => {
                                 outputHandles.push(handle.value);
                             });
-                            console.log(outputHandles);
+                            //console.log(outputHandles);
                             playCustomGroup(outputHandles, accounts);
                         }}
                     >

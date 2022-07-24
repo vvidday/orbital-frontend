@@ -37,7 +37,7 @@ export async function buffer(accounts) {
             gameData.push(accountData);
         }
     }
-    console.log(gameData);
+    //console.log(gameData);
     return gameData;
 }
 

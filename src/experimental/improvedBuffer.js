@@ -28,7 +28,7 @@ function bufferDataV2(accounts, bufferSize) {
             const response = await getTimeline(id, true, true);
             const recentPosts = response.data.data;
             for (let i = 0; i < recentPosts.length; i++) {
-                const resultCopy = {account:{...dictionary["account"]}};
+                const resultCopy = { account: { ...dictionary["account"] } };
                 resultCopy["choices"] = setChoices(index, accounts);
                 resultCopy["id"] = recentPosts[i].id;
                 data.push(resultCopy);
@@ -50,9 +50,9 @@ function bufferDataV2(accounts, bufferSize) {
     }
 
     /* below is for debugging purposes */
-    console.log("testData");
-    console.log(data);
-    console.log("--------");
+    //console.log("testData");
+    //console.log(data);
+    //console.log("--------");
 }
 
 export default bufferDataV2;

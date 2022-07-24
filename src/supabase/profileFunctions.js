@@ -3,17 +3,17 @@ import { getCurrentTime } from "./yourFollowingFunctions";
 
 // Private function to create a new profile in the database. (Exported only for testing, not to be used elsewhere)
 // By default, setTime is empty, used only for testing purposes
-export const newProfile = async (session, setTime="") => {
+export const newProfile = async (session, setTime = "") => {
     const currentTime = getCurrentTime(setTime);
     const row = {
         id: session["user"]["id"],
         username: session["user"]["user_metadata"]["user_name"],
         avatar_url: session["user"]["user_metadata"]["avatar_url"],
         followings: [],
-        lastUpdate: currentTime
+        lastUpdate: currentTime,
     };
     const { data, error } = await supabase.from("profiles").insert(row);
-    console.log("Added User")
+    //console.log("Added User")
     if (error != null) {
         console.log(error);
         return false;
@@ -73,7 +73,7 @@ export const addNewUser = async (session) => {
         return false;
     }
     return true;
-}
+};
 
 // Checks if the user exists in the waiting list
 export const doesNewUserExist = async (session) => {
@@ -96,12 +96,12 @@ export const deductNewUser = async (session) => {
         return false;
     }
     return true;
-}
+};
 
 // Checks the number of new users in the system
 export const checkNewUsers = async () => {
     const { data, error } = await supabase
         .from("newUsers")
-        .select("id", {count: "exact"})
-    return data
-}
+        .select("id", { count: "exact" });
+    return data;
+};

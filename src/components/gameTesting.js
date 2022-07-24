@@ -107,7 +107,7 @@ export const GameTest = (
         }
         userInfo().then(postInfo());
         allChoices(setChoices(index, accounts));
-        console.log(ID)
+        //console.log(ID)
     }, [reload]);
 
     useEffect(() => {
@@ -131,11 +131,12 @@ export const GameTest = (
         <Box>
             <Flex padding="10px" direction="column">
                 <Center fontSize="20px">Score: {score}</Center>
-                <MainDisplay 
-                    reloadEmbed = {reloadEmbed} 
-                    embed = {embed} 
-                    post = {post} 
-                    ID = {ID} showAnswer = {reloadDisable} 
+                <MainDisplay
+                    reloadEmbed={reloadEmbed}
+                    embed={embed}
+                    post={post}
+                    ID={ID}
+                    showAnswer={reloadDisable}
                 />
                 <Center className="options" marginTop="15px">
                     <ButtonGroup
@@ -153,7 +154,7 @@ export const GameTest = (
                                         variant="custom"
                                         className="option"
                                         key={key}
-                                        isDisabled = {disable}
+                                        isDisabled={disable}
                                         onClick={(e) => {
                                             buttonLogic(result, e);
                                             onToggle();
@@ -181,7 +182,8 @@ export const GameTest = (
                             setReloadDisable(!reloadDisable);
                             setReload(!reload);
                         }}
-                    >Next
+                    >
+                        Next
                     </Button>
                 </Fade>
             </Center>
