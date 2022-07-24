@@ -11,6 +11,8 @@ import {
     Hide,
     Show,
     useDisclosure,
+    HStack,
+    Stack
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { handlesToAccs } from "../logic/helpers";
@@ -71,94 +73,113 @@ export const UserScores = ({ session, setGameState, setAccs }) => {
                 </Center>
             ) : (
                 <Flex margin="50px 50px" direction="column" justify="center">
-                    <Flex margin="10px 0px" justify="space-between">
-                        <Text
-                            width="80%"
-                            fontSize={{ base: "16px", sm: "24px" }}
-                            fontWeight="bold"
-                        >
-                            Group
-                        </Text>
-                        <Flex
-                            flexDir={{ base: "column", md: "row" }}
-                            align="center"
-                            justify="space-between"
-                            flexGrow="1"
-                        >
-                            <Text
-                                fontSize={{ base: "16px", sm: "24px" }}
-                                fontWeight="bold"
+                    <Center>
+                        <Box>
+                            <HStack
+                                margin="10px 0px"
+                                justify="space-between"
+                                align="stretch"
+                                width={{base:"90vw", lg: "70vw"}}
                             >
-                                Score
-                            </Text>
-                            <Show above="md">
-                                <Button visibility="hidden">Play</Button>
-                            </Show>
-                            <Show above="md">
-                                <Button visibility="hidden">Share</Button>
-                            </Show>
-                        </Flex>
-                    </Flex>
+                                <Box width="80%"
+                                    fontSize={{ base: "16px", sm: "24px" }}
+                                    fontWeight="bold"
+                                >
+                                Group
+                                </Box>
+                                <Box>
+                                    <Text
+                                        fontSize={{ base: "16px", sm: "24px" }}
+                                        fontWeight="bold"
+                                    >
+                                        Score
+                                    </Text>
+                                </Box>
+                                <Stack direction={{base: "column", md:"row"}}>
+                                    <Button height = "0" visibility="hidden">
+                                        Play
+                                    </Button>
+                                    <Button height = "0" visibility="hidden">
+                                        Sigma
+                                    </Button>
+                                </Stack>
+                            </HStack>
+                            <Divider size="xl" />
+                        </Box>
+                    </Center>
                     {groups.map((group, i) => {
                         return (
-                            <>
-                                <Flex
-                                    margin="10px 0px"
-                                    justify="space-between"
-                                    key={i}
-                                    align="center"
-                                >
-                                    <Wrap width="80%">
-                                        {group.handles.map((handle, i) => {
-                                            return (
-                                                <WrapItem key={i}>
-                                                    <Text
-                                                        fontStyle="italic"
-                                                        key={i}
-                                                        as="span"
-                                                        marginRight="10px"
-                                                        fontSize={{
-                                                            base: "15px",
-                                                            sm: "16px",
-                                                        }}
-                                                    >
-                                                        @{handle}
-                                                    </Text>
-                                                </WrapItem>
-                                            );
-                                        })}
-                                    </Wrap>
-                                    <Flex
-                                        flexDir={{ base: "column", md: "row" }}
-                                        align="center"
-                                        justify="space-evenly"
-                                        flexGrow="1"
+                            <Center key={i}>
+                                <Box>
+                                    <HStack
+                                        margin="10px 0px"
+                                        justify="space-between"
+                                        align="stretch"
+                                        width={{base:"90vw", lg: "70vw"}}
                                     >
-                                        <Box>{group.score} </Box>
-                                        <Button
-                                            onClick={async () => {
-                                                setLoading(true);
-                                                const accs =
-                                                    await handlesToAccs(
-                                                        group.handles
-                                                    );
-                                                setAccs(accs);
-                                                setGameState(1);
-                                            }}
-                                        >
-                                            Play
-                                        </Button>
-                                        <Button
-                                            onClick={() =>
-                                                generateGameCode(group.groupID)
-                                            }
-                                        >
-                                            Share
-                                        </Button>
-                                    </Flex>
-                                </Flex>
-                                <Divider size="xl" />
-                            </>
+                                        <Box width="80%">
+                                        <Wrap>
+                                            {group.handles.map((handle, i) => {
+                                                return (
+                                                    <WrapItem key={i}>
+                                                        <Text
+                                                            fontStyle="italic"
+                                                            key={i}
+                                                            as="span"
+                                                            marginRight="10px"
+                                                            fontSize={{
+                                                                base: "15px",
+                                                                sm: "16px",
+                                                            }}
+                                                        >
+                                                            @{handle}
+                                                        </Text>
+                                                    </WrapItem>
+                                                );
+                                            })}
+                                        </Wrap>
+                                        </Box>
+                                        <Box>
+                                            <Center height="100%">
+                                                {group.score}
+                                            </Center>
+                                            <Text
+                                                fontSize={{ base: "16px", sm: "24px" }}
+                                                fontWeight="bold"
+                                                visibility="hidden"
+                                                height="0"
+                                            >
+                                                Sigma
+                                            </Text>
+                                        </Box>
+                                        <Center>
+                                        <Stack direction={{base: "column", md:"row"}}>
+                                            <Button
+                                                onClick={async () => {
+                                                    setLoading(true);
+                                                    const accs =
+                                                        await handlesToAccs(
+                                                            group.handles
+                                                        );
+                                                    setAccs(accs);
+                                                    setGameState(1);
+                                                }}
+                                            >
+                                                Play
+                                            </Button>
+                                            <Button
+                                                onClick={() =>
+                                                    generateGameCode(group.groupID)
+                                                }
+                                            >
+                                                Share
+                                            </Button>
+                                        </Stack>
+                                        </Center>
+                                    </HStack>
+                                    <Divider size="xl" />
+                                </Box>
+                            </Center>
                         );
                     })}
                 </Flex>

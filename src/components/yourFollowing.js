@@ -70,7 +70,7 @@ export const YourFollowing = ({
             }}
         >
             {following ? (
-                <Box margin="10px" position="relative" paddingRight="1.1em">
+                <Box marginTop="10px" position="relative" p="0em 1.1em 0em 1.1em">
                     <Button
                         border="1px"
                         borderRadius="10px"
@@ -128,7 +128,7 @@ export const YourFollowing = ({
                     </Popover>
                 </Box>
             ) : (
-                <Box margin="10px" position="relative" paddingRight="1.1em">
+                <Box marginTop="10px" position="relative" p="0em 1.1em 0em 1.1em">
                     <Button
                         border="1px"
                         borderRadius="10px"
