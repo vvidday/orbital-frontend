@@ -131,16 +131,16 @@ export const Selection = ({ setGameState, accs, setAccs, session }) => {
                     </Collapse>
                     <Center>
                         <Flex flexDir={{ base: "column", sm: "row" }}>
+                            <Center padding="0px">
                             <Button
                                 border="1px"
                                 borderRadius="10px"
                                 flexDirection="column"
-                                height="100%"
                                 width={{ base: "60vw", sm: "auto" }}
                                 minWidth="50px"
+                                marginTop="10px"
                                 justifyContent="space-between"
                                 padding="10px"
-                                margin="10px"
                                 _hover={{
                                     cursor: "pointer",
                                     background: "whiteAlpha.300",
@@ -149,6 +149,8 @@ export const Selection = ({ setGameState, accs, setAccs, session }) => {
                             >
                                 {customButton}
                             </Button>
+                            </Center>
+                            <Box>
                             <Collapse in={!isOpen} animateOpacity>
                                 {session ? (
                                     <YourFollowing
@@ -163,6 +165,7 @@ export const Selection = ({ setGameState, accs, setAccs, session }) => {
                                     <></>
                                 )}
                             </Collapse>
+                            </Box>
                         </Flex>
                     </Center>
                     <Collapse in={isOpen} animateOpacity>

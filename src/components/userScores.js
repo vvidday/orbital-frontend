@@ -11,6 +11,8 @@ import {
     Hide,
     Show,
     useDisclosure,
+    HStack,
+    Stack
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { handlesToAccs } from "../logic/helpers";
@@ -18,7 +20,7 @@ import { idToHandles } from "../supabase/groupFunctions";
 import { getProfileHelper } from "../supabase/leaderboardFunctions";
 import { GameCodePopup } from "./gameCodePopup";
 
-export const UserScores = ({ session, setGameState, setAccs }) => {
+export const UserScoresImp = ({ session, setGameState, setAccs }) => {
     // State to store the groups that the user has played in before
     const [groups, setGroups] = useState([]);
     // State to handle initial loading of groups
@@ -71,44 +73,53 @@ export const UserScores = ({ session, setGameState, setAccs }) => {
                 </Center>
             ) : (
                 <Flex margin="50px 50px" direction="column" justify="center">
-                    <Flex margin="10px 0px" justify="space-between">
-                        <Text
-                            width="80%"
-                            fontSize={{ base: "16px", sm: "24px" }}
-                            fontWeight="bold"
-                        >
-                            Group
-                        </Text>
-                        <Flex
-                            flexDir={{ base: "column", md: "row" }}
-                            align="center"
-                            justify="space-between"
-                            flexGrow="1"
-                        >
-                            <Text
-                                fontSize={{ base: "16px", sm: "24px" }}
-                                fontWeight="bold"
+                    <Center>
+                        <Box>
+                            <HStack
+                                margin="10px 0px"
+                                justify="space-between"
+                                align="stretch"
+                                width={{base:"90vw", lg: "70vw"}}
                             >
-                                Score
-                            </Text>
-                            <Show above="md">
-                                <Button visibility="hidden">Play</Button>
-                            </Show>
-                            <Show above="md">
-                                <Button visibility="hidden">Share</Button>
-                            </Show>
-                        </Flex>
-                    </Flex>
+                                <Box width="80%"
+                                    fontSize={{ base: "16px", sm: "24px" }}
+                                    fontWeight="bold"
+                                >
+                                Group
+                                </Box>
+                                <Box>
+                                    <Text
+                                        fontSize={{ base: "16px", sm: "24px" }}
+                                        fontWeight="bold"
+                                    >
+                                        Score
+                                    </Text>
+                                </Box>
+                                <Stack direction={{base: "column", md:"row"}}>
+                                    <Button height = "0" visibility="hidden">
+                                        Play
+                                    </Button>
+                                    <Button height = "0"visibility="hidden">
+                                        Share
+                                    </Button>
+                                </Stack>
+                            </HStack>
+                            <Divider size="xl" />
+                        </Box>
+                    </Center>
                     {groups.map((group, i) => {
                         return (
-                            <>
-                                <Flex
+                            <Center>
+                            <Box>
+                                <HStack
                                     margin="10px 0px"
                                     justify="space-between"
                                     key={i}
-                                    align="center"
+                                    align="stretch"
+                                    width={{base:"90vw", lg: "70vw"}}
                                 >
-                                    <Wrap width="80%">
+                                    <Box width="80%">
+                                    <Wrap>
                                         {group.handles.map((handle, i) => {
                                             return (
                                                 <WrapItem key={i}>
@@ -128,13 +139,22 @@ export const UserScores = ({ session, setGameState, setAccs }) => {
                                             );
                                         })}
                                     </Wrap>
-                                    <Flex
-                                        flexDir={{ base: "column", md: "row" }}
-                                        align="center"
-                                        justify="space-evenly"
-                                        flexGrow="1"
-                                    >
-                                        <Box>{group.score} </Box>
+                                    </Box>
+                                    <Box>
+                                        <Center height="100%">
+                                            {group.score}
+                                        </Center>
+                                        <Text
+                                            fontSize={{ base: "16px", sm: "24px" }}
+                                            fontWeight="bold"
+                                            visibility="hidden"
+                                            height="0"
+                                        >
+                                            Score
+                                        </Text>
+                                    </Box>
+                                    <Center>
+                                    <Stack direction={{base: "column", md:"row"}} border="1px">
                                         <Button
                                             onClick={async () => {
                                                 setLoading(true);
@@ -155,10 +175,12 @@ export const UserScores = ({ session, setGameState, setAccs }) => {
                                         >
                                             Share
                                         </Button>
-                                    </Flex>
-                                </Flex>
+                                    </Stack>
+                                    </Center>
+                                </HStack>
                                 <Divider size="xl" />
-                            </>
+                            </Box>
+                            </Center>
                         );
                     })}
                 </Flex>
