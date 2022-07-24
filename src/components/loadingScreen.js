@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { data } from "../data/bufferData";
 import { Box, Text, CircularProgress, Flex } from "@chakra-ui/react";
-import { GameImproved } from "./gameImproved";
+import { Game } from "./game";
 import bufferData from "../logic/buffer";
 import { buffer } from "../logic/buffer";
 import { tweetLookup } from "../api/twitter";
@@ -93,7 +93,7 @@ export const Loading = ({
         );
     } else {
         return (
-            <GameImproved
+            <Game
                 accounts={accounts}
                 colorToggle={colorToggle}
                 setGameState={setGameState}

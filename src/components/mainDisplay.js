@@ -13,7 +13,7 @@ import { TwitterTweetEmbed } from "react-twitter-embed";
 import { MainDisplayImage } from "./mainDisplayImage";
 
 // Modified Game Component that uses hardcoded values instead of pulling from the API.
-export const MainDisplayImproved = (
+export const MainDisplay = (
     // Twitter accounts selected by the player is passed in as props (hardcode for now)
     { reloadEmbed, embed, post, showAnswer, showNextButton, setShowNextButton }
 ) => {

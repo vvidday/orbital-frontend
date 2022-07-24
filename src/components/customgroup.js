@@ -11,15 +11,14 @@ import {
     FormErrorMessage,
     FormLabel,
 } from "@chakra-ui/react";
-import { AddIcon } from '@chakra-ui/icons'
+import { AddIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 import { getUserByUsername } from "../api/twitter";
 import { isDuplicate, newGroup } from "../supabase/groupFunctions";
 import { createForGroup } from "../supabase/statisticsGroupFunctions";
 import { DropDown } from "./customgroupDropdown";
 
-export const CustomGroupImproved = ({ setGameState, setAccs }) => {
-
+export const CustomGroup = ({ setGameState, setAccs }) => {
     // State to keep track & display error message for users
     const [error, setError] = useState("");
 
@@ -64,21 +63,21 @@ export const CustomGroupImproved = ({ setGameState, setAccs }) => {
 
     // Checks the validity of a single account
     const checkAccount = async (handle) => {
-        let filteredHandle = handle
+        let filteredHandle = handle;
         // Checks for duplicate
-        if (handles.map((element)=> element.value).includes(handle)) {
-                setError(`Handle has already been added!`);
-                setLoading(false);
-                return null;
-            }
+        if (handles.map((element) => element.value).includes(handle)) {
+            setError(`Handle has already been added!`);
+            setLoading(false);
+            return null;
+        }
         // Checks for Empty or singular "@" input
         if (handle.charAt(0) == "@" && handle.length == 1) {
             // checks for single "@" character
             setError(`Empty handle!`);
             setLoading(false);
             return null;
-        // removes "@" at the beginning if the user inputs it 
-        } else if (handle.charAt(0) == "@") { 
+            // removes "@" at the beginning if the user inputs it
+        } else if (handle.charAt(0) == "@") {
             // if account starts with "@", remove it
             filteredHandle = handle.substring(1);
         }

@@ -16,15 +16,13 @@ import {
     Fade,
     CircularProgress,
 } from "@chakra-ui/react";
-import { data } from "../data/bufferData";
 import { ShowAnswer } from "./answer";
-import { MainDisplay } from "./previous_versions/mainDisplay";
-import { MainDisplayImproved } from "./mainDisplayImproved";
+import { MainDisplay } from "./mainDisplay";
 import { accsToHandles } from "../logic/helpers";
 import { generateGroupID } from "../supabase/groupFunctions";
 import { statsCorrect, statsWrong } from "../supabase/statisticsGroupFunctions";
 
-export const GameImproved = (
+export const Game = (
     // Twitter accounts selected by the player is passed in as props (hardcode for now)
     {
         accounts,
@@ -266,7 +264,7 @@ export const GameImproved = (
                     <Flex padding="10px" direction="column">
                         <Center fontSize="20px">Score: {score}</Center>
                         {
-                            <MainDisplayImproved
+                            <MainDisplay
                                 key={post}
                                 reloadEmbed={reloadEmbed}
                                 embed={embed}
