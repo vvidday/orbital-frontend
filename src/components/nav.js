@@ -13,6 +13,7 @@ import {
     MenuItem,
     Show,
     Hide,
+    Tooltip,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon, HamburgerIcon } from "@chakra-ui/icons";
 import { signInWithTwitter, signOut } from "../logic/auth";
@@ -53,13 +54,15 @@ export const Nav = ({ setToggle, session, setGameState }) => {
                 </Heading>
                 <Flex alignItems="center">
                     <Hide below="sm">
-                        <Button
-                            mr="20px"
-                            id="codeGenerate-btn"
-                            onClick={() => setGameState(-3)}
-                        >
-                            Share
-                        </Button>
+                        <Tooltip label="Generate a link based on a custom group to share with your friends!">
+                            <Button
+                                mr="20px"
+                                id="codeGenerate-btn"
+                                onClick={() => setGameState(-3)}
+                            >
+                                Share
+                            </Button>
+                        </Tooltip>
                         <Button
                             marginRight={"20px"}
                             id="toggle"
@@ -73,7 +76,10 @@ export const Nav = ({ setToggle, session, setGameState }) => {
                         </Button>
                         <Box>
                             {session ? (
-                                <AvatarDropdown session={session} setGameState={setGameState}/>
+                                <AvatarDropdown
+                                    session={session}
+                                    setGameState={setGameState}
+                                />
                             ) : (
                                 <Button onClick={signInWithTwitter}>
                                     Sign In
