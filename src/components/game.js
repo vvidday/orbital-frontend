@@ -374,6 +374,7 @@ export const Game = (
                             </>
                         )}
                     </Center>
+                    <ShowAnswer answer={result.name} />
                 </Box>
             )}{" "}
         </>
