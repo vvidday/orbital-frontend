@@ -7,6 +7,7 @@ import {
     Button,
     Flex,
     Input,
+    Text,
     useClipboard,
 } from "@chakra-ui/react";
 import { useRef } from "react";
@@ -32,6 +33,10 @@ export const GameCodePopup = ({ isOpen, onOpen, onClose, gameLink }) => {
                             {hasCopied ? "Copied" : "Copy"}
                         </Button>
                     </Flex>
+                    <Text padding="20px">
+                        Share the link with your friends to let them play a game
+                        based on this group!
+                    </Text>
 
                     <AlertDialogFooter>
                         <Flex align="center">
