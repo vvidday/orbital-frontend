@@ -8,8 +8,12 @@ import {
     Center,
     Collapse,
     Text,
+    AlertDialog,
+    AlertDialogContent,
+    AlertDialogHeader,
+    AlertDialogFooter,
 } from "@chakra-ui/react";
-import { ArrowBackIcon } from "@chakra-ui/icons";
+import { ArrowBackIcon, QuestionOutlineIcon } from "@chakra-ui/icons";
 
 import { Group } from "./group";
 import { CustomGroup } from "./customgroup";
@@ -64,6 +68,12 @@ export const Selection = ({ setGameState, accs, setAccs, session }) => {
     );
     // State for custom group collapse
     const { isOpen, onToggle } = useDisclosure();
+    // Disclosure for help info
+    const {
+        isOpen: isOpen2,
+        onOpen: onOpen2,
+        onClose: onClose2,
+    } = useDisclosure();
 
     useEffect(() => {
         if (session != null && supabase.auth.user() != null) {
@@ -119,6 +129,44 @@ export const Selection = ({ setGameState, accs, setAccs, session }) => {
                 </Flex>
             ) : (
                 <Box>
+                    <Flex justify="end" mr="15px" mb="10px">
+                        <QuestionOutlineIcon
+                            cursor="pointer"
+                            w={8}
+                            h={8}
+                            onClick={() => {
+                                onOpen2();
+                            }}
+                        />
+                    </Flex>
+                    <AlertDialog isOpen={isOpen2} onClose={onClose2}>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>About</AlertDialogHeader>
+                            <Text marginX="20px">
+                                This is an interactive game where you're shown
+                                random tweets, and have to try and guess who
+                                tweeted it!
+                            </Text>
+                            <br></br>
+                            <Text marginX="20px">
+                                To get started, pick from one of the four
+                                pre-generated groups, or build your own!
+                            </Text>
+
+                            <AlertDialogFooter>
+                                <Flex align="center">
+                                    <Button
+                                        marginLeft="20px"
+                                        onClick={() => {
+                                            onClose2();
+                                        }}
+                                    >
+                                        Close
+                                    </Button>
+                                </Flex>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
                     <Collapse in={!isOpen} animateOpacity>
                         <Wrap
                             spacing="20px"
@@ -132,39 +180,39 @@ export const Selection = ({ setGameState, accs, setAccs, session }) => {
                     <Center>
                         <Flex flexDir={{ base: "column", sm: "row" }}>
                             <Center padding="0px">
-                            <Button
-                                border="1px"
-                                borderRadius="10px"
-                                flexDirection="column"
-                                width={{ base: "60vw", sm: "auto" }}
-                                minWidth="50px"
-                                marginTop="10px"
-                                justifyContent="space-between"
-                                padding="10px"
-                                _hover={{
-                                    cursor: "pointer",
-                                    background: "whiteAlpha.300",
-                                }}
-                                onClick={onToggle}
-                            >
-                                {customButton}
-                            </Button>
+                                <Button
+                                    border="1px"
+                                    borderRadius="10px"
+                                    flexDirection="column"
+                                    width={{ base: "60vw", sm: "auto" }}
+                                    minWidth="50px"
+                                    marginTop="10px"
+                                    justifyContent="space-between"
+                                    padding="10px"
+                                    _hover={{
+                                        cursor: "pointer",
+                                        background: "whiteAlpha.300",
+                                    }}
+                                    onClick={onToggle}
+                                >
+                                    {customButton}
+                                </Button>
                             </Center>
                             <Box>
-                            <Collapse in={!isOpen} animateOpacity>
-                                {session ? (
-                                    <YourFollowing
-                                        setGameState={setGameState}
-                                        accs={accs}
-                                        setAccs={setAccs}
-                                        session={session}
-                                        following={yourFollowing}
-                                        setLoading={setLoading}
-                                    />
-                                ) : (
-                                    <></>
-                                )}
-                            </Collapse>
+                                <Collapse in={!isOpen} animateOpacity>
+                                    {session ? (
+                                        <YourFollowing
+                                            setGameState={setGameState}
+                                            accs={accs}
+                                            setAccs={setAccs}
+                                            session={session}
+                                            following={yourFollowing}
+                                            setLoading={setLoading}
+                                        />
+                                    ) : (
+                                        <></>
+                                    )}
+                                </Collapse>
                             </Box>
                         </Flex>
                     </Center>
