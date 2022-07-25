@@ -73,9 +73,15 @@ export const Nav = ({ setToggle, session, setGameState }) => {
                         </Button>
                         <Box>
                             {session ? (
-                                <AvatarDropdown session={session} setGameState={setGameState}/>
+                                <AvatarDropdown
+                                    session={session}
+                                    setGameState={setGameState}
+                                />
                             ) : (
-                                <Button onClick={signInWithTwitter}>
+                                <Button
+                                    id="sign-in-btn"
+                                    onClick={signInWithTwitter}
+                                >
                                     Sign In
                                 </Button>
                             )}

@@ -73,7 +73,11 @@ export const GameCodePlay = ({ code, setAccs, setGameState }) => {
                                 ))}
                             </Flex>
                             <Flex>
-                                <Button margin="20px" onClick={startGame}>
+                                <Button
+                                    margin="20px"
+                                    id="play-btn"
+                                    onClick={startGame}
+                                >
                                     Start Game
                                 </Button>
                                 <Button

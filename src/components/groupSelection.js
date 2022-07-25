@@ -145,6 +145,7 @@ export const Selection = ({ setGameState, accs, setAccs, session }) => {
                                     cursor: "pointer",
                                     background: "whiteAlpha.300",
                                 }}
+                                id="custom-btn"
                                 onClick={onToggle}
                             >
                                 {customButton}

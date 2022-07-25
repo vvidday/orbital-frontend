@@ -140,6 +140,7 @@ export const CustomGroup = ({ setGameState, setAccs }) => {
                         </FormLabel>
                         <InputGroup>
                             <Input
+                                id="custom-input"
                                 pr="4.5rem"
                                 placeholder="Input Handle/Username"
                                 value={inputValue}
@@ -157,6 +158,7 @@ export const CustomGroup = ({ setGameState, setAccs }) => {
                                     onClick={() => {
                                         checkAccount(inputValue);
                                     }}
+                                    id="custom-add-btn"
                                 >
                                     <AddIcon />
                                 </Button>
