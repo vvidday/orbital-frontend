@@ -115,3 +115,12 @@ test("Delete test entries for cleanup", () => {
         )
         .then((result) => expect(result.length).toBe(0));
 });
+test("Delete Puppeteer test entries for cleanup", () => {
+    return deleteLBEntryAnon(
+        "barackobamacristianojustinbieberkatyperry",
+        "PuppeteerDefaultAnon",
+        "1"
+    ).then(() =>
+        deleteLBEntryAnon("cristianoxqc", "PuppeteerDefaultAnon", "1")
+    );
+});
